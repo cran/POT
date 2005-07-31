@@ -1,0 +1,41 @@
+\name{Threshold Selection}
+\alias{lmomplot}
+\title{L-moments Plot}
+\description{
+  Plots of sample L-Skewness ans L-Kurtosis estimates at various
+  thresholds for peaks over threshold modelling, using the Generalized
+  Pareto parametrization.}
+\usage{
+lmomplot(data,tlim,identify = TRUE,\dots)
+}
+\arguments{
+  \item{data}{A numeric vector.}
+  \item{tlim}{A numeric vector of length two, giving the limits for
+    the thresholds at which the model is fitted.}
+  \item{identify}{Logical. If \code{TRUE}, points on the plot are
+    identify using \code{\link{identify}} function.}
+  \item{\dots}{Other arguments to be passed to the model fit
+    function \code{fitgpd}.}
+}
+\details{
+  For each thresholds, sample L-skewness and L-kurtosis are computed. If
+  data are GP distributed, one have :
+  \deqn{ \tau_4 = \frac{\tau_3 \left( 1 + 5 \tau_3 \right)}{5 + \tau_3}
+  }{%
+    tau_4 = tau_3 ( 1 + 5 tau_3 ) / ( 5 + tau_3 )}
+  So, a threshold is acceptable if sample \eqn{\left(\tau_3,
+    \tau_4\right)} are near the theoretical curve.
+}
+\section{Warnings}{
+  L-moments plot are really difficult to interpret. It can help us to
+  say if the GP distribution is suited to model data.
+}
+\seealso{\code{\link{fitgpd}}, \code{\link{mrlplot}},
+  \code{\link{tcplot}}}
+\examples{
+data(ardieres)
+flows <- ardieres[,"flows"]
+lmomplot(flows)
+}
+\keyword{hplot}
+

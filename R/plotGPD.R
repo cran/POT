@@ -1,0 +1,167 @@
+## This file contains several functions to plot Peaks Over a Threshold.
+
+retlev.gpd <- function(fitted, mu, main, xlab,
+                   ylab, xlimsup, ci = TRUE, points = TRUE, ...){
+  ## Plot the return level plot of a POT model fitted
+  ## Input : ``fitted'' is a POT fitted model, result of function
+  ##         ``fitgpd''
+  ##         mu is the mean number of events per block -generally
+  ##         per year- or equivalently the mean -intensity- of the
+  ##         Poisson processus.
+
+  data <- fitted$exceedances
+  loc <- fitted$threshold
+  scale <- fitted$estimate[1]
+  shape <- fitted$estimate[2]
+  
+  n <- fitted$nhigh
+  
+  pot.fun <- function(T){
+    p <- 1 - 1 / (mu*T)
+
+    return(qgpd(p,loc,scale,shape))
+  }
+
+  eps <- 10^(-3)
+
+  if (missing(main)) main <- 'Return Level Plot'
+  if (missing(xlab)) xlab <- 'Return Period (Years)'
+  if (missing(ylab)) ylab <- 'Return Level'
+  if (missing(xlimsup)) xlimsup <- 50
+  
+  plot(pot.fun, from= 1 / mu + eps, to = xlimsup, log='x',
+       xlab = xlab, ylab = ylab, ...)
+
+  if (points){
+    p_emp <- 1:n / (n+1)
+    points(1 / ( mu * (1 - p_emp) ), sort( data ), pch = 1)
+  }
+
+  if (ci){
+    p_emp <- 1:n / (n+1)
+    samp <- rgpd(999*n, loc, scale, shape)
+    samp <- matrix(samp, n, 999)
+    samp <- apply(samp, 2, sort)
+    samp <- apply(samp, 1, sort)
+    ci_inf <- samp[30,]
+    ci_sup <- samp[970,]
+    lines( 1 / ( mu * (1 - p_emp) ), ci_inf, lty = 2)
+    lines( 1 / ( mu * (1 - p_emp) ), ci_sup, lty = 2)
+  }
+}
+
+
+qq.gpd <- function(fitted, main, xlab,
+                   ylab, ci = TRUE,...){
+  data <- fitted$exceedances
+  loc <- fitted$threshold
+  scale <- fitted$estimate[1]
+  shape <- fitted$estimate[2]
+  n <- fitted$nhigh
+
+  quant_fit <- qgpd(ppoints(n), loc, scale, shape)
+
+  if ( missing(main) ) main <- 'QQ-plot'
+  if ( missing(xlab) ) xlab <- 'Model'
+  if ( missing(ylab) ) ylab <- 'Empirical'
+  
+  plot(quant_fit, sort(data), main = main, xlab = xlab,
+       ylab = ylab, ...)
+  abline(0,1)
+
+  if (ci){
+    p_emp <- 1:n / (n+1)
+    samp <- rgpd(999*n, loc, scale, shape)
+    samp <- matrix(samp, n, 999)
+    samp <- apply(samp, 2, sort)
+    samp <- apply(samp, 1, sort)
+    ci_inf <- samp[30,]
+    ci_sup <- samp[970,]
+    points( quant_fit, ci_inf, pch = '-')
+    points( quant_fit, ci_sup, pch = '-')
+  }
+
+}
+
+pp.gpd <- function(fitted, main, xlab,
+                   ylab, ci = TRUE,...){
+  data <- fitted$exceedances
+  loc <- fitted$threshold
+  scale <- fitted$estimate[1]
+  shape <- fitted$estimate[2]
+  n <- fitted$nhigh
+
+  p_emp <- ppoints(n)
+  p_fit <- pgpd(sort(data), loc, scale, shape)
+
+  if ( missing(main) ) main <- 'Probability plot'
+  if ( missing(ylab) ) ylab <- 'Model'
+  if ( missing(xlab) ) xlab <- 'Empirical'
+  
+  plot(p_emp, p_fit, main = main, xlab = xlab, ylab = ylab, ...)
+  abline(0,1)
+
+  if (ci){
+    p_emp <- 1:n / (n+1)
+    samp <- rgpd(999*n, loc, scale, shape)
+    samp <- matrix(samp, n, 999)
+    samp <- apply(samp, 2, sort)
+    samp <- apply(samp, 1, sort)
+    ci_inf <- pgpd(samp[30,], loc, scale, shape)
+    ci_sup <- pgpd(samp[970,], loc, scale, shape)
+    points( p_emp, ci_inf, pch = '-')
+    points( p_emp, ci_sup, pch = '-')
+  }
+}
+    
+
+dens.gpd <- function(fitted, main, xlab, ylab,
+                     dens.adj = 1, kern.lty = 2,
+                     rug = TRUE, ...){
+  data <- fitted$exceedances
+  loc <- fitted$threshold
+  scale <- fitted$estimate[1]
+  shape <- fitted$estimate[2]
+  n <- fitted$nhigh
+
+  dens <- function(x) dgpd(x, loc, scale, shape)
+  eps <- 10^(-5)
+
+  if ( missing(main) ) main <- 'Density Plot'
+  if ( missing(xlab) ) xlab <- 'Quantile'
+  if ( missing(ylab) ) ylab <- 'Density'
+  
+  plot(dens, from = loc + eps, to = 1.25 * max(data), main = main,
+       xlab = xlab, ylab = ylab, ...)
+  lines(density(data, adj=dens.adj, from = loc + eps,
+                to = 1.25 * max(data)), lty = kern.lty )
+
+  if (rug) rug(data)
+}
+
+plotgpd <- function(fitted, mu, main, which = 1:4,
+                      ask = nb.fig < length(which) && 
+                     dev.interactive(),ci = TRUE, ...){
+  if (!is.numeric(which) || any(which < 1) || any(which > 4)) 
+        stop("`which' must be in 1:4")
+  show <- rep(FALSE, 3)
+  show[which] <- TRUE
+  nb.fig <- prod(par("mfcol"))
+  if (ask) {
+    op <- par(ask = TRUE)
+    on.exit(par(op))
+  }
+  if (show[1]) {
+    pp.gpd(fitted, ci = ci, main, xlim = c(0, 1), ylim = c(0, 
+                                                    1), ...)
+  }
+  if (show[2]) {
+    qq.gpd(fitted, ci = ci, main, ...)
+  }
+  if (show[3]) {
+    dens.gpd(fitted, main, ...)
+  }
+  if (show[4]) {
+    retlev.gpd(fitted, mu, main, ...)
+  }
+}
