@@ -37,5 +37,12 @@ data(ardieres)
 flows <- ardieres[,"flows"]
 lmomplot(flows)
 }
+\references{Hosking, J. R. M. and Wallis, J. R. (1997). \emph{Regional
+    Frequency Analysis}. Cambridge University Press.
+
+  Begueria, S. (2005). \emph{Uncertainties in partial duration series
+    modelling of extremes related to the choice of the threshold value.}
+  Journal of Hydrology, 303(1-4) :215-230.
+  }
 \keyword{hplot}
 

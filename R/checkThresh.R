@@ -2,8 +2,8 @@
 ## for which the asymptotical approximation of Peaks Over a
 ## Threshold by a GP distribution is quite good.
 
-diplot <- function(data, tlim, conf=0.95,
-                   main = 'Dispersion Index Plot',...){
+diplot <- function(data, tlim, main, xlab, ylab,
+                   conf=0.95,...){
 
   date <- data[,1]
   samp <- data[,2]
@@ -47,8 +47,12 @@ diplot <- function(data, tlim, conf=0.95,
 
   conf_sup <- qchisq(1-(1-conf)/2,M-1)/(M-1)
   conf_inf <- qchisq((1-conf)/2,M-1)/(M-1)
+
+  if ( missing(main) ) main <- 'Dispersion Index Plot'
+  if ( missing(xlab) ) xlab <- 'Threshold'
+  if ( missing(ylab) ) ylab <- 'Dispersion Index'
   
-  plot(c(thresh,thresh[1]), c(DI, conf_sup), xlab='', ylab='',
+  plot(c(thresh,thresh[1]), c(DI, conf_sup), xlab=xlab, ylab=ylab,
        type='n', main = main, ...)
   rect(0, conf_inf, 2*tlim[2], conf_sup, col= 'lightgrey', border = FALSE)
   lines(thresh, DI)
@@ -106,74 +110,83 @@ tcplot <- function (data, tlim, cmax = FALSE, r = 1,
     ulow = -Inf, rlow = 1, nt = 25, which = 1:npar, conf = 0.95, 
     lty = 1, lwd = 1, type = "b", cilty = 1, ask = nb.fig < length(which) && 
         dev.interactive(), ...){
-   
-    u <- seq(tlim[1], tlim[2], length = nt)
-    locs <- scls <- shps <- matrix(NA, nrow = nt, ncol = 3)
-    dimnames(locs) <- list(round(u, 2), c("lower", "loc", "upper"))
-    dimnames(shps) <- list(round(u, 2), c("lower", "shape", "upper"))
 
-    pname <- "mscale"
-    npar <- 2
-   
-    dimnames(scls) <- list(round(u, 2), c("lower", pname, "upper"))
-    z <- gpdmle(data, u[1], corr = TRUE)
-    stvals <- as.list(round(z$estimate, 3))
+  n <- length(data)
+  
+  if (missing(tlim)) {
     
-    for (i in 1:nt) {
-      
-        z <- gpdmle(data, u[i], corr = TRUE)
-        stvals <- as.list(fitted(z))
-        mles <- z$estimate
-        stderrs <- z$std.err
-        cnst <- qnorm((1 + conf)/2)
-        shp <- mles["shape"]
-        scl <- mles["scale"]
-        shpse <- stderrs["shape"]
-        sclse <- stderrs["scale"]
-        
-        scl <- scl - shp * u[i]
-        covar <- z$corr[1, 2] * prod(stderrs)
-        sclse <- sqrt(sclse^2 - 2 * u[i] * covar + (u[i] * 
-                                                    shpse)^2)
-        
-        scls[i, ] <- c(scl - cnst * sclse, scl, scl + cnst * 
-            sclse)
-        shps[i, ] <- c(shp - cnst * shpse, shp, shp + cnst * 
-            shpse)
-        
-    }
+    tlim <- c(data[1], data[n - 4])
+    tlim <- tlim - .Machine$double.eps^0.5
     
-    show <- rep(FALSE, npar)
-    show[which] <- TRUE
-    nb.fig <- prod(par("mfcol"))
-    
-    if (ask) {
-      
-        op <- par(ask = TRUE)
-        on.exit(par(op))
-    }
-    
-    if (show[1]) {
-      
-      matplot(u, scls, type = "n", xlab = "Threshold", 
-              ylab = "Modified Scale")
-      lines(u, scls[, 2], lty = lty, lwd = lwd, type = type)
-      segments(u, scls[, 1], u, scls[, 3], lty = cilty)
-      
-    }
-    if (show[2]) {
-      
-      matplot(u, shps, type = "n", xlab = "Threshold", 
-              ylab = "Shape")
-      lines(u, shps[, 2], lty = lty, lwd = lwd, type = type)
-      segments(u, shps[, 1], u, shps[, 3], lty = cilty)
-      
-    }
-    
-    rtlist <- list(scales = scls, shapes = shps)
-    invisible(rtlist)
-
   }
+  
+  u <- seq(tlim[1], tlim[2], length = nt)
+  locs <- scls <- shps <- matrix(NA, nrow = nt, ncol = 3)
+  dimnames(locs) <- list(round(u, 2), c("lower", "loc", "upper"))
+  dimnames(shps) <- list(round(u, 2), c("lower", "shape", "upper"))
+  
+  pname <- "mscale"
+  npar <- 2
+  
+  dimnames(scls) <- list(round(u, 2), c("lower", pname, "upper"))
+  z <- gpdmle(data, u[1], corr = TRUE, ...)
+  stvals <- as.list(round(z$estimate, 3))
+  
+  for (i in 1:nt) {
+    
+    z <- gpdmle(data, u[i], corr = TRUE, ...)
+    stvals <- as.list(fitted(z))
+    mles <- z$estimate
+    stderrs <- z$std.err
+    cnst <- qnorm((1 + conf)/2)
+    shp <- mles["shape"]
+    scl <- mles["scale"]
+    shpse <- stderrs["shape"]
+    sclse <- stderrs["scale"]
+    
+    scl <- scl - shp * u[i]
+    covar <- z$corr[1, 2] * prod(stderrs)
+    sclse <- sqrt(sclse^2 - 2 * u[i] * covar + (u[i] * 
+                                                shpse)^2)
+    
+    scls[i, ] <- c(scl - cnst * sclse, scl, scl + cnst * 
+                   sclse)
+    shps[i, ] <- c(shp - cnst * shpse, shp, shp + cnst * 
+                   shpse)
+    
+  }
+  
+  show <- rep(FALSE, npar)
+  show[which] <- TRUE
+  nb.fig <- prod(par("mfcol"))
+  
+  if (ask) {
+    
+    op <- par(ask = TRUE)
+    on.exit(par(op))
+  }
+  
+  if (show[1]) {
+    
+    matplot(u, scls, type = "n", xlab = "Threshold", 
+            ylab = "Modified Scale")
+    lines(u, scls[, 2], lty = lty, lwd = lwd, type = type)
+    segments(u, scls[, 1], u, scls[, 3], lty = cilty)
+    
+  }
+  if (show[2]) {
+    
+    matplot(u, shps, type = "n", xlab = "Threshold", 
+            ylab = "Shape")
+    lines(u, shps[, 2], lty = lty, lwd = lwd, type = type)
+      segments(u, shps[, 1], u, shps[, 3], lty = cilty)
+    
+  }
+  
+  rtlist <- list(scales = scls, shapes = shps)
+  invisible(rtlist)
+  
+}
 
 
 lmomplot <- function(data, tlim, identify = TRUE, ...){

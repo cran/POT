@@ -20,4 +20,9 @@
 x <- runif(50)
 \dontrun{samlmu(x, nmom = 5)}
 }
+\references{
+  Hosking, J. R. M. (1990). \emph{L-moment analysis and estimation of
+    order statistics.} Journal of the Royal Statistical Society Series
+  B, 52:105-124.
+  }
 \keyword{htest}

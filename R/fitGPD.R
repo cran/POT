@@ -320,10 +320,13 @@ gpdmle <- function(x, threshold, start,...,
       corr <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
       diag(corr) <- rep(1, length(std.err))
     }
-    else corr <- NULL
+    else {
+      corr <- NULL
+      var.cov <- NULL
+    }
   }
   
-  else std.err <- corr <- NULL
+  else std.err <- corr <- var.cov <- NULL
   param <- c(opt$par, unlist(fixed.param))
   scale <- param["scale"]
   

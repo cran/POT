@@ -1,0 +1,4 @@
+Version 0.0-2:
+  - Modifying documentation of function mrlplot
+  - Fix a wrong title and y-label axis in fucntion diplot
+  - Add references in documentation files

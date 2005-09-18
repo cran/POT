@@ -5,8 +5,9 @@
   The empirical mean residual life plot. 
 }
 \usage{
-mrlplot(data, tlim, main, xlab, ylab, nt = max(100, length(data)), lty = c(3,1,3),
-    col = c('grey','black','grey'), conf = 0.95, lwd = c(1, 1.5, 1), \dots)
+mrlplot(data, tlim, main, xlab, ylab, nt = max(100, length(data)),
+lty = c(3,1,3), col = c('grey','black','grey'), conf = 0.95, lwd = c(1,
+1.5, 1), \dots) 
 }
 \arguments{
   \item{data}{A numeric vector.}
@@ -53,5 +54,11 @@ data(ardieres)
 flows <- ardieres[,"flows"]
 mrlplot(flows)
 }
+\references{Coles, S. (2001). \emph{An Introduction to Statistical
+    Modelling of Extreme Values}. Springer Series in Statistics. London.
+
+Embrechts, P., Kl\"uppelberg, C., and Mikosch,
+T. (1997). \emph{Modelling Extremal Events for Insurance and Finance.}
+Springer, New York.}
 \keyword{hplot}
 

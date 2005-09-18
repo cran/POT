@@ -4,15 +4,16 @@
 \title{Dispersion Index Plot}
 \description{The Dispersion Index Plot}
 \usage{
-diplot(data, tlim, conf=0.95, main = 'Dispersion Index Plot',\dots)
+diplot(data, tlim, main, xlab, ylab, conf=0.95, \dots)
 }
 \arguments{
   \item{data}{A matrix with two column. The first one represents the
     date of events and the second the data associated with those dates.}
   \item{tlim}{A numeric vector of length two giving the limit of
     threshold analyzed. If missing, default values are taken.}
-  \item{conf}{The confident coefficient for the plotted confidence intervals.}
   \item{main}{The title of the plot.}
+  \item{xlab,ylab}{Labels for the x and y axis.}
+  \item{conf}{The confident coefficient for the plotted confidence intervals.}
   \item{...}{Other arguments to be passed to the \code{plot} function.}
 }
 \value{It returns invisibly a list with two components. The first one
@@ -31,12 +32,14 @@ diplot(data, tlim, conf=0.95, main = 'Dispersion Index Plot',\dots)
   the total number of years in the sample. So, the Poisson hypothesis is
   not rejected if the estimated \code{DI} is within the range
   \deqn{\left[ \frac{\chi^2_{\alpha/2, \code{M}-1}}{\code{M}-1},
-    \frac{\chi^2_{1 - \alpha/2, \code{M}-1} }{\code{M} - 1} \right]}{%
-    \left[\chi^2_{\alpha/2, \code{M}-1} / ( \code{M} - 1 ), \chi^2_{1
-      -\alpha/2, \code{M}-1} / ( \code{M} - 1 ) \right]}
+    \frac{\chi^2_{1 - \alpha/2, \code{M}-1} }{\code{M} - 1} \right]}{
+    [chi^2_{\alpha/2, \code{M}-1} / ( \code{M} - 1 ), chi^2_{1
+      -\alpha/2, \code{M}-1} / ( \code{M} - 1 ) ]}
 }
 \examples{
 data(ardieres)
 diplot(ardieres)
 }
+\references{Cunnane, C. (1979). \emph{Note on the poisson assumption in
+    partial duration series model.} Water Resource Research, 15(2) :489-494.} 
 \keyword{hplot}

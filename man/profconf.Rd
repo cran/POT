@@ -44,4 +44,8 @@ fitted <- fitgpd(ardieres[,"flows"], 5, 'mle')
 gpd.pfshape(fitted, c(0,0.8))
 gpd.pfrl(fitted, 10, 2, c(14,32))
 }
+\references{
+  Coles, S. (2001). \emph{An Introduction to Statistical
+    Modelling of Extreme Values}. Springer Series in Statistics. London.
+  }
 \keyword{htest}

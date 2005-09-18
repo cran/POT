@@ -30,7 +30,7 @@ retlev.gpd <- function(fitted, mu, main, xlab,
   if (missing(xlimsup)) xlimsup <- 50
   
   plot(pot.fun, from= 1 / mu + eps, to = xlimsup, log='x',
-       xlab = xlab, ylab = ylab, ...)
+       xlab = xlab, ylab = ylab, main = main, ...)
 
   if (points){
     p_emp <- 1:n / (n+1)
