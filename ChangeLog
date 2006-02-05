@@ -1,3 +1,6 @@
+Version 0.0-4:
+  - Compute Expected Matrix Information of Fisher in gpdmle
+
 Version 0.0-3:
   - Fix a message bug in gpdpwmb
 

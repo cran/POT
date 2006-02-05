@@ -226,7 +226,7 @@ for standard error may not be fullfilled !"
 ## So, I'm very gratefull to Alec Stephenson.
 
 gpdmle <- function(x, threshold, start,...,
-                    std.err = TRUE, corr = FALSE,
+                    obs.fish = TRUE, corr = FALSE,
                     method = "BFGS", warn.inf = TRUE){
   
   nlpot <- function(scale, shape) { 
@@ -295,19 +295,21 @@ gpdmle <- function(x, threshold, start,...,
   }
   
   else opt$convergence <- "successful"
+
+  tol <- .Machine$double.eps^0.5
   
-  if(std.err) {
-    tol <- .Machine$double.eps^0.5
+  if(obs.fish) {
+    
     var.cov <- qr(opt$hessian, tol = tol)
     if(var.cov$rank != ncol(var.cov$qr)) 
       stop("observed information matrix is singular; use std.err = FALSE")
     var.cov <- solve(var.cov, tol = tol)
-    colnames(var.cov) <- nm
+    
     std.err <- diag(var.cov)
     if(any(std.err <= 0))
       stop("observed information matrix is singular; use std.err = FALSE")
     std.err <- sqrt(std.err)
-    names(std.err) <- nm
+    
     if(corr) {
       .mat <- diag(1/std.err, nrow = length(std.err))
       corr <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
@@ -315,11 +317,34 @@ gpdmle <- function(x, threshold, start,...,
     }
     else {
       corr <- NULL
-      var.cov <- NULL
     }
   }
   
-  else std.err <- corr <- var.cov <- NULL
+  else{
+    
+    shape <- opt$par[2]
+    scale <- opt$par[1]
+    a22 <- 2/((1+shape)*(1+2*shape))
+    a12 <- 1/(scale*(1+shape)*(1+2*shape))
+    a11 <- 1/((scale^2)*(1+2*shape))
+    ##Expected Matix of Information of Fisher
+    expFisher <- nhigh * matrix(c(a11,a12,a12,a22),nrow=2)
+
+    var.cov <- solve(expFisher, tol = tol)
+    std.err <- sqrt(diag(var.cov))
+
+    if(corr) {
+      .mat <- diag(1/std.err, nrow = length(std.err))
+      corr <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
+      diag(corr) <- rep(1, length(std.err))
+    }
+    else
+      corr <- NULL
+    }
+
+  colnames(var.cov) <- nm
+  names(std.err) <- nm
+  
   param <- c(opt$par, unlist(fixed.param))
   scale <- param["scale"]
   
