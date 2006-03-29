@@ -102,14 +102,6 @@ gpdpwmb <- function(data,threshold,a=0.35,b=0){
   scale <- 2 * m * t / (m - 2*t )
   type <- 'PWM'
 
-  if (exces[n]<scale/shape){
-
-    message <- 'Hybride'
-    shape <- - scale / exces[n]
-
-  }
-  else message <- NULL
-  
   estim <- c(scale  = scale, shape = shape)
   param <-  c(scale = scale, shape =shape)
   convergence <- NA
@@ -131,8 +123,9 @@ gpdpwmb <- function(data,threshold,a=0.35,b=0){
   colnames(corr) <- c('scale','shape')
   rownames(corr) <- c('scale','shape')
       
-  if ( shape > 0.5 ) message <- paste(message,"\n Assymptotic theory assumptions
-for standard error may not be fullfilled !", sep='')
+  if ( shape > 0.5 )
+    message <- "Assymptotic theory assumptions for standard error may not be fullfilled !"
+  else message <- NULL
   
   return(list(estimate = estim, std.err = std.err, var.cov = var.cov,
               param = param, message = type, threshold = threshold,

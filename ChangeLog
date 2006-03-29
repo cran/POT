@@ -1,3 +1,6 @@
+Version 0.0-3:
+  - Fix a message bug in gpdpwmb
+
 Version 0.0-2:
   - Modifying documentation of function mrlplot
   - Fix a wrong title and y-label axis in fucntion diplot
