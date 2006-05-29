@@ -7,8 +7,8 @@
 
 
 ## A generic function for estimate the GPD parameters
-fitgpd <- function(data,threshold,method, ...){
-  fitted <- switch(method, 'moments' = gpdmoments(data,threshold, ...),
+fitgpd <- function(data, threshold, method, ...){
+  fitted <- switch(method, 'moments' = gpdmoments(data, threshold, ...),
                  'pwmb' = gpdpwmb(data, threshold, ...),
                  'pwmu' = gpdpwmu(data, threshold, ...),
                  'mle' = gpdmle(data, threshold, ...)
@@ -20,11 +20,16 @@ fitgpd <- function(data,threshold,method, ...){
 
 gpdmoments <- function(data,threshold){
 
+  if ( length(unique(threshold)) != 1){
+    warning("Threshold must be a single numeric value for method = 'moments'. Taking the first value !!!")
+    threshold <- threshold[1]
+  }
+
   exceed <- data[data>threshold]
   nat <- length( exceed )
   pat <- nat / length( data )
   
-  if ( length(exceed) == 0 )
+  if ( nat == 0 )
     stop("None observation above the specified threshold !!!")
 
   exceed <- sort(exceed)
@@ -50,7 +55,8 @@ gpdmoments <- function(data,threshold){
   a21 <- a12
   a22 <- (1-2*shape)^2 * (1-shape+6*shape^2)
 
-  var.cov <- (1 - shape)^2 / ( (1-2*shape)*(1-3*shape)*(1-4*shape)*nat ) * matrix(c(a11,a21,a12,a22),2)
+  var.cov <- (1 - shape)^2 / ( (1-2*shape)*(1-3*shape)*(1-4*shape)*nat ) *
+    matrix(c(a11,a21,a12,a22),2)
   colnames(var.cov) <- c('scale','shape')
   rownames(var.cov) <- c('scale','shape')
   std.err <- sqrt( diag(var.cov) )
@@ -75,11 +81,16 @@ for standard error may not be fullfilled !'
 
 gpdpwmb <- function(data,threshold,a=0.35,b=0){
 
+  if ( length(unique(threshold)) != 1){
+    warning("Threshold must be a single numeric value for method = 'pwmb'. Taking the first value !!!")
+    threshold <- threshold[1]
+  }
+
   exceed <- data[data>threshold]
   nat <- length( exceed )
   pat <- nat / length( data )
   
-  if ( length(exceed) == 0 )
+  if ( nat == 0 )
     stop("None observation above the specified threshold !!!")
 
   exceed <- sort(exceed)
@@ -172,6 +183,11 @@ samlmu <- function (x, nmom = 4, sort.data = TRUE)
 
 gpdpwmu <- function(data,threshold){
 
+  if ( length(unique(threshold)) != 1){
+    warning("Threshold must be a single numeric value for method = 'pwmu'. Taking the first value !!!")
+    threshold <- threshold[1]
+  }
+  
   exceed <- data[data>threshold]
 
   if ( length(exceed) == 0 )
@@ -225,17 +241,27 @@ for standard error may not be fullfilled !"
 ## to simplify it. So, this function is a ligther version of fpot.
 ## So, I'm very gratefull to Alec Stephenson.
 
-gpdmle <- function(x, threshold, start,...,
+gpdmle <- function(x, threshold, start, ...,
                     obs.fish = TRUE, corr = FALSE,
                     method = "BFGS", warn.inf = TRUE){
-  
-  nlpot <- function(scale, shape) { 
-    .C("nlgpd",
-       exceed, nhigh, threshold, scale, shape, dns = double(1),
-       PACKAGE = "POT")$dns
-  }
 
+  if (length(threshold) == 1)
+    nlpot <- function(scale, shape) { 
+      -.C("gpdlik",
+          exceed, nhigh, threshold, scale, shape,
+          dns = double(1), PACKAGE = "POT")$dns
+    }
+  else
+    nlpot <- function(scale, shape) { 
+      -.C("gpdlik2",
+          exceed, nhigh, threshold, scale, shape,
+          dns = double(1), PACKAGE = "POT")$dns
+    }
+  
   nn <- length(x)
+      
+  if (length(threshold) != 1 & length(threshold) != length(x))
+    threshold <- rep(threshold, length.out = nn)
     
   extind <- r <- NULL
   high <- (x > threshold) & !is.na(x)
@@ -250,7 +276,7 @@ gpdmle <- function(x, threshold, start,...,
   if(missing(start)) {
     
     start <- list(scale = 0, shape = 0)
-    start$scale <- mean(exceed) - threshold
+    start$scale <- mean(exceed) - mean(threshold)
    
     start <- start[!(param %in% names(list(...)))]
     
@@ -284,7 +310,7 @@ gpdmle <- function(x, threshold, start,...,
     stop("unspecified parameters")
   
   start.arg <- c(list(p = unlist(start)), fixed.param)
-  if(warn.inf && do.call("nllh", start.arg) == 1e6)
+  if( warn.inf && !is.finite(do.call("nllh", start.arg)) )
     warning("negative log-likelihood is infinite at starting values")
   
   opt <- optim(start, nllh, hessian = TRUE, ..., method = method)
@@ -302,12 +328,12 @@ gpdmle <- function(x, threshold, start,...,
     
     var.cov <- qr(opt$hessian, tol = tol)
     if(var.cov$rank != ncol(var.cov$qr)) 
-      stop("observed information matrix is singular; use std.err = FALSE")
+      stop("observed information matrix is singular; use obs.fish = FALSE")
     var.cov <- solve(var.cov, tol = tol)
     
     std.err <- diag(var.cov)
     if(any(std.err <= 0))
-      stop("observed information matrix is singular; use std.err = FALSE")
+      stop("observed information matrix is singular; use obs.fish = FALSE")
     std.err <- sqrt(std.err)
     
     if(corr) {
@@ -343,16 +369,21 @@ gpdmle <- function(x, threshold, start,...,
     }
 
   colnames(var.cov) <- nm
+  rownames(var.cov) <- nm
   names(std.err) <- nm
   
   param <- c(opt$par, unlist(fixed.param))
   scale <- param["scale"]
+
+  if (length(unique(threshold) == 1))
+    threshold <- unique(threshold)
   
   list(estimate = opt$par, std.err = std.err, var.cov = var.cov, fixed =
        unlist(fixed.param), param = param, deviance = 2*opt$value,
        corr = corr, convergence = opt$convergence, counts =
-       opt$counts, message = opt$message, threshold = threshold, nhigh = nhigh, nat = nat, pat = pat, data = x, exceedances
-       = exceed, scale = scale)
+       opt$counts, message = opt$message, threshold = threshold, nhigh =
+       nhigh, nat = nat, pat = pat, data = x, exceedances = exceed,
+       scale = scale)
 }
 
 "printpot" <-  function(x, digits = max(3, getOption("digits") - 3), ...) 

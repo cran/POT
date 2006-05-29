@@ -38,14 +38,17 @@ gpd.pfrl(fitted, retper, mu, range, xlab, ylab, conf = 0.95, nrang =
   interval. Moreover, a graphic of the profile likelihood function is
   displayed.
 }
+
+\references{
+  Coles, S. (2001). \emph{An Introduction to Statistical
+    Modelling of Extreme Values}. Springer Series in Statistics. London.
+}
 \examples{
 data(ardieres)
 fitted <- fitgpd(ardieres[,"flows"], 5, 'mle')
 gpd.pfshape(fitted, c(0,0.8))
-gpd.pfrl(fitted, 10, 2, c(14,32))
+rp2prob(10, 2)
+gpd.pfrl(fitted, 0.95, c(14,32))
 }
-\references{
-  Coles, S. (2001). \emph{An Introduction to Statistical
-    Modelling of Extreme Values}. Springer Series in Statistics. London.
-  }
+\author{Mathieu Ribatet}
 \keyword{htest}

@@ -12,18 +12,19 @@
 \usage{
 gpd.fishape(fitted, conf = 0.95)
 gpd.fiscale(fitted, conf = 0.95)
-gpd.firl(fitted, retper, mu, conf = 0.95)
+gpd.firl(fitted, prob, conf = 0.95)
 }
 \arguments{
   \item{fitted}{\code{R} object given by function \code{\link{fitgpd}}.}
-  \item{retper}{. The return period.}
-  \item{mu}{Numeric. The mean number of event per year.}
+  \item{prob}{The probability of non exceedance.}
   \item{conf}{Numeric. The confidence level.}
 }
 \value{
   Returns a vector of the lower and upper bound for the confidence
   interval.
 }
+\seealso{\code{\link{rp2prob}} and \code{\link{prob2rp}}.}
+\author{Mathieu Ribatet}
 \examples{
 data(ardieres)
 fitted <- fitgpd(ardieres[,"flows"], 5, 'mle')

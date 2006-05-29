@@ -120,6 +120,10 @@ dens.gpd <- function(fitted, main, xlab, ylab,
                      rug = TRUE, ...){
   data <- fitted$exceedances
   loc <- fitted$threshold
+
+  if (length(unique(loc)) != 1)
+      stop("Density plot not avalaible for varying threshold...")
+
   scale <- fitted$estimate[1]
   shape <- fitted$estimate[2]
   n <- fitted$nhigh

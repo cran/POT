@@ -14,12 +14,16 @@
 \usage{fitgpd(data, threshold, method, \dots)}
 \arguments{
   \item{data}{A numeric vector.}
-  \item{threshold}{A numeric value giving the threshold for the GPD}
+  \item{threshold}{A numeric value giving the threshold for the
+    GPD. \code{'mle'} method allows varying threshold; so that threshold
+  could be for this case a numeric vector. Be careful, varying
+  thresholds are used cyclically if length doesn't match with
+  \code{data}.}
   \item{method}{A string giving the names of the estimator. It can be
     \code{'mle'}, \code{'moments'}, \code{'pwmu'} and \code{'pwmb'} for
-the maximum likelihood,
-    moments, unbiased probability weighted moments, biased probability
-    weigthed moments estimators respectively.}
+    the maximum likelihood, moments, unbiased probability weighted
+    moments, biased probability weigthed moments estimators
+    respectively.}
   \item{\dots}{Other optional arguments to be passed to
     \code{\link{gpdmoments}}, \code{\link{gpdpwmu}},
     \code{\link{gpdpwmb}} and \code{\link{gpdmle}} functions.}
@@ -55,4 +59,5 @@ plot(ardieres)
 flows <- ardieres[,"flows"]
 mle <- fitgpd(flows,7,'mle')
 }
+\author{Mathieu Ribatet}
 \keyword{htest}

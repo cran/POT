@@ -14,4 +14,5 @@
 data(ardieres)
 plot(ardieres)
 }
+\author{Mathieu Ribatet}
 \keyword{datasets}

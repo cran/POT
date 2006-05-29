@@ -1,3 +1,9 @@
+Version 0.0-5:
+  - Add functions ``rp2prob'' and ``prob2rp''
+  - Allow varying threshold in ``fitgpd'' with method = 'mle'
+  - Return level confidence interval are now defined with
+    probability of non exceedance instead of return periods.
+
 Version 0.0-4:
   - Compute Expected Matrix Information of Fisher in gpdmle
 
@@ -6,5 +12,5 @@ Version 0.0-3:
 
 Version 0.0-2:
   - Modifying documentation of function mrlplot
-  - Fix a wrong title and y-label axis in fucntion diplot
+  - Fix a wrong title and y-label axis in function diplot
   - Add references in documentation files

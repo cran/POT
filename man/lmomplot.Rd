@@ -32,17 +32,18 @@ lmomplot(data,tlim,identify = TRUE,\dots)
 }
 \seealso{\code{\link{fitgpd}}, \code{\link{mrlplot}},
   \code{\link{tcplot}}}
-\examples{
-data(ardieres)
-flows <- ardieres[,"flows"]
-lmomplot(flows)
-}
+
 \references{Hosking, J. R. M. and Wallis, J. R. (1997). \emph{Regional
     Frequency Analysis}. Cambridge University Press.
 
   Begueria, S. (2005). \emph{Uncertainties in partial duration series
     modelling of extremes related to the choice of the threshold value.}
   Journal of Hydrology, 303(1-4) :215-230.
-  }
+}
+\examples{
+data(ardieres)
+flows <- ardieres[,"flows"]
+\dontrun{lmomplot(flows, identify = FALSE)}
+}
+\author{Mathieu Ribatet}
 \keyword{hplot}
-

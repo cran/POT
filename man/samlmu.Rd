@@ -16,13 +16,14 @@
   sample L-moments. Note that for orders greater or equal than 3 it is the L-moments
   ratio that is sample L-CV, sample L-Sknewness, \ldots 
 }
-\examples{
-x <- runif(50)
-\dontrun{samlmu(x, nmom = 5)}
-}
+
 \references{
   Hosking, J. R. M. (1990). \emph{L-moment analysis and estimation of
     order statistics.} Journal of the Royal Statistical Society Series
   B, 52:105-124.
-  }
+}
+\examples{
+x <- runif(50)
+samlmu(x, nmom = 5)
+}
 \keyword{htest}

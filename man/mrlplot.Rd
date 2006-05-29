@@ -46,19 +46,19 @@ lty = c(3,1,3), col = c('grey','black','grey'), conf = 0.95, lwd = c(1,
   the mean residual life plot.
 }
 \author{Stuart Coles and Alec Stephenson}  
-
 \seealso{\code{\link{fitgpd}}, \code{\link{matplot}},
   \code{\link{tcplot}}}
-\examples{
-data(ardieres)
-flows <- ardieres[,"flows"]
-mrlplot(flows)
-}
+
 \references{Coles, S. (2001). \emph{An Introduction to Statistical
     Modelling of Extreme Values}. Springer Series in Statistics. London.
 
 Embrechts, P., Kl\"uppelberg, C., and Mikosch,
 T. (1997). \emph{Modelling Extremal Events for Insurance and Finance.}
 Springer, New York.}
+\examples{
+data(ardieres)
+flows <- ardieres[,"flows"]
+mrlplot(flows)
+}
 \keyword{hplot}
 

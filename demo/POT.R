@@ -39,7 +39,8 @@ readline("Press ENTER to continue")
 par(mfrow=c(1,1),ask=TRUE)
 cat("The same can also be obtained for return levels...")
 mu <-  fitted$nhigh / diff(range(date))
-gpd.pfrl(fitted, 10, mu, range=c(14, 35),
+rp2prob(10, 2)
+gpd.pfrl(fitted, 0.95, range=c(14, 35),
          main=expression(paste("95% Profile C.I. for the 10-year return level, "
              ,mu==1.5,sep="")))
 cat("We can produce several graphics really usefull for diagnostic of our model

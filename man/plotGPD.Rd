@@ -33,5 +33,6 @@ data(ardieres)
 fitted <- fitgpd(ardieres[,"flows"], 6, 'mle')
 mu <- fitted$nhigh / 33.4
 plotgpd(fitted, mu = mu)
-}		   
+}
+\author{Mathieu Ribatet}
 \keyword{hplot}

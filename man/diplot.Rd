@@ -40,6 +40,7 @@ diplot(data, tlim, main, xlab, ylab, conf=0.95, \dots)
 data(ardieres)
 diplot(ardieres)
 }
+\author{Mathieu Ribatet}
 \references{Cunnane, C. (1979). \emph{Note on the poisson assumption in
     partial duration series model.} Water Resource Research, 15(2) :489-494.} 
 \keyword{hplot}

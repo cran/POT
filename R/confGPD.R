@@ -2,6 +2,36 @@
 ## confidence intervals on parameter of the GP distribution
 ## or on return level.
 
+##Little functions that computes return period from non exceedance
+##probability and viceversa
+rp2prob <- function(retper, npy){
+  ##retper   : the return period
+  ##npy : the mean Number of events Per Year
+
+  if (any(npy) <=0)
+    stop("``npy'' must be positive !!!")
+  if (any(retper < 1/npy))
+    stop("return period incompatible with ``npy'' !!!")
+  prob <- 1 - 1/(npy * retper)
+
+  tab <- cbind(npy = npy, retper = retper, prob = prob)
+  return(tab)
+}
+prob2rp <- function(prob, npy){
+  ##prob   : the probability of non exceedance
+  ##npy    : the mean (N)umber of events (P)er (Y)ear
+
+  if (any(npy) <=0)
+    stop("``npy'' must be positive !!!")
+  if (any(prob <0) | any(prob >= 1) )
+    stop("``prob'' must be in [0,1) !!!")
+
+  retper <- 1 / (npy * (1 - prob))
+
+  tab <- cbind(npy = npy, retper = retper, prob = prob)
+  return(tab)
+} 
+
 ## Compute the profile confidence interval for the shape parameter
 gpd.pfshape <- function(fitted, range, xlab, ylab,
                          conf = 0.95, nrang = 100,
@@ -18,9 +48,9 @@ gpd.pfshape <- function(fitted, range, xlab, ylab,
   ## for the shape parameter.
   gpd.plikshape <- function(scale){
     
-    .C("nlgpd",
-       exceed, nhigh, threshold, scale, shape, dns = double(1),
-       PACKAGE = "POT")$dns
+    -.C("gpdlik",
+        exceed, nhigh, threshold, scale, shape, dns = double(1),
+        PACKAGE = "POT")$dns
   }
 
   llik <- NULL
@@ -84,9 +114,9 @@ gpd.pfscale <- function(fitted, range, xlab, ylab,
   ## for the scale parameter.
   gpd.plikscale <- function(shape){
     
-    .C("nlgpd",
-       exceed, nhigh, threshold, scale, shape, dns = double(1),
-       PACKAGE = "POT")$dns
+    -.C("gpdlik",
+        exceed, nhigh, threshold, scale, shape, dns = double(1),
+        PACKAGE = "POT")$dns
   }
 
   llik <- NULL
@@ -135,9 +165,9 @@ gpd.pfscale <- function(fitted, range, xlab, ylab,
 }
 
 ## Compute the profile confidence interval for the selected return level
-gpd.pfrl <- function(fitted, retper, mu, range, xlab, ylab,
-                         conf = 0.95, nrang = 100,
-                         vert.lines = TRUE, ...){
+gpd.pfrl <- function(fitted, prob, range, xlab, ylab,
+                     conf = 0.95, nrang = 100,
+                     vert.lines = TRUE, ...){
   
   cat('If there is some troubles try to put vert.lines = FALSE or change
  the range...\n')
@@ -153,12 +183,12 @@ gpd.pfrl <- function(fitted, retper, mu, range, xlab, ylab,
       scale <- (retlev - threshold) / log(1 - prob)
     else
       scale <- (retlev - threshold) * shape / ( (1 - prob)^(-shape) - 1 )
-    .C("nlgpd",
-       exceed, nhigh, threshold, scale, shape,
-       dns = double(1), PACKAGE = "POT")$dns
+    -.C("gpdlik",
+        exceed, nhigh, threshold, scale, shape,
+        dns = double(1), PACKAGE = "POT")$dns
   }
 
-  exceed<- fitted$exceedances
+  exceed <- fitted$exceedances
   threshold <- fitted$threshold
   nhigh <- fitted$nhigh
   scale.fit <- fitted$scale
@@ -169,9 +199,8 @@ gpd.pfrl <- function(fitted, retper, mu, range, xlab, ylab,
   
   llik <- NULL
   int.retlev <- seq(range[1], range[2], length = nrang)
-  retlev.fit <- qgpd(1 - 1 / (mu*retper), threshold, scale.fit, shape.fit)
-
-  prob <- 1 - 1 / (mu * retper)
+  retlev.fit <- qgpd(prob, threshold, scale.fit, shape.fit)
+  
   for (retlev in int.retlev){
     opt <- optim(retlev.fit, gpd.plikrl, method ="BFGS")
     param <- opt$par
@@ -248,9 +277,8 @@ gpd.fiscale <- function(fitted, conf = 0.95){
 
 ## Compute the confidence interval given by asymptotic theory and
 ## the Delta-Method for a specified return level.
-gpd.firl <- function(fitted, retper, mu, conf = 0.95){
+gpd.firl <- function(fitted, prob, conf = 0.95){
 
-  prob <- 1 - 1 / (mu * retper)
   scale.fit <- fitted$scale
   shape.fit <- fitted$param[2]
   threshold <- fitted$threshold

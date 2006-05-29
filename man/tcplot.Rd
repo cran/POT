@@ -58,14 +58,15 @@ tcplot(data, tlim, cmax = FALSE, r = 1,
 \author{Stuart Coles and Alec Stephenson}
 
 \seealso{\code{\link{fitgpd}}, \code{\link{mrlplot}}}
+
+\references{
+  Coles, S. (2001). \emph{An Introduction to Statistical
+    Modelling of Extreme Values}. Springer Series in Statistics. London.
+}
 \examples{
 data(ardieres)
 flows <- ardieres[,"flows"]
 tcplot(flows, tlim = c(0,15) )
 }
-\references{
-  Coles, S. (2001). \emph{An Introduction to Statistical
-    Modelling of Extreme Values}. Springer Series in Statistics. London.
-  }
 \keyword{hplot}
 
