@@ -10,6 +10,7 @@
 
 ## A generic function for estimate the GPD parameters
 fitgpd <- function(data, threshold, method = "mle", ...){
+  threshold.call <- deparse(threshold)
   fitted <- switch(method, 'moments' = gpdmoments(data, threshold, ...),
                    'pwmb' = gpdpwmb(data, threshold, ...),
                    'pwmu' = gpdpwmu(data, threshold, ...),
@@ -18,6 +19,7 @@ fitgpd <- function(data, threshold, method = "mle", ...){
                    'mdpd' = gpdmdpd(data, threshold, ...),
                    'med' = gpdmed(data, threshold, ...)
                    )
+  fitted$threshold.call <- threshold.call
   class(fitted) <- c("uvpot","pot")
   return(fitted)
 }
@@ -59,7 +61,7 @@ gpdpickands <- function(data, threshold, ...){
   return(list(fitted.values = estim, std.err = std.err, var.cov = var.cov,
               param = param, message = message, threshold = threshold,
               nat = nat, pat = pat, convergence = convergence,
-              corr = corr, counts = counts, exceedances = exceed,
+              corr = corr, counts = counts, exceed = exceed,
               scale = scale, var.thresh = var.thresh, type = "pickands"))
 }
 
@@ -121,7 +123,7 @@ for standard error may not be fullfilled !'
   return(list(fitted.values = estim, std.err = std.err, var.cov = var.cov,
               param = param, message = message, threshold = threshold,
               nat = nat, pat = pat, convergence = convergence,
-              corr= corr, counts = counts, exceedances = exceed,
+              corr= corr, counts = counts, exceed = exceed,
               scale=scale, var.thresh = var.thresh, type = "moments"))
 }
 
@@ -193,7 +195,7 @@ gpdpwmb <- function(data, threshold, a=0.35, b=0, ...){
   return(list(fitted.values = estim, std.err = std.err, var.cov = var.cov,
               param = param, message = type, threshold = threshold,
               corr = corr, convergence = convergence, counts = counts,
-              nat = nat, pat = pat, exceedances = exceed,
+              nat = nat, pat = pat, exceed = exceed,
               scale=scale, var.thresh = var.thresh, type = type))
 }
 
@@ -273,7 +275,7 @@ for standard error may not be fullfilled !"
   return(list(fitted.values = estim, std.err = std.err, var.cov = var.cov,
               param = param, message = message, threshold = threshold,
               corr = corr, convergence = convergence, counts = counts,
-              nat = nat, pat = pat, exceedances = exceed,
+              nat = nat, pat = pat, exceed = exceed,
               scale=scale, var.thresh = var.thresh, type = "PWMU"))
 }
 
@@ -357,7 +359,7 @@ gpdmdpd <- function(x, threshold, a, start, ...,
        var.cov = var.cov, fixed = NULL, param = param,
        deviance = NULL, corr = corr, convergence = opt$convergence,
        counts = opt$counts, message = opt$message, threshold = threshold,
-       nat = nat, pat = pat, data = x, exceedances = exceed,
+       nat = nat, pat = pat, data = x, exceed = exceed,
        scale = scale, var.thresh = var.thresh, type = "MDPD")
 }
 
@@ -369,8 +371,11 @@ gpdmdpd <- function(x, threshold, a, start, ...,
 ## So, I'm very gratefull to Alec Stephenson.
 
 gpdmle <- function(x, threshold, start, ...,
-                   obs.fish = TRUE, corr = FALSE,
+                   std.err.type = "observed", corr = FALSE,
                    method = "BFGS", warn.inf = TRUE){
+
+  if (all(c("observed", "expected", "none") != std.err.type))
+    stop("``std.err.type'' must be one of 'observed', 'expected' or 'none'")
   
   nlpot <- function(scale, shape) { 
     -.C("gpdlik", exceed, nat, threshold, scale,
@@ -439,69 +444,75 @@ gpdmle <- function(x, threshold, start, ...,
   }
   
   else opt$convergence <- "successful"
-  
-  tol <- .Machine$double.eps^0.5
-  
-  if(obs.fish) {
+
+  if (std.err.type != "none"){
     
-    var.cov <- qr(opt$hessian, tol = tol)
-    if(var.cov$rank != ncol(var.cov$qr)){
-      warning("observed information matrix is singular; passing obs.fish to FALSE")
-      obs.fish <- FALSE
-      return
-    }
+    tol <- .Machine$double.eps^0.5
     
-    if (obs.fish){
-      var.cov <- solve(var.cov, tol = tol)
+    if(std.err.type == "observed") {
       
-      std.err <- diag(var.cov)
-      if(any(std.err <= 0)){
-        warning("observed information matrix is singular; passing obs.fish to FALSE")
+      var.cov <- qr(opt$hessian, tol = tol)
+      if(var.cov$rank != ncol(var.cov$qr)){
+        warning("observed information matrix is singular; passing std.err.type to ``expected''")
         obs.fish <- FALSE
         return
       }
       
-      std.err <- sqrt(std.err)
+      if (std.err.type == "observed"){
+        var.cov <- solve(var.cov, tol = tol)
+        
+        std.err <- diag(var.cov)
+        if(any(std.err <= 0)){
+          warning("observed information matrix is singular; passing std.err.type to ``expected''")
+          std.err.type <- "expected"
+          return
+        }
+        
+        std.err <- sqrt(std.err)
+        
+        if(corr) {
+          .mat <- diag(1/std.err, nrow = length(std.err))
+          corr.mat <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
+          diag(corr.mat) <- rep(1, length(std.err))
+        }
+        else {
+          corr.mat <- NULL
+        }
+      }
+    }
+    
+    if (std.err.type == "expected"){
+      
+      shape <- opt$par[2]
+      scale <- opt$par[1]
+      a22 <- 2/((1+shape)*(1+2*shape))
+      a12 <- 1/(scale*(1+shape)*(1+2*shape))
+      a11 <- 1/((scale^2)*(1+2*shape))
+      ##Expected Matix of Information of Fisher
+      expFisher <- nat * matrix(c(a11,a12,a12,a22),nrow=2)
+      
+      var.cov <- solve(expFisher, tol = tol)
+      std.err <- sqrt(diag(var.cov))
       
       if(corr) {
         .mat <- diag(1/std.err, nrow = length(std.err))
         corr.mat <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
         diag(corr.mat) <- rep(1, length(std.err))
       }
-      else {
+      else
         corr.mat <- NULL
-      }
     }
-    std.err.type <- "Observed"
+
+    colnames(var.cov) <- nm
+    rownames(var.cov) <- nm
+    names(std.err) <- nm
+  }
+
+  else{
+    std.err <- std.err.type <- corr.mat <- NULL
+    var.cov <- NULL
   }
   
-  if (!obs.fish){
-    
-    shape <- opt$par[2]
-    scale <- opt$par[1]
-    a22 <- 2/((1+shape)*(1+2*shape))
-    a12 <- 1/(scale*(1+shape)*(1+2*shape))
-    a11 <- 1/((scale^2)*(1+2*shape))
-    ##Expected Matix of Information of Fisher
-    expFisher <- nat * matrix(c(a11,a12,a12,a22),nrow=2)
-    
-    var.cov <- solve(expFisher, tol = tol)
-    std.err <- sqrt(diag(var.cov))
-    
-    if(corr) {
-      .mat <- diag(1/std.err, nrow = length(std.err))
-      corr.mat <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
-      diag(corr.mat) <- rep(1, length(std.err))
-    }
-    else
-      corr.mat <- NULL
-    
-    std.err.type <- "Expected"
-  }
-  
-  colnames(var.cov) <- nm
-  rownames(var.cov) <- nm
-  names(std.err) <- nm
   
   param <- c(opt$par, unlist(fixed.param))
   scale <- param["scale"]
@@ -515,7 +526,7 @@ gpdmle <- function(x, threshold, start, ...,
        var.cov = var.cov, fixed = unlist(fixed.param), param = param,
        deviance = 2*opt$value, corr = corr.mat, convergence = opt$convergence,
        counts = opt$counts, message = opt$message, threshold = threshold,
-       nat = nat, pat = pat, data = x, exceedances = exceed, scale = scale,
+       nat = nat, pat = pat, data = x, exceed = exceed, scale = scale,
        var.thresh = var.thresh, type = "MLE", logLik = -opt$value)
 }
 
@@ -544,13 +555,13 @@ gpdmed <- function(x, threshold, start, ..., tol = 10^-3, maxit = 500,
   pat <- nat/nn
   param <- c("scale", "shape")
 
-   if(missing(start)) {
+  if(missing(start)) {
     
     start <- c(scale = 0, shape = 0.1)
     start["scale"] <- mean(exceed) - min(threshold)
     
   }
-    
+  
   iter <- 1
   
   trace <- round(start, 3)
@@ -619,7 +630,7 @@ gpdmed <- function(x, threshold, start, ..., tol = 10^-3, maxit = 500,
        var.cov = var.cov, fixed = NULL, param = param,
        deviance = NULL, corr = corr, convergence = opt$convergence,
        counts = opt$counts, message = opt$message, threshold = threshold,
-       nat = nat, pat = pat, data = x, exceedances = exceed,
+       nat = nat, pat = pat, data = x, exceed = exceed,
        scale = scale, var.thresh = var.thresh, type = "MEDIANS")
   
 }

@@ -37,7 +37,7 @@ prob2rp <- function(prob, npy){
 ## Compute the profile confidence interval for the shape parameter
 gpd.pfshape <- function(fitted, range, xlab, ylab,
                         conf = 0.95, nrang = 100,
-                        vert.lines =TRUE, ...){
+                        vert.lines = TRUE, ...){
   
   cat('If there is some troubles try to put vert.lines = FALSE or change
  the range...\n')
@@ -45,7 +45,7 @@ gpd.pfshape <- function(fitted, range, xlab, ylab,
   if (fitted$var.thresh)
     warning("Becarefull, you specify a varying threshold...\n")
   
-  exceed<- fitted$exceedances
+  exceed<- fitted$exceed
   threshold <- fitted$threshold
   nat <- fitted$nat
 
@@ -115,7 +115,7 @@ gpd.pfscale <- function(fitted, range, xlab, ylab,
   if (fitted$var.thresh)
     warning("Becarefull, you specify a varying threshold...\n")
   
-  exceed<- fitted$exceedances
+  exceed<- fitted$exceed
   threshold <- fitted$threshold
   nat <- fitted$nat
 
@@ -185,7 +185,7 @@ gpd.pfrl <- function(fitted, prob, range, thresh, xlab, ylab,
   if (fitted$var.thresh)
     warning("Becarefull, you specify a varying threshold...\n")
   
-  exceed <- fitted$exceedances
+  exceed <- fitted$exceed
   threshold <- fitted$threshold
   nat <- fitted$nat
   scale.fit <- fitted$scale

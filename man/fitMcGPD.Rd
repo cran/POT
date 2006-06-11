@@ -7,8 +7,8 @@
   procedure.
 }
 \usage{
-fitmcgpd(data, threshold, model = "log", start, \dots, obs.fish = TRUE,
-corr = FALSE, warn.inf = TRUE, method = "BFGS")
+fitmcgpd(data, threshold, model = "log", start, \dots, std.err.type =
+"observed", corr = FALSE, warn.inf = TRUE, method = "BFGS")
 }
 \arguments{
   \item{data}{A vector of observations.}
@@ -23,12 +23,14 @@ corr = FALSE, warn.inf = TRUE, method = "BFGS")
   \item{\dots}{Additional parameters to be passed to the
     \code{\link{optim}} function or to the bivariate model. In
     particular, parameter of the model can be hand fixed.}
-  \item{obs.fish}{Logical. Should standard errors and asymptotic
-    variance covariance matrix be computed?}
+  \item{std.err.type}{The type of the standard error. Currently, one
+    must specify \code{``observed''} for observed Fisher information
+    matrix or \code{``none''} for no computations of the standard
+    errors.}
   \item{corr}{Logical. Should the correlation matrix be computed?}
   \item{warn.inf}{Logical. Should users be warned if likelihood is not
     finite at starting values?}
-  \item{method}{The optimisation method, see \code{\link{optim}}.}
+  \item{method}{The optimization method, see \code{\link{optim}}.}
 }
 \value{
   The function returns an object of class \code{c("mcpot", "uvpot",
@@ -37,8 +39,8 @@ corr = FALSE, warn.inf = TRUE, method = "BFGS")
   \code{\link{deviance}}, \code{\link{logLik}} and \code{\link{AIC}}
   functions.
 
-   \item{fitted.values}{The maximum likelihood estimates of the markov
-  chain includint estimated parameters of the bivariate extreme value
+   \item{fitted.values}{The maximum likelihood estimates of the Markov
+  chain including estimated parameters of the bivariate extreme value
   distribution.}
   \item{std.err}{A vector containing the standard errors - only present
     when the observed information matrix is not singular.}
@@ -71,7 +73,7 @@ corr = FALSE, warn.inf = TRUE, method = "BFGS")
   distribution. Smith et al. (1997) present theoretical results about
   this Markov Chain model.
   
-  The bivariate exceedences are fitted using censored likelihood
+  The bivariate exceedances are fitted using censored likelihood
   procedure. This methodology is fully described in Ledford (1996).
 
   Most of models are described in Kluppelberg (2006).
@@ -115,7 +117,7 @@ corr = FALSE, warn.inf = TRUE, method = "BFGS")
 
 
   Smith, R., and Tawn, J., and Coles, S. (1997) Markov chain models for
-  threhsold exceedances. Biometrika, \bold{84}: 249--268
+  threshold exceedances. Biometrika, \bold{84}: 249--268
 }
 \seealso{\code{\link{optim}}, \code{\link{pickdep}}}
 \examples{

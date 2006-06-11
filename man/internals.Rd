@@ -1,8 +1,4 @@
 \name{Internal functions and methods}
-\alias{print.bvpot}
-\alias{print.uvpot}
-\alias{print.mcpot}
-\alias{logLik.pot}
 \alias{gpdmoments}
 \alias{gpdpwmu}
 \alias{gpdpwmb}
@@ -10,13 +6,21 @@
 \alias{gpdpickands}
 \alias{gpdmdpd}
 \alias{gpdmed}
-\alias{qq.gpd}
-\alias{pp.gpd}
-\alias{dens.gpd}
-\alias{retlev.gpd}
+\alias{rbvlog}
+\alias{rbvalog}
+\alias{rbvnlog}
+\alias{rbvanlog}
+\alias{rbvmix}
+\alias{rbvamix}
+\alias{pbvlog}
+\alias{pbvalog}
+\alias{pbvnlog}
+\alias{pbvanlog}
+\alias{pbvmix}
+\alias{pbvamix}
 
 \title{Internal functions and methods for the POT package.}
-\description{A set of function that should not be used directly by the
+\description{A set of functions that should not be used directly by the
   user. For methods, user should usually used the generic functions which
   calls the appropriate method.
 }

@@ -1,14 +1,15 @@
 \name{Threshold Selection}
 \alias{diplot}
 
-\title{Threshold Seclection: The Dispersion Index Plot}
+\title{Threshold Selection: The Dispersion Index Plot}
 \description{The Dispersion Index Plot}
 \usage{
 diplot(data, u.range, main, xlab, ylab, conf=0.95, \dots)
 }
 \arguments{
   \item{data}{A matrix with two column. The first one represents the
-    date of events and the second the data associated with those dates.}
+    date of events (in a numeric format) and the second the data
+    associated with those dates.}
   \item{u.range}{A numeric vector of length two giving the limit of
     threshold analyzed. If missing, default values are taken.}
   \item{main}{The title of the plot.}
@@ -23,7 +24,7 @@ diplot(data, u.range, main, xlab, ylab, conf=0.95, \dots)
 \details{
   According to the Extreme Value Theory, the number of exceedance
   over a high threshold in a fixed period - generally a year - must be
-  distributed as Poisson processus.  As for a random variable Poisson
+  distributed as Poisson process.  As for a random variable Poisson
   distributed, the ratio of the variance and the mean is equal to 1, one
   can test if the ratio \eqn{\code{DI} = var / mean} differs from
   1.  Moreover, confidence levels for \code{DI} can be calculated by

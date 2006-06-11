@@ -36,7 +36,7 @@ simmc <- function(n, alpha, model = "log", asCoef, asCoef1,
   if (!missing(asCoef))
     asCoef <- as.double(asCoef)
 
-  if (!missing(asCoef1) && !is.missing(asCoef2))
+  if (!missing(asCoef1) && !missing(asCoef2))
     asy <- as.double(c(asCoef1, asCoef2))
   
   evmc <- runif(n)

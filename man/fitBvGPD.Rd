@@ -4,12 +4,12 @@
   Extreme Value Distributions}
 \description{
   Fitting a bivariate extreme value distribution to bivariate
-  exceedences over thresholds using censored maximum likelihood
+  exceedances over thresholds using censored maximum likelihood
   procedure. 
 }
 \usage{
 fitbvgpd(data, threshold, model = "log", start, ..., cscale = FALSE,
-cshape = FALSE, obs.fish = TRUE, corr = FALSE, warn.inf = TRUE,
+cshape = FALSE, std.err.type = "observed", corr = FALSE, warn.inf = TRUE,
 method = "BFGS")
 }
 \arguments{
@@ -29,15 +29,17 @@ method = "BFGS")
     particular, parameter of the model can be hand fixed.}
   \item{cscale}{Logical. Should the two scale parameters be equal?}
   \item{cshape}{Logical. Should the two shape parameters be equal?}
-  \item{obs.fish}{Logical. Should standard errors and asymptotic
-    variance covariance matrix be computed?}
+  \item{std.err.type}{The type of the standard error. Currently, one
+    must specify \code{``observed''} for observed Fisher information
+    matrix or \code{``none''} for no computations of the standard
+    errors.}
   \item{corr}{Logical. Should the correlation matrix be computed?}
   \item{warn.inf}{Logical. Should users be warned if likelihood is not
     finite at starting values?}
-  \item{method}{The optimisation method, see \code{\link{optim}}.}
+  \item{method}{The optimization method, see \code{\link{optim}}.}
 }
 \details{
-  The bivariate exceedences are fitted using censored likelihood
+  The bivariate exceedances are fitted using censored likelihood
   procedure. This methodology is fully described in Ledford (1996).
 
   Most of models are described in Kluppelberg (2006).

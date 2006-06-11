@@ -1,3 +1,9 @@
+Version 0.0-9:
+  - Change printing methods
+  - clust.R: the extremal index estimate was buggy !!!
+  - plot methods always returns invisibly the return level function
+  - Write a package vignette
+
 Version 0.0-8:
   - Add a function ``fitbvgpd'' to fit bivariate POT
   - Add a function ``fitmcgpd'' to fit all exceedances with a first

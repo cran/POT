@@ -2,7 +2,7 @@
 \alias{clust}
 \title{Identify Extreme Clusters within a Time Series}
 \description{
-  A function to identify clusters of exceedences of a time series.
+  A function to identify clusters of exceedances of a time series.
 }
 \usage{
 clust(data, u, tim.cond = 1, clust.max = FALSE, plot = FALSE,
@@ -16,18 +16,18 @@ only.excess = TRUE, \dots)
   \item{tim.cond}{A time condition to ensure independence between
     events. Should be in the same unit than \code{data[,"time"]}.}
   \item{clust.max}{Logical. If \code{FALSE} (the default), a list
-    containing the clusters of exceedences is returned. Else, a matrix
+    containing the clusters of exceedances is returned. Else, a matrix
     containing the cluster maxima and related dates is returned.}
   \item{plot}{Logical. If \code{TRUE}, identified
     clusters are displayed. Else (the default), no plot is produced.}
   \item{only.excess}{Logical. If \code{TRUE} (the default), only
-    exceedences are plotted. Else, all observations are displayed.}
+    exceedances are plotted. Else, all observations are displayed.}
   \item{\dots}{Optional parameters to be passed in \code{\link{plot}}
     function.}
 }
 \value{
   If \code{clust.max} is \code{FALSE}, a list containing the clusters of
-  exceedences is returned. Else, a matrix containing the cluster maxima,
+  exceedances is returned. Else, a matrix containing the cluster maxima,
   related dates and indices are returned.
 
   In any case, the returned object has an attribute \code{exi} giving
@@ -35,11 +35,11 @@ only.excess = TRUE, \dots)
   average cluster size.
 }
 \details{
-  The clusters of exceedences are defined as follows:
-  \item The first exceedence initiates the first cluster;
+  The clusters of exceedances are defined as follows:
+  \item The first exceedance initiates the first cluster;
   \item The first observation under the threshold \code{u} ``ends'' the
   current cluster unless \code{tim.cond} does not hold;
-  \item The next exceedence initiates a new cluster;
+  \item The next exceedance initiates a new cluster;
   \item The process is iterated as needed.
 
   
@@ -57,6 +57,7 @@ only.excess = TRUE, \dots)
 }
 \examples{
 data(ardieres)
+par(mfrow=c(1,2))
 clust(ardieres, 4, 10 / 365)
 clust(ardieres, 4, 10 / 365, clust.max = TRUE)
 clust(ardieres, 4, 10 / 365, clust.max = TRUE, plot = TRUE)

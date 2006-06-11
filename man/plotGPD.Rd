@@ -2,7 +2,7 @@
 \alias{plot.uvpot}
 
 \title{Graphical Diagnostic: the Univariate GPD Model}
-\description{Produces QQ-plot, Probability Plot and a Denstiy Plot of
+\description{Produces QQ-plot, Probability Plot and a Density Plot of
   the fitted model versus the empirical one.  Another function computes
   the Return Level Plot of the fitted model.}
 
@@ -30,6 +30,7 @@ data(ardieres)
 ardieres <- clust(ardieres, 4, 10 / 365, clust.max = TRUE)
 fitted <- fitgpd(ardieres[, "obs"], 6, 'mle')
 npy <- fitted$nat / 33.4 ##33.4 is total record length (in year)
+par(mfrow=c(2,2))
 plot(fitted, npy = npy)
 }
 \author{Mathieu Ribatet}

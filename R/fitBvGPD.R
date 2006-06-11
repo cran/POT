@@ -1,7 +1,11 @@
 fitbvgpd <- function (data, threshold, model = "log", start, ...,
                       cscale = FALSE, cshape = FALSE,
-                      obs.fish = TRUE, corr = FALSE,
+                      std.err.type = "observed", corr = FALSE,
                       warn.inf = TRUE, method = "BFGS"){
+
+  if (all(c("observed", "none") != std.err.type))
+    stop("``std.err.type'' must be one of ``observed'' or ``none''")
+  
   data1 <- data[,1]
   data2 <- data[,2]
   call <- match.call()
@@ -62,11 +66,11 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
   ##model (if needed) that is MLE estimates on marginal data
   if (missing(start)){
     start <- list(scale1 = 0, shape1 = 0)
-    temp <- gpdmle(data1, threshold[1])$param
+    temp <- gpdmle(data1, threshold[1], std.err.type = "none")$param
     start$scale1 <- temp[1]
     start$shape1 <- temp[2]
 
-    temp <- gpdmle(data2, threshold[2])$param
+    temp <- gpdmle(data2, threshold[2], std.err.type = "none")$param
     if (!cscale)
       start$scale2 <- temp[1]
 
@@ -206,22 +210,22 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
 
   tol <- .Machine$double.eps^0.5
 
-  if(obs.fish) {
+  if(std.err.type == "observed") {
     
     var.cov <- qr(opt$hessian, tol = tol)
     if(var.cov$rank != ncol(var.cov$qr)){
       warning("observed information matrix is singular.")
-      obs.fish <- FALSE
+      std.err.type <- "none"
       return
     }
     
-    if (obs.fish){
+    if (std.err.type == "observed"){
       var.cov <- solve(var.cov, tol = tol)
       
       std.err <- diag(var.cov)
       if(any(std.err <= 0)){
         warning("observed information matrix is singular.")
-        obs.fish <- FALSE
+        std.err.type <- "none"
       }
 
       else{
@@ -243,7 +247,7 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
       }
     }
 
-    if(!obs.fish)
+    if(std.err.type == "none")
       std.err <- corr.mat <- var.cov <- NULL
   }
   

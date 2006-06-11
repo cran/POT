@@ -2,7 +2,7 @@
 \alias{fitgpd}
 
 \title{Fitting a GPD to Peaks Over a Threshold}
-\description{Maximum Likelihood, Unbiased Probability Weigthed Moments,
+\description{Maximum Likelihood, Unbiased Probability Weighted Moments,
   Biased Probability Weighted Moments and Moments Estimator to fit Peaks
   Over a Threshold to a GP distribution.}
 
@@ -24,7 +24,7 @@
     \code{\link{optim}} function and allow hand fixed parameters.}
 }
 \value{
-  This function returns a list with  composants:
+  This function returns a list with  components:
   \item{fitted.values}{A vector containing the maximum likelihood estimates.}
   \item{std.err}{A vector containing the standard errors.}
   \item{fixed}{A vector containing the parameters of the model that
@@ -35,10 +35,10 @@
   \item{convergence, counts, message}{Components taken from the
     list returned by \code{\link{optim}} - for the \code{mle} method.}
   \item{threshold}{The threshold passed to argument \code{threshold}.}
-  \item{nat, pat}{The number and proportion of exceedences.}
+  \item{nat, pat}{The number and proportion of exceedances.}
   \item{data}{The data passed to the argument \code{data}.}
-  \item{exceedances}{The exceedences, or the maxima of the clusters
-    of exceedences.}
+  \item{exceed}{The exceedances, or the maxima of the clusters of
+    exceedances.}
   \item{scale}{The scale parameter for the fitted generalized Pareto
     distribution.}
   \item{std.err.type}{The standard error type - for \code{'mle'}
@@ -48,7 +48,7 @@
     \code{'mle'} only. For other methods, threshold is always constant
     i.e. \code{var.thresh = FALSE}.}
 }
-\note{The Maximum Likelihood estimator is obtained through a sligthly
+\note{The Maximum Likelihood estimator is obtained through a slightly
   modified version of Alec Stephenson's \code{fpot.norm} function in the
   \code{evd} package.
 }

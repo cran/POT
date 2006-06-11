@@ -11,7 +11,7 @@ print.uvpot <- function(x, digits = max(3, getOption("digits") - 3), ...){
   if(!x$var.thresh)
     x$threshold <- x$threshold[1]
   
-  cat("\nThreshold:", round(x$threshold, digits), "\n")
+  cat("\nThreshold Call:", x$threshold.call, "\n")
   cat("Number Above:", x$nat, "\n")
   cat("Proportion Above:", round(x$pat, digits), "\n")
   
@@ -141,7 +141,7 @@ print.mcpot <- function(x, digits = max(3, getOption("digits") - 3), ...){
     cat("     AIC:", AIC(x), "\n")
   }
   
-  cat("\nThreshold:", round(x$threshold, digits), "\n")
+  cat("\nThreshold Call:", x$threshold.call, "\n")
   cat("Number Above:", x$nat, "\n")
   cat("Proportion Above:", round(x$pat, digits), "\n")
   

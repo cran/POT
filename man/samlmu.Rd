@@ -8,7 +8,7 @@
   \item{x}{a vector of data}
   \item{nmom}{a numeric value giving the number of sample L-moments to
     be computed}
-  \item{sort.data}{a locical which specifies if the vector of data x
+  \item{sort.data}{a logical which specifies if the vector of data x
     should be sorted or not.}
 }
 \value{

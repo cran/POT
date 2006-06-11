@@ -1,20 +1,363 @@
+2006-11-08  ribatema@BRANDY  <ribatema@brandy>
+
+	* inst/CHANGES: Update the CHANGES file
+
+	* inst/doc/guide.pdf, inst/doc/guide.Rnw:
+	Change the vingnette to be computed more quickly. Thus the pdf has
+	also change
+
+	* man/plot.mcpot.Rd, man/retlev.mcpot.Rd:
+	Update the documentation files
+
+	* inst/doc/guide.Rnw, inst/doc/guide.pdf:
+	Change the vingnette to be computed more quickly. Thus the pdf has
+	also change
+
+	* R/fitMcGPD.R:
+	Change the definition of the likelihood function -->> use directly a C
+	code for first order Markov chains
+
+	* DESCRIPTION: Update the version and description part
+
+2006-11-08  ribatema@BRANDY  <ribatema@brandy>
+
+	* inst/doc/guide.pdf, inst/doc/guide.Rnw:
+	Change the vingnette to be computed more quickly. Thus the pdf has
+	also change
+
+	* man/plot.mcpot.Rd, man/retlev.mcpot.Rd:
+	Update the documentation files
+
+	* inst/doc/guide.Rnw, inst/doc/guide.pdf:
+	Change the vingnette to be computed more quickly. Thus the pdf has
+	also change
+
+	* R/fitMcGPD.R:
+	Change the definition of the likelihood function -->> use directly a C
+	code for first order Markov chains
+
+	* DESCRIPTION: Update the version and description part
+
+2006-11-06  ribatema@BRANDY  <ribatema@brandy>
+
+	* src/header.h: Add entry from mcgpdlik.c file
+
+	* src/mcgpdlik.c: likelihood function for mcpot objects
+
+	* man/diplot.Rd: specify the date is in a numeric format.
+
+	* R/plotMcGPD.R:
+	Modify the return level plot for object of class ``mcpot''
+
+	* demo/00Index: Add the entry for the second demo
+
+2006-11-03  ribatema@BRANDY  <ribatema@brandy>
+
+	* R/simmcpot.R: Simulation of a markov chain from a fitted mcpot object
+
+	* R/plotMcGPD.R: Add a method to plot return level for mcpot objects
+
+	* R/plotGPD.R:
+	Now the function returns invisibly the return level function
+
+	* R/internals.R:
+	Change the way as the threshold is print in the printing method of
+	objects of class uvpot, bvpot and mcpot
+
+	* man/simmcpot.Rd:
+	Simulation of a markov chain from a fitted mcpot object
+
+	* man/retlev.uvpot.Rd:
+	Now the function returns invisibly the return level function
+
+	* man/retlev.mcpot.Rd:
+	Add method to plot return level plots for mcpot objects
+
+	* inst/doc/guide.Rnw, inst/doc/guide.pdf:
+	The Sweave user's guide and the related pdf
+
+	* R/fitBvGPD.R, R/fitGPD.R, R/fitMcGPD.R, man/fitBvGPD.Rd, man/fitMcGPD.Rd:
+	Changing the way users ask for standard errors
+
+	* R/clust.R:
+	Change the computation of the extremal index. There was a bug !!!
+
+2006-10-24  ribatema@BRANDY  <ribatema@brandy>
+
+	* R/plotMcGPD.R: Add a method to plot ``mcpot'' objects
+
+	* R/bvGPD.R:
+	Functions for bivariate GPD distribution function and simulation
+
+	* man/plot.mcpot.Rd: Add a method to plot ``mcpot'' objects
+
+	* man/rbvgpd.Rd:
+	Add doc file for bivariate distribution function and simulation
+
+	* demo/bvPOT.R: Add another demo file for Bivariate POT models
+
+	* R/simmc.R: fix a mistake: replace is.missing by missing
+
+	* R/plotBvGPD.R:
+	Change the eps value in the specdens function for the log case as it
+	produces poor graphics
+
+	* R/anova.R: Exchange the order of the models in the data.frame output
+
+	* src/simmc.c: *** empty log message ***
+
+	* src/simmc.c: Add C code ccbvmix, rbvlog_shi
+
+	* src/header.h:
+	Add C code ccbvmix, rbvlog_shi, rbvalog_shi in the header file
+
+	* src/ccop.c: Add C code ccbvmix
+
+	* man/internals.Rd:
+	Add distribution functions and random generation for the bivariate
+	log, alog, nlog, anlog, mix and amix models.
+
+	* man/gpd2frech.Rd: Add function frech2gpd to the Rd file
+
+	* man/fisherconf.Rd, man/profconf.Rd, man/bvretlev.Rd, man/anova.bvpot.Rd, man/anova.uvpot.Rd, man/clust.Rd, man/dens.uvpot.Rd, man/diplot.Rd, man/evmc.Rd, man/fitBvGPD.Rd, man/fitGPD.Rd, man/fitMcGPD.Rd, man/lmomplot.Rd, man/mrlplot.Rd, man/pickDep.Rd, man/plot.bvpot.Rd, man/plotGPD.Rd, man/pp.uvpot.Rd, man/retPer.Rd, man/retlev.uvpot.Rd, man/samlmu.Rd, man/specdens.Rd, man/tcplot.Rd, man/ts2tsd.Rd:
+	Spell checking Rd files and format then to be cleaner (examples,
+	sections...)
+
+	* R/utils.R: Add function frech2gpd
+
+	* R/plotGPD.R:
+	Replace the ``exceedance'' component of a ``uvpot'' object by
+	``exceed'' to be consistent with ``bvpot'' and ``mcpot'' objects
+
+	Moreover, a little mistake for the point-wise confidence
+	intervals. Fixing it.
+
+	* R/plotBvGPD.R: No changes
+
+	* R/confGPD.R, R/fitGPD.R:
+	Replace the ``exceedance'' component of a ``uvpot'' object by
+	``exceed'' to be consistent with ``bvpot'' and ``mcpot'' objects
+
+2006-10-23  ribatema@BRANDY  <ribatema@brandy>
+
+	* man/plot.bvpot.Rd: Change the doc as methods were implemented
+
+	* man/internals.Rd: Delete function as they were documented
+
+	* man/bvretlev.Rd: Change the doc as methods were implemented
+
+	* inst/doc/guide.tex:
+	Changes the user's guide as methods were implemented
+
+	* R/plotGPD.R: Convert existing functions for method compatibility
+	If npy is missing in ``retlev'' then setting it to 1
+
+	* R/plotBvGPD.R:
+	Add spectral density plot and a method for bivariate return level plot
+
+	* R/anova.R, R/methods.R, R/utils.R, man/anova.bvpot.Rd, man/anova.uvpot.Rd, man/dens.Rd, man/dens.uvpot.Rd, man/gpd2frech.Rd, man/logLik.pot.Rd, man/pp.Rd, man/pp.uvpot.Rd, man/print.bvpot.Rd, man/print.mcpot.Rd, man/print.uvpot.Rd, man/qq.Rd, man/qq.uvpot.Rd, man/retlev.Rd, man/retlev.uvpot.Rd, man/specdens.Rd:
+	Add documentation files .Rd
+	Add method for printing, plotting object of class ``uvpot'', ``bvpot''
+	and ``mcpot''
+	Add anova function to compare nested models
+	Add spectral density plot
+
+2006-10-20  ribatema@BRANDY  <ribatema@brandy>
+
+	* inst/doc/guide.pdf, inst/doc/guide.tex: Update version number
+
+	* man/profconf.Rd: Renames the fitted object i.e. fitted -->> MLE
+
+	* demo/POT.R: replace plotgpd by plot as we implement methods
+
+	* R/plotBvGPD.R: Graphic title correction
+
+	* R/confGPD.R, R/fitGPD.R:
+	Some modifications related to varying threshold
+
+2006-10-19  ribatema@BRANDY  <ribatema@brandy>
+
+	* R/clust.R: add as.integer for compatibility with the .C call
+
+	* src/clust.c:
+	Fix a bug in ``clust.c''. add condition to break the while loop.
+	if (idx >= *n){
+	  idx--;
+	  break;
+	}
+
 2006-10-18  ribatema@BRANDY  <ribatema@brandy>
 
-	* CHANGES: Update this file for the new version
+	* man/fitBvGPD.Rd:
+	Modification du fichier pour correspondre avec son code R dans \usage{...}
 
-	* doc/guide.pdf, doc/guide.tex: Modification du guide de l'utilisateur
+	* inst/ChangeLog: update ChangeLog
+
+	* inst/CHANGES: Update this file for the new version
+
+	* DESCRIPTION: Modification du fichier DESCRIPTION
+
+	* man/ardieres.Rd, man/bvretlev.Rd, man/clust.Rd, man/diplot.Rd, man/fitGPD.Rd, man/internals.Rd, man/lmomplot.Rd, man/mrlplot.Rd, man/plotGPD.Rd, man/retPer.Rd, man/samlmu.Rd, man/tcplot.Rd, man/ts2tsd.Rd:
+	Modification des fichiers de documentation Rd
+
+	* inst/doc/guide.pdf, inst/doc/guide.tex:
+	Modification du guide de l'utilisateur
+
+	* src/ccop.c, src/cgpdlik.c:
+	Sources C pour l'ajustement censuré et les copules
+
+	* man/fitexi.Rd, man/plot.bvpot.Rd:
+	Ajout de la doc Rd pour l'estimation de l'indice extremal selon Ferro
+	and Segers et de la représention graphique pour la classe ``bvpot''
+
+	* R/checkThresh.R, R/clust.R, R/confGPD.R, R/fitGPD.R, R/internals.R, R/plotGPD.R, demo/POT.R:
+	Modification des sources R du à l'implémentation des méthodes
+
+	* src/header.h: Modification du fichier d'en-tête
+
+	* R/fitBvGPD.R, R/plotBvGPD.R, man/fitBvGPD.Rd, man/pickDep.Rd, src/bvgpdlik.c:
+	Fichiers reliés à l'ajustement bivarié d'une GPD
+
+	* R/fitMcGPD.R, R/simmc.R, man/evmc.Rd, man/fitMcGPD.Rd, src/simmc.c:
+	Fichiers reliés aux chaînes de Markov
+
+2006-10-03  ribatema@BRANDY  <ribatema@brandy>
+
+	* R/fitBvGPD.R, R/fitGPD.R, R/internals.R, R/plotBvGPD.R, man/fitBvGPD.Rd, man/fitGPD.Rd, man/internals.Rd, man/pickDep.Rd, man/ts2tsd.Rd, src/bvgpdlik.c, src/header.h:
+	Modifications suite à une nouvelle approche. On ne calcule la
+	logvraisemblance que pour les observations (y1, y2) où l'une des deux
+	composantes dépasse le seuil.
+	Ensuite, au final, on rajoute la ``contribution censurée'' i.e. pour
+	les points tels que y1 <= thresh1 et y2 <= thresh2
+
+2006-10-02  ribatema@BRANDY  <ribatema@brandy>
+
+	* man/fitBvGPD.Rd: Delete link for std.errors function
+
+	* man/pickDep.Rd: The Rd documentation file for pickdep function
+
+	* man/fitBvGPD.Rd:
+	Fix error in the documentation. chi is not an argument but a return
+	component of the function.
+
+	Fix an error in the example section
+
+	* src/bvgpdlik.c: Change to LF endings line
+
+	* man/fitBvGPD.Rd: change \link{\code{ into \code{\link
+
+	* R/fitBvGPD.R: Add PACKAGE = "POT" because one was omitted
+
+	* R/internals.R:
+	pass ``...'' in logLik.pot function for method consistency
+
+	* man/internals.Rd: Titles must be in plain text
+
+	* man/fitBvGPD.Rd: The Rd documentation file for the fitbvgpd function
+
+	* src/bvgpdlik.c: Add #include header.h
+
+	* R/fitBvGPD.R: add PACKAGE = "POT" in .C call.
+
+	* R/fitBvGPD.R:
+	Delete useless stuffs for the bivariate case. That is, std.err.type.
+
+	* man/internals.Rd:
+	Rd documentation file for internal functions and methods.
+
+2006-10-01  ribatema@BRANDY  <ribatema@brandy>
+
+	* R/clust.R: Add ``package = "POT"'' in the .C call.
+	Replacing back NA values.
+
+	* R/checkThresh.R: Change line type in mrlplot function
+
+	* src/header.h: Add an header entry for Bivariate POT models
+
+	* man/profconf.Rd: Change the demo
+
+	* R/fitBvGPD.R, R/internals.R, R/plotBvGPD.R, src/bvgpdlik.c:
+	Add bivariate POT model functions
+
+2006-08-10  ribatema@BRANDY  <ribatema@brandy>
+
+	* src/header.h, src/clust.c:
+	Fix an stupid error, forget to change the header file as clust C
+	function has changed.
+
+	* R/clust.R:
+	Change in clust.c. The function clust has changed. A cluster is now
+	defined by:
+	  1) ``open'' the cluster: first exceedence over the threshold
+	  2) ``end'' the current cluster: the first exceedence over the
+	  threshold which satisfies t_end - t_max > tim.cond, where t_end is
+	  the occurence time of the latter first exceedence and t_max the time
+	  occurence of the maximum within the cluster.
+
+	* src/clust.c:
+	Change in clust.c. The function clust has changed. A cluster is now
+	defined by:
+	  1) ``open'' the cluster: first exceedence over the threshold
+	  2) ``end'' the current cluster: the first exceedence over the
+	  threshold which satisfies t_end - t_max > tim.cond, where t_end is
+	  the occurence time of the latter first exceedence and t_max the time
+	  occurence of the maximum within the cluster.
+
+	A little error: clust --> clust+1
+
+	* src/clust.c:
+	Change in clust.c. The function clust has changed. A cluster is now
+	defined by:
+	  1) ``open'' the cluster: first exceedence over the threshold
+	  2) ``end'' the current cluster: the first exceedence over the
+	  threshold which satisfies t_end - t_max > tim.cond, where t_end is
+	  the occurence time of the latter first exceedence and t_max the time
+	  occurence of the maximum within the cluster.
+
+2006-08-08  ribatema@BRANDY  <ribatema@brandy>
+
+	* man/clust.Rd:
+	Delete the link to the ``cluster'' function of package evd as it warns
+	in package checking.
 
 2006-08-07  ribatema@BRANDY  <ribatema@brandy>
 
-	* CHANGES: Update to the current stable version of the package
+	* inst/CHANGES: Update to the current stable version of the package
 
-	* ChangeLog: *** empty log message ***
+	* inst/ChangeLog, CHANGES, ChangeLog: *** empty log message ***
 
-	* doc/guide.tex: The user's guide in LaTeX
+	* DESCRIPTION: Update the version and date of the package
 
-	* doc/guide.pdf: The user's guide in pdf
+	* inst/doc/guide.tex: The user's guide in LaTeX
 
-	* CHANGES: Move file CHANGES in the inst/ directory
+	* inst/doc/guide.pdf: The user's guide in pdf
+
+	* inst/CHANGES: Move file CHANGES in the inst/ directory
+
+	* R/ts2tsd.R:
+	Fix a stupid bug. Replace data by ts !!! in any(colnames(data) == "obs"...
+
+	* R/ts2tsd.R, R/checkThresh.R:
+	``data'' object must have its columns named ``time'' and ``obs''
+
+	* man/tcplot.Rd, man/mrlplot.Rd, man/lmomplot.Rd, man/diplot.Rd:
+	Changes the man file as tlim has been changed into u.range in function
+	tcplot, mrlplot, lmomplot and diplot.
+
+	* man/clust.Rd: Some spelling corrections
+
+	* demo/POT.R:
+	Changes the demo as tlim has been changed into u.range in function
+	tcplot, mrlplot, lmomplot and diplot.
+
+	* R/plotGPD.R:
+	Change the non parametic estimation of the density in ``dens.gpd'' function
+
+	* R/clust.R: Add an ``idx'' column in the response of function clust.
+	Graphic rectangles are now better defined
+
+	* R/checkThresh.R: Some notation changes: tlim -->> u.range
+	Add data <- sort(data) in function tcplot
 
 2006-08-03  ribatema@BRANDY  <ribatema@brandy>
 

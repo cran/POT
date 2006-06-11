@@ -15,9 +15,9 @@ simmc(n, alpha, model = "log", asCoef, asCoef1, asCoef2, margins =
   \item{n}{Number of observations.}
   \item{alpha}{Dependence parameter for the logistic, asymmetric
     logistic, negative logistic, asymmetric negative logistic, mixed and
-    asymetric mixed models.}
-  \item{asCoef,asCoef1,asCoef2}{The asymetric coefficients for the
-    asymetric logisitc, asymetric negative logistique and asymetric
+    asymmetric mixed models.}
+  \item{asCoef,asCoef1,asCoef2}{The asymmetric coefficients for the
+    asymmetric logistic, asymmetric negative logistic and asymmetric
     mixed models.}
   \item{model}{The specified model; a character string. Must be
     either \code{"log"} (the default), \code{"alog"}, \code{"nlog"},

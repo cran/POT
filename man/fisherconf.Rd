@@ -1,12 +1,13 @@
-\name{Confidence interval}
+\name{Fisher Confidence Interval}
 \alias{gpd.fishape}
 \alias{gpd.fiscale}
 \alias{gpd.firl}
 
-\title{Confidence interval for the GP distribution}
-\description{Compute confidence intervals on parameter and return level
-  for the GP distribution.  This is achieved through asymptotic theory
-  and the Observed information matrix of Fisher.
+\title{Fisher Based Confidence Interval for the GP Distribution}
+\description{Compute Fisher based confidence intervals on parameter and
+  return level for the GP distribution.  This is achieved through
+  asymptotic theory and the Observed information matrix of Fisher and
+  eventually the Delta method.
 }
 
 \usage{

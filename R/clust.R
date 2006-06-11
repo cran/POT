@@ -25,11 +25,12 @@ clust <- function (data, u, tim.cond = 1, clust.max = FALSE, plot = FALSE,
   clust <- matrix(clust[!is.na(clust)], ncol = 2, byrow = TRUE)
   colnames(clust) <- c("start", "end")
 
+  n.clust <- length(clust[, 1])
+  n.excess <- sum(obs > u, na.rm = TRUE)
+  
   ##Replace NA values in ``obs''
   obs[obs == -1e+06] <- NA
   
-  n.clust <- length(clust[, 1])
-  n.excess <- sum( apply(clust, 1, diff) + 1)
   if (clust.max) {
     idx <- NULL
     for (i in 1:n.clust) {

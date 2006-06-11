@@ -17,10 +17,10 @@ tcplot(data, u.range, cmax = FALSE, r = 1,
   \item{u.range}{A numeric vector of length two, giving the limits for the
     thresholds at which the model is fitted.}
   \item{cmax}{Logical; if \code{FALSE} (the default), the models are
-    fitted using all exceedences over the thresholds. If \code{TRUE},
+    fitted using all exceedances over the thresholds. If \code{TRUE},
     the models are fitted using cluster maxima.}
   \item{r, ulow, rlow}{Arguments used for the identification of clusters
-    of exceedences. Ignored if \code{cmax} is \code{FALSE} (the
+    of exceedances. Ignored if \code{cmax} is \code{FALSE} (the
     default).}
   \item{nt}{The number of thresholds at which the model is fitted.}
   \item{which}{If a subset of the plots is required, specify a
@@ -33,7 +33,7 @@ tcplot(data, u.range, cmax = FALSE, r = 1,
   \item{type}{The form taken by the line connecting the parameter
     estimates and the points denoting these estimates. Possible
     values include \code{"b"} (the default) for points joined by
-    lines, \code{"o"} for overplotted points and lines, and
+    lines, \code{"o"} for over plotted points and lines, and
     \code{"l"} for an unbroken line with no points.}
   \item{cilty}{The line type of the lines depicting the
     confidence intervals.}
@@ -67,6 +67,7 @@ tcplot(data, u.range, cmax = FALSE, r = 1,
 data(ardieres)
 ardieres <- clust(ardieres, 4, 10 / 365, clust.max = TRUE)
 flows <- ardieres[, "obs"]
+par(mfrow=c(1,2))
 tcplot(flows, u.range = c(0, 15) )
 }
 \keyword{hplot}

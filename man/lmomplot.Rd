@@ -1,4 +1,4 @@
-\name{Threshold Selection}
+\name{lmomplot}
 \alias{lmomplot}
 \title{Threshold Selection: The L-moments Plot}
 \description{

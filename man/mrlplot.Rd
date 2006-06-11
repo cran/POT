@@ -1,4 +1,4 @@
-\name{Threshold Selection}
+\name{mrlplot}
 \alias{mrlplot}
 \title{Threshold Selection: The Empirical Mean Residual Life Plot}
 \description{
@@ -6,7 +6,7 @@
 }
 \usage{
 mrlplot(data, u.range, main, xlab, ylab, nt = max(100, length(data)),
-lty = c(3, 1, 3), col = c('grey', 'black', 'grey'), conf = 0.95, lwd = c(1,
+lty = rep(1,3), col = c('grey', 'black', 'grey'), conf = 0.95, lwd = c(1,
 1.5, 1), \dots) 
 }
 \arguments{

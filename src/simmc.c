@@ -1,6 +1,51 @@
 #include "header.h"
 
-/* produces uniform margins; needed for evmc */
+/* produces standard Frechet margins */
+void rbvlog_shi(int *n, double *alpha, double *sim)
+{
+  double u,z;
+  int i;
+  
+  RANDIN;
+  for(i=0;i<*n;i++) 
+  { 
+    u = UNIF;
+    if(UNIF < *alpha) z = EXP+EXP;
+    else z = EXP;
+    sim[2*i] = 1/(z * R_pow(u,*alpha));
+    sim[2*i+1] = 1/(z * R_pow(1-u,*alpha));
+  }
+  RANDOUT;
+}
+
+/* produces standard Frechet margins */
+void rbvalog_shi(int *n, double *alpha, double *asy, double *sim)
+{
+  double v1_1,v2_2,v1_12,v2_12,u,z;
+  int i;
+    
+  RANDIN;
+
+  if(*alpha == 1)
+    for(i=0;i<2*(*n);i++) sim[i] = 1/EXP;
+  else {
+    for(i=0;i<*n;i++) 
+    {
+      v1_1 = (1-asy[0]) / EXP;
+      v2_2 = (1-asy[1]) / EXP;
+      u = UNIF;
+      if(UNIF < *alpha) z = EXP+EXP;
+      else z = EXP;
+      v1_12 = asy[0] / (z * R_pow(u,*alpha));
+      v2_12 = asy[1] / (z * R_pow(1-u,*alpha));
+      sim[2*i] = fmax2(v1_1,v1_12); 
+      sim[2*i+1] = fmax2(v2_2,v2_12);
+    }
+  }
+  RANDOUT;
+}
+
+/* produces uniform margins; needed for simmc */
 void rbvlog(int *n, double *dep, double *sim)
 {
   double delta,eps,llim,midpt,ulim,ilen,lval,midval,uval;
@@ -37,7 +82,7 @@ void rbvlog(int *n, double *dep, double *sim)
   }
 }
 
-/* produces uniform margins; needed for evmc */
+/* produces uniform margins; needed for simmc */
 void rbvalog(int *n, double *dep, double *asy, double *sim)
 {
   double delta,eps,llim,midpt,ulim,ilen,lval,midval,uval;
@@ -148,6 +193,44 @@ void rbvanlog(int *n, double *dep, double *asy, double *sim)
   }
 }
 
+
+
+/* produces uniform margins */
+void rbvmix(int *n, double *alpha, double *sim)
+{
+  double delta,eps,llim,midpt,ulim,ilen,lval,midval,uval;
+  int i,j;
+
+  for(i=0;i<*n;i++) 
+  {
+    delta = eps = llim = R_pow(DOUBLE_EPS, 0.5);
+    ulim = 1 - llim;
+    ilen = 1;
+    midpt = 0.5;
+    lval = ccbvmix(llim, sim[2*i+1], sim[2*i+0], *alpha);
+    uval = ccbvmix(ulim, sim[2*i+1], sim[2*i+0], *alpha);
+    if(!(sign(lval) != sign(uval))) 
+      error("values at end points are not of opposite sign");
+    for(j=0;j<DOUBLE_DIGITS;j++) {
+      ilen = ilen/2;
+      midpt = llim + ilen;
+      midval = ccbvmix(midpt, sim[2*i+1], sim[2*i+0], *alpha);
+      if(fabs(midval) < eps || fabs(ilen) < delta) 
+        break;
+      if(sign(lval) != sign(midval)) {
+        ulim = midpt;
+        uval = midval;
+      }
+      else {
+        llim = midpt;
+        lval = midval;
+      }
+      if(j == DOUBLE_DIGITS-1) 
+        error("numerical problem in root finding algorithm");
+    }
+    sim[2*i+0] = midpt;
+  }
+}
 /* produces uniform margins */
 void rbvamix(int *n, double *alpha, double *beta, double *sim)
 {
@@ -184,5 +267,3 @@ void rbvamix(int *n, double *alpha, double *beta, double *sim)
     sim[2*i+0] = midpt;
   }
 }
-
-

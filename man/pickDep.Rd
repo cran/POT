@@ -2,7 +2,7 @@
 \alias{pickdep}
 \title{The Pickands' Dependence Function}
 \description{
-  Return and optionnaly plot the Pickands' dependence function.
+  Return and optionally plot the Pickands' dependence function.
 }
 \usage{
 pickdep(fitted, main, bound = TRUE, plot = TRUE, \dots)

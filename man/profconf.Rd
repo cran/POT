@@ -1,18 +1,18 @@
-\name{Confidence interval}
+\name{Profiled Confidence Intervals}
 \alias{gpd.pfshape}
 \alias{gpd.pfscale}
 \alias{gpd.pfrl}
 
-\title{Confidence interval for the GP distribution}
-\description{Compute confidence intervals on parameter and return level
-  for the GP distribution.  This is achieved through the profile
-  likelihood procedure.
+\title{Profiled Confidence interval for the GP Distribution}
+\description{Compute profiled confidence intervals on parameter and
+  return level for the GP distribution.  This is achieved through the
+  profile likelihood procedure.
 }
 
 \usage{
 gpd.pfshape(fitted, range, xlab, ylab, conf = 0.95, nrang = 100,
 vert.lines = TRUE, \dots)
-gpd.pfscape(fitted, range, xlab, ylab, conf = 0.95, nrang = 100,
+gpd.pfscale(fitted, range, xlab, ylab, conf = 0.95, nrang = 100,
 vert.lines = TRUE, \dots)
 gpd.pfrl(fitted, prob, range, thresh, xlab, ylab, conf = 0.95, nrang =
 100, vert.lines = TRUE, \dots)

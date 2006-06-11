@@ -59,6 +59,21 @@ double ccbvanlog(double m1, double m2, double oldm1, double dep,
   return fval;
 }
 
+double ccbvmix(double m1, double m2, double oldm1, double alpha)
+{
+  double tm1,tm2,tm1a,v,v2,fval;
+
+  tm1 = -log(m1);
+  tm2 = -log(m2);
+  tm1a = tm1/(tm1 + tm2);
+
+  v = tm1 + tm2 - tm1 * alpha * (1 - tm1a);
+  v2 = 1 - alpha * tm1a * tm1a; 
+  fval = exp(-v) * (1 / m2) * v2 - oldm1;
+
+  return fval;
+}
+
 double ccbvamix(double m1, double m2, double oldm1, double alpha, double beta)
 {
   double tm1,tm2,tm1a,v,v2,fval;
