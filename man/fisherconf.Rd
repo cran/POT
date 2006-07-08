@@ -27,7 +27,8 @@ gpd.firl(fitted, prob, conf = 0.95)
 \author{Mathieu Ribatet}
 \examples{
 data(ardieres)
-fitted <- fitgpd(ardieres[,"flows"], 5, 'mle')
+ardieres <- clust(ardieres, 4, 10 / 365, clust.max = TRUE)
+fitted <- fitgpd(ardieres[,"obs"], 5, 'mle')
 gpd.fishape(fitted)
 gpd.fiscale(fitted)
 }

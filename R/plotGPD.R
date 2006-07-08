@@ -151,8 +151,13 @@ dens.gpd <- function(fitted, main, xlab, ylab,
   
   plot(dens, from = loc + eps, to = 1.25 * max(data), main = main,
        xlab = xlab, ylab = ylab, ...)
-  lines(density(data, adj=dens.adj, from = loc + eps,
-                to = 1.25 * max(data)), lty = kern.lty )
+
+  ##A non parametric estimate of the density from Alec Stephenson's code
+  flipexceed <- c(data, 2*loc - data)
+  flip.density <- density(flipexceed, adj=dens.adj, from = loc + eps,
+                to = 1.25 * max(data))
+  flip.density$y <- 2 * flip.density$y
+  lines(flip.density, lty = kern.lty)
 
   if (rug) rug(data)
 }

@@ -1,14 +1,4 @@
-#include <R.h>
-#include <Rmath.h>
-
-#define RANDIN GetRNGstate()
-#define RANDOUT PutRNGstate()
-#define UNIF unif_rand()
-#define EXP exp_rand()
-
-void gpdlik(double *data, int *n, double *loc, double *scale,
-	    double *shape, double *dns);
-void samlmu(double *x, int *nmom, int *n, double *lmom);
+#include "header.h"
 
 void gpdlik(double *data, int *n, double *loc, double *scale,
 	    double *shape, double *dns)

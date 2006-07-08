@@ -30,7 +30,8 @@
 }
 \examples{
 data(ardieres)
-fitted <- fitgpd(ardieres[, "flows"], 6, 'mle')
+ardieres <- clust(ardieres, 4, 10 / 365, clust.max = TRUE)
+fitted <- fitgpd(ardieres[, "obs"], 6, 'mle')
 npy <- fitted$nhigh / 33.4 ##33.4 is total record length (in year)
 plotgpd(fitted, npy = npy)
 }

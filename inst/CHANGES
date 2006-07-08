@@ -1,3 +1,10 @@
+Version 0.0-7:
+  - Add a function ``clust'' for identify clusters of extreme
+  - Add a function ``ts2tsd'' for a mobile average window in a time
+    serie
+  - Add a user's guide
+  - Some minor changes in functions mrlplot, lmomplot, diplot, tcplot
+
 Version 0.0-6:
   - Fix a bug in ``gpdmle'' while passing to option obs.fish = FALSE
   - Add Medians estimator to fitgpd.

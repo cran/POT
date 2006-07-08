@@ -6,11 +6,11 @@
   thresholds for peaks over threshold modelling, using the Generalized
   Pareto parametrization.}
 \usage{
-lmomplot(data, tlim, identify = TRUE, \dots)
+lmomplot(data, u.range, identify = TRUE, \dots)
 }
 \arguments{
   \item{data}{A numeric vector.}
-  \item{tlim}{A numeric vector of length two, giving the limits for
+  \item{u.range}{A numeric vector of length two, giving the limits for
     the thresholds at which the model is fitted.}
   \item{identify}{Logical. If \code{TRUE}, points on the plot are
     identify using \code{\link{identify}} function.}
@@ -42,7 +42,8 @@ lmomplot(data, tlim, identify = TRUE, \dots)
 }
 \examples{
 data(ardieres)
-flows <- ardieres[, "flows"]
+ardieres <- clust(ardieres, 4, 10 / 365, clust.max = TRUE)
+flows <- ardieres[, "obs"]
 lmomplot(flows, identify = FALSE)
 }
 \author{Mathieu Ribatet}

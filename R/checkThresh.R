@@ -2,11 +2,17 @@
 ## for which the asymptotical approximation of Peaks Over a
 ## Threshold by a GP distribution is quite good.
 
-diplot <- function(data, tlim, main, xlab, ylab,
+diplot <- function(data, u.range, main, xlab, ylab,
                    conf=0.95,...){
 
-  date <- data[,1]
-  samp <- data[,2]
+  if ( !any(colnames(data) == "obs") )
+    stop("``data'' should have a column named ``obs''...")
+
+  if ( !any(colnames(data) == "time") )
+    stop("``data'' should have a column named ``time''...")
+    
+  date <- data[,"time"]
+  samp <- data[,"obs"]
                                        
   if (length(samp)<5){
     stop('Not enougth data for a Dispersion Index Plot')
@@ -16,9 +22,9 @@ diplot <- function(data, tlim, main, xlab, ylab,
   
   M <- diff( range( date ) )
 
-  if (missing(tlim)) tlim <- c(min(samp),max(samp[-(1:4)]))
+  if (missing(u.range)) u.range <- c(min(samp),max(samp[-(1:4)]))
 
-  thresh <- seq(tlim[1],tlim[2],
+  thresh <- seq(u.range[1],u.range[2],
                 length=max(200,length(samp)))
 
   temp <- list()
@@ -54,13 +60,13 @@ diplot <- function(data, tlim, main, xlab, ylab,
   
   plot(c(thresh,thresh[1]), c(DI, conf_sup), xlab=xlab, ylab=ylab,
        type='n', main = main, ...)
-  rect(0, conf_inf, 2*tlim[2], conf_sup, col= 'lightgrey', border = FALSE)
+  rect(0, conf_inf, 2*u.range[2], conf_sup, col= 'lightgrey', border = FALSE)
   lines(thresh, DI)
   return(invisible(list(thresh=thresh,DI=DI)))
 
 }
 
-mrlplot <- function(data, tlim, main, xlab, ylab,
+mrlplot <- function(data, u.range, main, xlab, ylab,
                     nt = max(100, length(data)),
                     lty = c(3, 1, 3), col = c('grey','black','grey'),
                     conf = 0.95, lwd = c(1, 1.5, 1),...){
@@ -71,17 +77,17 @@ mrlplot <- function(data, tlim, main, xlab, ylab,
   if (n <= 5) 
     stop("`data' has too few non-missing values")
   
-  if (missing(tlim)) {
+  if (missing(u.range)) {
     
-    tlim <- c(data[1], data[n - 4])
-    tlim <- tlim - .Machine$double.eps^0.5
+    u.range <- c(data[1], data[n - 4])
+    u.range <- u.range - .Machine$double.eps^0.5
     
   }
   
-  if (all(data <= tlim[2])) 
+  if (all(data <= u.range[2])) 
     stop("upper limit for threshold is too high")
   
-  u <- seq(tlim[1], tlim[2], length = nt)
+  u <- seq(u.range[1], u.range[2], length = nt)
   x <- matrix(NA, nrow = nt, ncol = 3,
               dimnames = list(NULL,c("lower", "mrl", "upper")))
   
@@ -106,21 +112,22 @@ mrlplot <- function(data, tlim, main, xlab, ylab,
 
 }
 
-tcplot <- function (data, tlim, cmax = FALSE, r = 1, 
+tcplot <- function (data, u.range, cmax = FALSE, r = 1, 
     ulow = -Inf, rlow = 1, nt = 25, which = 1:npar, conf = 0.95, 
     lty = 1, lwd = 1, type = "b", cilty = 1, ask = nb.fig < length(which) && 
         dev.interactive(), ...){
 
   n <- length(data)
+  data <- sort(data)
   
-  if (missing(tlim)) {
+  if (missing(u.range)) {
     
-    tlim <- c(data[1], data[n - 4])
-    tlim <- tlim - .Machine$double.eps^0.5
+    u.range <- c(data[1], data[n - 4])
+    u.range <- u.range - .Machine$double.eps^0.5
     
   }
   
-  u <- seq(tlim[1], tlim[2], length = nt)
+  u <- seq(u.range[1], u.range[2], length = nt)
   locs <- scls <- shps <- matrix(NA, nrow = nt, ncol = 3)
   dimnames(locs) <- list(round(u, 2), c("lower", "loc", "upper"))
   dimnames(shps) <- list(round(u, 2), c("lower", "shape", "upper"))
@@ -189,7 +196,7 @@ tcplot <- function (data, tlim, cmax = FALSE, r = 1,
 }
 
 
-lmomplot <- function(data, tlim, identify = TRUE, ...){
+lmomplot <- function(data, u.range, identify = TRUE, ...){
 
   data <- sort(as.numeric(data))
 
@@ -200,19 +207,19 @@ lmomplot <- function(data, tlim, identify = TRUE, ...){
  for the threshold is too high')
   }
   
-  if (missing(tlim)) {
+  if (missing(u.range)) {
     
-    tlim <- c(data[1], data[n - 4])
-    tlim <- tlim - .Machine$double.eps^0.5
+    u.range <- c(data[1], data[n - 4])
+    u.range <- u.range - .Machine$double.eps^0.5
     
   }
 
-  data <- data[ data > tlim[1] ]
+  data <- data[ data > u.range[1] ]
   
-  if (all(data <= tlim[2])) 
+  if (all(data <= u.range[2])) 
     stop("upper limit for threshold is too high")
   
-  thresh <- seq(tlim[1],tlim[2],
+  thresh <- seq(u.range[1],u.range[2],
                 length=max(50,length(data)))
 
   point <- NULL

@@ -1,0 +1,121 @@
+2006-08-03  ribatema@BRANDY  <ribatema@brandy>
+
+	* CHANGES:
+	Rename ChangeLog to CHANGES as CVS can create a ChangeLog file.
+
+	* man/ts2tsd.Rd: The man file for function ts2tsd
+
+	* R/ts2tsd.R: Add function ts2tsd in package POT
+
+	* src/ts2tsd.c: The C code for the function ts2tsd
+
+	* src/header.h, src/clust.c, src/POT.c:
+	Now we use a header file ``header.h''
+
+	* man/ardieres.Rd: Change the example: pass option type = "l" in plot.
+
+	* data/ardieres.txt: Change the data ardiere: add NA for the gap
+
+2006-07-31  ribatema@BRANDY  <ribatema@brandy>
+
+	* R/clust.R, man/clust.Rd, man/diplot.Rd, man/fisherconf.Rd, man/lmomplot.Rd, man/mrlplot.Rd, man/plotGPD.Rd, man/profconf.Rd, man/tcplot.Rd:
+	Updates for examples in the documentation
+
+	* src/clust.c: C code for the clust function
+
+	* R/clust.R, demo/POT.R:
+	Some changes for compatibility for the new dataset ardieres. And
+	changes for the clust function.
+
+	* demo/POT.R:
+	Correct a bug in the demo file as the the data ``ardieres'' has
+	changed.
+
+	* man/clust.Rd: Correct a bug in the documentation file clust.Rd
+
+	* man/exiplot.Rd: Documentation of the exiplot function
+
+	* R/clust.R, demo/POT.R:
+	New function ``clust'' to indentify clusters of extreme values. Thus,
+	the demo of the package has also changed.
+
+2006-07-18  ribatema@BRANDY  <ribatema@brandy>
+
+	* R/clust.R, man/clust.Rd:
+	Ajout de la fonction clsutts dans le package POT
+
+	* man/ardieres.Rd, data/ardieres.txt:
+	la donnée ``ardières'' correspond maintenant à la chronique toute
+	entière.
+	Ainsi, on peut faire une application de la nouvelle fonction ``clustts''
+
+2006-06-27  ribatema@BRANDY  <ribatema@brandy>
+
+	* R/fitGPD.R:
+	Correction d'un bug dans ``gpdmle'' : on remplace corr par corr.mat
+
+2006-06-20  ribatema@BRANDY  <ribatema@brandy>
+
+	* src/POTBeta.dll: suppression de POTBeta.dll dans la gestion de projet
+
+	* R/gpd.obre.R: Suppression de gpd.obre.R dans le projet
+
+	* ChangeLog: add ``fix a bug in gpdmle ...''
+
+2006-06-19  ribatema@BRANDY  <ribatema@brandy>
+
+	* R/fitGPD.R:
+	Fix a bug in gpdmle: error while passing to obs.fish <- FALSE
+
+2006-06-12  ribatema@BRANDY  <ribatema@brandy>
+
+	* ChangeLog: Add medians estimator
+
+	* R/zzz.R: POTBeta -> POT
+
+	* man/fitGPD.Rd: Update doc for method = 'med'
+
+	* DESCRIPTION: Numéro de version
+
+	* DESCRIPTION: *** empty log message ***
+
+	* R/fitGPD.R, R/confGPD.R: POTBeta -> POT
+
+	* man/profconf.Rd:
+	Update doc for gpd.pfrl: replace ``retper'' and ``mu'' by ``prob''
+
+2006-06-07  ribatema@BRANDY  <ribatema@brandy>
+
+	* man/fitGPD.Rd: Updating reference in fitGPD.Rd
+
+	* man/fitGPD.Rd:
+	Update fitGPD.Rd for method 'med', changing also example.
+
+	* R/fitGPD.R: Fix an error for hybrid estimate of method ``pwmb''.
+
+	* src/POT.d, src/POTBeta_res.rc, src/Makedeps:
+	*** empty log message ***
+
+	* R/fitGPD.R:
+	In ``gpdmed'' fix an stupid error: object ``x'' was not defined as an
+	argument of the fucntion !!!
+
+2006-06-06  ribatema@BRANDY  <ribatema@brandy>
+
+	* R/gpd.obre.R:
+	1) Création fonction ``score.gpd'' qui calcule le score pour la GPD
+
+	2) Création fonction ``fish.gpd'' qui calcule l'information de Fisher
+	   pour la GPD
+
+	3) fonction ``gpdobre'' arrêtée jusqu'au point iter.obre de Juarez
+
+	* R/checkThresh.R, R/confGPD.R, R/fitGPD.R, R/gpd.obre.R, R/plotGPD.R, R/simGPD.R, R/zzz.R, demo/POT.R, man/ardieres.Rd, man/diplot.Rd, man/fisherconf.Rd, man/fitGPD.Rd, man/lmomplot.Rd, man/mrlplot.Rd, man/plotGPD.Rd, man/profconf.Rd, man/retPer.Rd, man/samlmu.Rd, man/simGPD.Rd, man/tcplot.Rd, src/Makedeps, src/POT.c, src/POT.d, src/POTBeta.dll, src/POTBeta_res.rc:
+
+	* R/checkThresh.R, R/confGPD.R, R/fitGPD.R, R/gpd.obre.R, R/plotGPD.R, R/simGPD.R, R/zzz.R, demo/POT.R, man/ardieres.Rd, man/diplot.Rd, man/fisherconf.Rd, man/fitGPD.Rd, man/lmomplot.Rd, man/mrlplot.Rd, man/plotGPD.Rd, man/profconf.Rd, man/retPer.Rd, man/samlmu.Rd, man/simGPD.Rd, man/tcplot.Rd, src/Makedeps, src/POT.c, src/POT.d, src/POTBeta.dll, src/POTBeta_res.rc:
+	New file.
+
+	* ChangeLog, DESCRIPTION, data/ardieres.txt, demo/00Index:
+
+	* ChangeLog, DESCRIPTION, data/ardieres.txt, demo/00Index: New file.
+

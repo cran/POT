@@ -7,14 +7,14 @@
   Process representation. 
 }
 \usage{
-tcplot(data, tlim, cmax = FALSE, r = 1,
+tcplot(data, u.range, cmax = FALSE, r = 1,
     ulow = -Inf, rlow = 1, nt = 25, which = 1:npar, conf = 0.95,
     lty = 1, lwd = 1, type = "b", cilty = 1, ask = nb.fig <
     length(which) && dev.interactive(), \dots)
 }
 \arguments{
   \item{data}{A numeric vector.}
-  \item{tlim}{A numeric vector of length two, giving the limits for the
+  \item{u.range}{A numeric vector of length two, giving the limits for the
     thresholds at which the model is fitted.}
   \item{cmax}{Logical; if \code{FALSE} (the default), the models are
     fitted using all exceedences over the thresholds. If \code{TRUE},
@@ -65,7 +65,8 @@ tcplot(data, tlim, cmax = FALSE, r = 1,
 }
 \examples{
 data(ardieres)
-flows <- ardieres[, "flows"]
-tcplot(flows, tlim = c(0, 15) )
+ardieres <- clust(ardieres, 4, 10 / 365, clust.max = TRUE)
+flows <- ardieres[, "obs"]
+tcplot(flows, u.range = c(0, 15) )
 }
 \keyword{hplot}

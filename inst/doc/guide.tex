@@ -1,0 +1,886 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{t1enc}
+\usepackage[latin1]{inputenc}
+\usepackage[english]{babel}
+\usepackage[dvips]{hyperref}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{float}
+
+\usepackage[round]{natbib}
+\bibliographystyle{jrss}
+
+\pagestyle{plain}
+\setlength{\parindent}{0in}
+\setlength{\parskip}{1.5ex plus 0.5ex minus 0.5ex}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\topmargin}{-0.5in}
+\setlength{\textwidth}{6.3in}
+\setlength{\textheight}{9.8in}
+
+\numberwithin{equation}{section}
+\newcommand\email{\begingroup \urlstyle{rm}\Url}
+
+\begin{document}
+
+\begin{center}
+  \LARGE 
+  A User's Guide to the POT Package (Version 1.0) \\
+  \Large
+  \vspace{0.2cm}
+  Mathieu Ribatet \\
+  \normalsize
+  Copyright \copyright 2006 \\
+  \vspace{0.2cm}
+  Department of Hydrological Statistic, INRS,\\
+  University of Qu\'ebec, 490 de la Couronne, G1K 9A9 Canada\\
+  \vspace{0.2cm}
+  Cemagref UR HH, 3bis quai Chauveau\\ 69336 Lyon Cedex
+  09 France\\ 
+  \vspace{0.2cm}
+  E-mail: \email{ribatet@hotmail.com} \\
+  7th August 2006 
+\end{center}
+
+\section{Introduction}
+\label{sec:intro}
+
+\subsection{Why the POT package?}
+\label{subsec:why}
+
+The \textbf{POT} package is an add-on package for the R statistical
+software~\citep{Rsoft}. The main goal of this package is to develop
+tools to perform stastical analyses of Peaks Over a Threshold
+(\textbf{POT}).
+
+Most of functions are related to the Extreme Value Theory
+(\textbf{EVT}). \citet{Coles2001} gives a comprehensive introduction
+to the EVT, while~\citet{Kluppelberg1997} present advanced results.
+
+\subsection{Obtaining the package/guide}
+
+The package can be downloaded from CRAN (The Comprehensive R Archive
+Network) at \url{http://cran.r-project.org/}.  This guide (in pdf)
+will be in the directory \verb+POT/doc/+ underneath wherever the
+package is installed.
+
+\subsection{Contents}
+\label{subsec:contents}
+
+To help users to use properly the \textbf{POT} package, this guide
+contains practical examples on the use of this
+package. Section~\ref{sec:introEVT} introduce quickly the Extreme
+Value Theory (\textbf{EVT}). Some basic examples are described in
+section~\ref{sec:BasicUse}, while section~\ref{sec:concAn} gives a
+concrete statistical analysis of extreme value for river Adie\'eres at
+Beaujeu (FRANCE).
+
+\subsection{Citing the package/guide}
+
+To cite this guide or the package in publications please use the
+following bibliographic database entry.
+\begin{verbatim}
+@Manual{key,
+  title = {A User's Guide to the POT Package (Version 1.0)},
+  author = {Ribatet, M. A.},
+  year = {2006},
+  month = {August},
+  url = {http://cran.r-project.org/}
+}
+\end{verbatim}
+
+\subsection{Caveat}
+
+I have checked these functions as best I can but, as ever, they may
+contain bugs.  If you find a bug or suspected bug in the code or the
+documentation please report it to me at \verb+ribatet@hotmail.com+.
+Please include an appropriate subject line.
+
+\subsection{Legalese}
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+without any warranty; without even the implied warranty of
+merchantability or fitness for a particular purpose.  See the GNU
+General Public License for more details.
+
+A copy of the GNU General Public License can be obtained from
+\url{http://www.gnu.org/copyleft/gpl.html}.  You can also obtain it by
+writing to the Free Software Foundation, Inc., 59 Temple Place --
+Suite 330, Boston, MA 02111-1307, USA.
+
+\section{An Introduction the EVT}
+\label{sec:introEVT}
+
+Even if this package is only related to peaks over a threshold, a
+classical introduction to the EVT must deal with ``block maxima''. Let
+$X_1,\ldots,X_n$ be a series of independent and identically distributed
+random variables with commom distribution function $F$. Let $M_n =
+\max(X_1,\ldots,X_n)$.
+
+Suppose there exists normalizing constants $a_n>0$ and $b_n$ such
+that:
+\begin{equation}
+  \label{eq:convMax}
+  \Pr\left[\frac{M_n - b_n}{a_n} \leq y \right] = F^n(a_ny+b_n)
+  \longrightarrow G(y), \qquad n \rightarrow +\infty
+\end{equation}
+for all $y \in \mathbb{R}$, where $G$ is a non-degenerate distribution
+function. According to the Extremal Types Theorem~\citep{Fisher1928},
+$G$ must be either Fr\'echet, Gumbel or negative
+Weibull. \citet{Jenkinson1955} noted that these three distributions can
+be merged into a single parametric family: the Generalized Extreme
+Value (\textbf{GEV}) distribution. The GEV has a distribution function
+defined by:
+\begin{equation}
+  \label{eq:GEV}
+  G(y) = \exp\left[ -\left( 1 + \xi \frac{y-\mu}{\sigma} \right)_+^{-1/\xi} \right], 
+\end{equation}
+where $(\mu,\sigma,\xi)$ are the location, scale and shape parameters
+respectively, $\sigma>0$ and $z_+=\max(z,0)$.
+
+The Fr\'echet case is obtained when $\xi>0$, the negative Weibull when
+$\xi<0$ while the Gumbel case is defined by continuity when
+$\xi\rightarrow0$.
+
+From this result, \citet{Pickands1975} showed that the limiting
+distribution of normalized excesses of a threshold $\mu$ as the
+threshold approaches the endpoint $\mu_\mathrm{end}$ of the variable
+of interest is the Generalized Pareto Distribution
+(\textbf{GPD}). That is, if $X$ is a random variable which
+holds~\eqref{eq:convMax}, then:
+\begin{equation}
+  \label{eq:convExcess}
+  \Pr\left[X \leq y | X > \mu \right] \longrightarrow H(y), \qquad \mu
+    \rightarrow \mu_\mathrm{end}
+\end{equation}
+with
+\begin{equation}
+  \label{eq:GPD}
+  H(y) = 1 - \left(1 + \xi\frac{y-\mu}{\sigma}\right)_+^{-1/\xi},
+\end{equation}
+where $(\mu,\sigma,\xi)$ are the location, scale and shape parameters
+respectively, $\sigma>0$ and $z_+=\max(z,0)$. Note that the
+Exponential distribution is obtained by continuity as $\xi \rightarrow
+0$.
+
+In practice, these two asymptotical results motivated modelling block
+maxima with a GEV, while peaks over threshold with a GPD.
+
+\section{Basic Use}
+\label{sec:BasicUse}
+
+\subsection{Random Numbers and Distribution Functions}
+\label{subsec:randDist}
+
+First of all, lets start with basic stuffs. The \textbf{POT} package
+uses the R convention for random numbers generation and distribution
+function features. 
+\begin{verbatim}
+> ##Random number generation
+> rgpd(5, loc = 1, scale = 2, shape = -0.2)
+[1] 4.672547 2.365295 1.899087 1.577886 2.409450
+> ##Varying threshold can be performed also
+> rgpd(6, c(1, -5), 2, -0.2)
+[1]  2.424368 -3.389774  3.965086 -3.332016  4.707819 -4.985408
+> ##The same but with a varying scale parameter
+> rgpd(6, 0, c(2, 3), 0)
+[1] 2.9850740 3.1486256 1.0705649 0.7401753 3.1231517 2.3994109
+> ##Probability of non exceedence
+> pgpd(c(9, 15, 20), 1, 2, 0.25)
+[1] 0.9375000 0.9825149 0.9922927
+> ##Quantile associated to probability of non exceedence
+> qgpd(c(.25, .5, .75), 1, 2, 0)
+[1] 1.575364 2.386294 3.772589
+> ##Evaluate the density at point...
+> dgpd(c(9, 15, 20), 1, 2, 0.25)
+[1] 0.015625000 0.003179117 0.001141829
+\end{verbatim}
+Several options can be passed to three of these four functions. In
+particular:
+\begin{itemize}
+\item for ``pgpd'', user can specify if non exceedence or exceedence
+  probability should be computed with option \verb+lower.tail = TRUE+
+  or  \verb+lower.tail = FALSE+ respectively;
+\item for ``qgpd'', user can specify if quantile is related to non
+  exceedence or exceedence probability with option
+  \verb+lower.tail = TRUE+ or \verb+lower.tail = FALSE+ respectively;
+\item for ``dgpd'', user can specify if the density or the log-density
+  should be computed with option \verb+log = FALSE+ or
+  \verb+log = TRUE+ respectively.
+\end{itemize}
+
+\subsection{Threshold Selection}
+\label{subsec:threshSelect}
+
+The location for the GPD or equivalently the threshold is a particular
+parameter as must often it is not estimated as the other ones. All
+methods to define a suitable threshold use the asymptotic
+approximation defined by equation~\eqref{eq:convExcess}. In other
+words, we select a threshold for which the asymptotic distribution $H$
+in equation~\eqref{eq:GPD} is a good approximation.
+
+The \textbf{POT} package has several tools to define a reasonable
+threshold. For this purpose, the user must use
+\verb+tcplot, mrlplot, lmomplot, exiplot+ and \verb+diplot+ functions.
+
+The main goal of threshold selection is to selects enough events to
+reduce the variance; but not too much as we could select events coming
+from the central part of the distribution\footnote{i.e. not extreme
+  events.} and induce bias.
+
+\subsubsection{Threshold Choice plot:  \emph{tcplot}}
+\label{subsubsection:tcplot}
+
+Let $X \sim GP(\mu_0, \sigma_0, \xi_0)$. Let $\mu_1$ be a another
+threshold as $\mu_1 > \mu_0$. The random variable $X | X > \mu_1$ is
+also GPD with updated parameters $\sigma_1 = \sigma_0 + \xi_0 ( \mu_1
+- \mu_0)$ and $\xi_1 = \xi_0$.
+Let
+\begin{equation}
+  \label{eq:reparamScale}
+  \sigma_* = \sigma_1 - \xi_1 \mu_1
+\end{equation}
+With this new parametrization, $\sigma_*$ is independent of
+$\mu_1$. Thus, estimates of $\sigma_*$ and $\xi_1$ are constant for
+all $\mu_1 > \mu_0$ if $\mu_0$ is a suitable threshold for the
+asymptotic approximation.
+
+Threshold choice plots represent the points defined by:
+\begin{equation}
+  \label{eq:tcplot}
+  \left\{\left(\mu_1, \sigma_*\right) : \mu_1 \leq x_\mathrm{max}
+  \right\} \quad \text{and} \quad \left\{\left(\mu_1, \xi_1\right) :
+    \mu_1 \leq x_\mathrm{max} \right\}
+\end{equation}
+where $x_\mathrm{max}$ is the maximum of the observations
+$\mathbf{x}$.
+
+Moreover, confidence intervals can be computed using Fisher
+information. 
+
+Here is an application.
+\begin{verbatim}
+> x <- runif(10000)
+> par(mfrow=c(1,2))
+> tcplot(x, u.range = c(0.9, 0.995))
+\end{verbatim}
+Results of the \verb+tcplot+ function is displayed in
+Figure~\ref{fig:tcplot}. We can see clearly that a threshold around
+0.98 is a reasonable choice. However, in practice decision are not so
+clear-cut as for this synthetic example.
+\begin{figure}
+  \centering
+  \includegraphics[angle=-90,width=1\textwidth]{tcplot}
+  \caption{Threshold Choice plot on synthetic data}
+  \label{fig:tcplot}
+\end{figure}
+
+\subsubsection{Mean Residual Life Plot: \emph{mrlplot}}
+
+The \textbf{mean residual life plot} is based on the theoretical mean
+of the GPD. Let $X$ be a \textit{r.v.} distributed as $GPD(\mu,
+\sigma, \xi)$. Then, theoretically we have:
+\begin{equation}
+  \label{eq:meanGPD}
+  \mathbb{E}\left[X \right] = \mu + \frac{\sigma}{1-\xi}, \qquad
+  \text{for } \xi < 1
+\end{equation}
+When $\xi\geq1$, the theoretical mean is infinite.
+
+In practice, if $X$ represents excess over a threshold $\mu_0$, and if
+the approximation by a GPD is good enough, we have:
+\begin{equation}
+  \label{eq:meanExcess}
+  \mathbb{E}\left[X - \mu_0 | X > \mu_0 \right] =
+  \frac{\sigma_{\mu_0}}{1 - \xi}
+\end{equation}
+For all new threshold $\mu_1$ such as $\mu_1 > \mu_0$, excesses above
+the new threshold are also approximate by a GPD with updated
+parameters - see section~\ref{subsubsection:tcplot}. Thus,
+\begin{equation}
+  \label{eq:meanExcess2}
+  \mathbb{E}\left[X - \mu_1 | X > \mu_1 \right] =
+  \frac{\sigma_{\mu_1}}{1 - \xi} = \frac{\sigma_{\mu_0} +
+    \xi \mu_1}{1 - \xi}
+\end{equation}
+The quantity $\mathbb{E}\left[X - \mu_1 | X > \mu_1 \right]$ is linear
+in $\mu_1$. Or, $\mathbb{E}\left[X - \mu_1 | X > \mu_1 \right]$ is
+simply the mean of excesses above the threshold $\mu_1$ which can
+easily be estimated using the empirical mean.
+
+A mean residual life plot consists in representing points:
+\begin{equation}
+  \label{eq:mrlplot}
+  \left\{\left(\mu, \frac{1}{n_\mu} \sum_{i=1}^{n_\mu} x_{i, n_\mu} -
+      \mu \right) : \mu \leq x_\mathrm{max} \right\}
+\end{equation}
+where $n_\mu$ is the number of observations $\mathbf{x}$ above the
+threshold $\mu$, $x_{i, n_\mu}$ is the $i$-th observation above the
+threshold $\mu$ and $x_\mathrm{max}$ is the maximum of the
+observations $\mathbf{x}$.
+
+Confidence intervals can be added to this plot as the empirical mean
+can be supposed to be normally distributed (Central Limit
+Theorem). However, normality doesn't hold anymore for high threshold
+as there are less and less excesses. Moreover, by construction, this
+plot always converge to the point $(x_\mathrm{max}, 0)$.
+
+Here is another synthetic example.
+\begin{verbatim}
+> x <- rnorm(10000)
+ mrlplot(x, u.range = c(1, 3.5), col = c("green", "black", "green"))
+\end{verbatim}
+
+Figure~\ref{fig:mrlplot} displays the mean residual life plot. A
+threshold around 2.5 should be reasonable.
+\begin{figure}
+  \centering
+  \includegraphics[angle=-90,width=\textwidth]{mrlplot}
+  \caption{Mean residual life plot on synthetic data}
+  \label{fig:mrlplot}
+\end{figure}
+
+\subsubsection{L-Moments plot: \emph{lmomplot}}
+
+L-moments are summary statistics for probability distributions and
+data samples. They are analogous to ordinary moments -- they provide
+measures of location, dispersion, skewness, kurtosis, and other
+aspects of the shape of probability distributions or data samples --
+but are computed from linear combinations of the ordered data values
+(hence the prefix L).
+
+For the GPD, the following relation holds:
+\begin{equation}
+  \label{eq:lomRel}
+  \tau_4 = \tau_3 \frac{1 + 5 \tau_3}{5 + \tau_3}
+\end{equation}
+where $\tau_4$ is the \textbf{L-Kurtosis} and $\tau_3$ is the
+\textbf{L-Skewness}.
+
+The \textbf{L-Moment} plot represents points defined by:
+\begin{equation}
+  \label{eq:lmomplot}
+  \left\{\left(\hat{\tau}_{3,u}, \hat{\tau}_{4,u}\right) : u \leq
+    x_\mathrm{max} \right\}  
+\end{equation}
+where $\hat{\tau}_{3,u}$ and $\hat{\tau}_{4,u}$ are estimations of the
+L-Kurtosis and L-Skewness based on excesses over threshold $u$ and
+$x_\mathrm{max}$ is the maximum of the observations $\mathbf{x}$. The
+theoretical curve defined by equation~\eqref{eq:lomRel} is traced as a
+guideline.
+
+Here is a trivial example.
+\begin{verbatim}
+> x <- c(1 - abs(rnorm(200, 0, 0.2)), rgpd(100, 1, 2, 0.25))
+> lmomplot(x, u.range = c(0.9, 2), identify = FALSE)
+\end{verbatim}
+
+Figure~\ref{fig:lmomplot} displays the L-Moment plot. By passing
+option \verb+identiy = TRUE+ user can click on the graphic to identify
+the threshold related to the point selected.
+
+\begin{figure}
+  \centering
+  \includegraphics[angle=-90,width=\textwidth]{lmomplot}
+  \caption{L-Moment plot on synthetic data}
+  \label{fig:lmomplot}
+\end{figure}
+
+We found that this graphic has often poor performance on real data.
+
+\subsubsection{Dispersion Index Plot: \emph{diplot}}
+
+The \textbf{Dispersion Index plot} is particularly useful when dealing
+with time series. The EVT states that excesses over a threshold can be
+approximated by a GPD. However, the EVT also states that the
+occurrences of these excesses must be represented by a Poisson
+process.
+
+Let $X$ be a \textit{r.v.} distributed as a Poisson distribution with
+parameter $\lambda$. That is:
+\begin{equation}
+  \label{eq:poissLaw}
+  \Pr\left[X = k\right] = e^{-\lambda} \frac{\lambda^k}{k!}, \quad k
+  \in \mathbb{N}.
+\end{equation}
+Thus, we have $\mathbb{E}\left[X\right] =
+Var\left[X\right]$. \citet{Cunnane1979} introduced a
+\textbf{Dispersion Index} statistic defined by:
+\begin{equation}
+  \label{eq:DI}
+  DI = \frac{s^2}{\lambda}
+\end{equation}
+where $s^2$ is the intensity of the Poisson process and $\lambda$ the
+mean number of events in a block - most often this is a
+year. Moreover, a confidence interval can be computed by using a
+$\chi^2$ test:
+\begin{equation}
+  \label{eq:confDI}
+   I_{\alpha} = \left[ \frac{\chi^2_{\left(1 - \alpha\right) / 2,
+        M-1}}{M-1}, \frac{\chi^2_{1 - \left( 1 -\alpha\right) / 2,
+        M-1}}{M-1} \right]
+\end{equation}
+where $\Pr\left[ DI \in I_{\alpha} \right] = \alpha$.
+
+For the next example, we use the data set \emph{ardieres} included in
+the \textbf{POT} package. Moreover, as \emph{ardieres} is a time
+series, and thus strongly auto-correlated, we must ``extract'' extreme
+events while preserving independence between events. This is achieved
+using function \textbf{clust}\footnote{The clust function will be
+  presented later in section~\ref{subsec:declust}.}.
+\begin{verbatim}
+> data(ardieres)
+> events <- clust(ardieres, u = 2, tim.cond = 8 / 365,
++ clust.max = TRUE)
+> diplot(events, u.range = c(2, 20))
+\end{verbatim}
+
+The Dispersion Index plot is presented in
+Figure~\ref{fig:diplot}. From this figure, a threshold around 5 should
+be reasonable.
+
+\begin{figure}
+  \centering
+  \includegraphics[angle=-90,width=\textwidth]{diplot}
+  \caption{Dispersion index plot for the dataset \emph{ardieres}}
+  \label{fig:diplot}
+\end{figure}
+
+\subsection{Fitting the GPD}
+\label{subsec:fitGPD}
+
+The main function to fit the GPD is called \textbf{fitgpd}. This is a
+generic function which can fit the GPD according several
+estimators. There are currently 7 estimators available: method of
+moments \verb|moments|, maximum likelihood \verb|mle|, biased and
+unbiased probability weighted moments \verb|pwmb, pwmu|, mean power
+density divergence \verb|mdpd|, median \verb|med| and pickands'
+\verb|pickands| estimators. Details for these estimators can be found
+in~\citep{Coles2001}, \citep{Hosking1987}, \citep{Juarez2004},
+\citep{Peng2001} and \citep{Pickands1975}.
+
+The MLE is a particular case as it is the only one which allows
+varying threshold. Moreover, two types of standard errors are
+available: ``expected'' or ``observed'' information of Fisher. The
+option \verb|obs.fish| specifies if we want observed
+(\verb|obs.fish = TRUE|) or expected (\verb|obs.fish = FALSE|).
+
+As Pickands' estimator is not always feasible, user must check the
+message of feasibility return by function \verb+fitgpd+.
+
+We give here several didactic examples.
+\begin{verbatim}
+> x <- rgpd(200, 1, 2, 0.25)                             
+> mom <- fitgpd(x, 1, "moments")$param                        
+> mle <- fitgpd(x, 1, "mle")$param                       
+> pwmu <- fitgpd(x, 1, "pwmu")$param                     
+> pwmb <- fitgpd(x, 1, "pwmb")$param                     
+> pickands <- fitgpd(x, 1, "pickands")$param             
+> med <- fitgpd(x, 1, "med", start = mle)$param          
+> mdpd <- fitgpd(x, 1, "mdpd")$param                     
+> print(rbind(mom, mle, pwmu, pwmb, pickands, med, mdpd))
+            scale      shape
+mom      1.693222 0.22258795
+mle      1.758304 0.18825359
+pwmu     1.774835 0.18511688
+pwmb     1.783859 0.18097373
+pickands 1.867132 0.02210745
+med      1.826378 0.08445534 ##Convergence: iteration limit reached
+mdpd     1.788432 0.16608265
+\end{verbatim}
+
+The MLE method allows to fix either the scale or the shape
+parameter. For example, if we want to fit a Exponential distribution,
+just do:
+\begin{verbatim}
+> x <- rgpd(100, 1, 2, 0)
+> fitgpd(x, thresh = 1, shape = 0, method = "mle")
+> ##The same but with a fixed scale value
+> fitgpd(x, thresh = 1, scale = 2, method = "mle")
+\end{verbatim}
+If now, we want to fit a GPD with a varying threshold, just do:
+\begin{verbatim}
+> x <- rgpd(500, 1:2, 0.3, 0.01)
+> fitgpd(x, 1:2, method = "mle")
+\end{verbatim}
+
+Note that the varying threshold is repeated cyclically until it
+matches the length of object \verb|x|.
+ 
+\subsection{Confidence Intervals}
+\label{subsec:confInt}
+
+Once a statistical model is fitted, it is usual to gives confidence
+intervals. Currently, only \verb|mle, pwmu, pwmb, moments| estimators
+can computed confidence intervals. Moreover, for method \verb|mle|,
+``standard'' and ``profile'' confidence intervals are available.
+
+If we want confidence intervals for the scale parameters:
+\begin{verbatim}
+> x <- rgpd(100, 1, 2, 0.25)
+> mle <- fitgpd(x, 1, method = "mle")
+> mom <- fitgpd(x, 1, method = "moments")
+> pwmb <- fitgpd(x, 1, method = "pwmb")
+> pwmu <- fitgpd(x, 1, method = "pwmu")
+> gpd.fiscale(mle, conf = 0.9)
+> gpd.fiscale(mom, conf = 0.9)
+> gpd.fiscale(pwmu, conf = 0.9)
+> gpd.fiscale(pwmb, conf = 0.9)
+\end{verbatim}
+For shape parameter confidence intervals, simply use function
+\verb|gpd.fishape| instead of \verb|gpd.fiscale|. Note that the
+\emph{fi} stands for ``Fisher Information''.
+
+Thus, if we want profile confidence intervals, we must use functions
+\verb|gpd.pfscale| and \verb|gpd.pfshape|. The \emph{pf} stands for
+``profile''. These functions are only available with a model fitted
+with MLE.
+\begin{verbatim}
+> gpd.pfscale(mle, range = c(1, 2.5), conf = 0.9)
+> gpd.pfshape(mle, range = c(-0.1, 0.6), conf = 0.95)
+\end{verbatim}
+
+Confidence interval for quantiles - or return levels - are also
+available. This is achieved using: (a) the Delta method or (b) profile
+likelihood.
+\begin{verbatim}
+> gpd.firl(pwmu, prob = 0.95)
+> gpd.pfrl(mle, prob = 0.95, range = c(4.8, 15))
+\end{verbatim}
+
+The profile confidence interval functions both returns the confidence
+interval and plot the profile log-likelihood
+function. Figure~\ref{fig:pfrl} depicts the graphic window returned by
+function \verb|gpd.pfrl| for the return level associated to non
+exceedence probability 0.95.
+\begin{figure}
+  \centering
+  \includegraphics[angle=-90,width=\textwidth]{pfrl}
+  \caption{Profile log-likelihood function for a given return level}
+  \label{fig:pfrl}
+\end{figure}
+
+\subsection{Model Checking}
+\label{subsec:modCheck}
+
+
+To check the fitted model, users must call function
+\textbf{plotgpd}. This is a generic function which calls functions:
+\verb|pp.gpd| (probability/probability plot), \verb|qq.gpd|
+(quantile/quantile plot), \verb|dens.gpd| (density plot) and
+\verb|retlev.gpd| (return level plot).
+
+Here is a basic illustration of the function \verb|plotgpd|.
+\begin{verbatim}
+> x <- rgpd(200, 10, 0.5, -0.2)
+> fitted <- fitgpd(x, 10, method = "mle")
+> par(mfrow=c(2,2))
+> plotgpd(fitted, npy = 1)
+\end{verbatim}
+
+\begin{figure}
+  \centering
+  \includegraphics[angle=-90,width=\textwidth]{plotgpd}
+  \caption{Checking plots from function \emph{plotgpd}}
+  \label{fig:plotgpd}
+\end{figure}
+
+Figure~\ref{fig:plotgpd} displays the graphic windows obtained with
+the latter execution.
+
+If one is interested in only a probability/probability plot, there is
+two options. We can call function \verb|pp.gpd| or equivalently
+\verb|plotgpd| with the \textbf{which} option. The ``which'' option
+select which graph you want to plot. That is:
+\begin{itemize}
+\item{which = 1} for a probability/probability plot;
+\item{which = 2} for a quantile/quantile plot;
+\item{which = 3} for a density plot;
+\item{which = 4} for a return level plot;
+\end{itemize}
+Note that ``which'' can be a vector like \verb|c(1,3)| or \verb|1:3|.
+
+Thus, the following instruction gives the same graphic.
+\begin{verbatim}
+> plotgpd(fitted, which = 1)
+> pp.gpd(fitted)
+\end{verbatim}
+
+If a return level plot is asked ($4 \in$ \verb|which|), a value for
+\verb|npy| is needed. ``npy'' corresponds to the \emph{mean number of
+  events per year}. This is required to define the ``return period''.
+
+\subsection{Declustering Techniques}
+\label{subsec:declust}
+
+In opposition to block maxima, a peak over threshold can be
+problematic when dealing with time series. Indeed, as often time
+series are strongly auto-correlated, select naively events above a
+threshold may lead to dependent events.
+
+The function \textbf{clust} tries to identify peaks over a threshold
+while meeting independence criteria. For this purpose, this function
+needs at least two arguments: the threshold \verb|u| and a time
+condition for independence \verb|tim.cond|. Clusters are identify as
+follow:
+\begin{enumerate}
+\item The first exceedence initiates the first cluster;
+\item The first observation under the threshold \verb|u| ``ends'' the
+  cluster unless \verb|tim.cond| does not hold;
+\item The next exceedence which hold \verb|tim.cond| initiates a new
+  cluster;
+\item The process is iterated as needed.
+\end{enumerate}
+
+Here is an application on flood discharges for river Ardi\`ere at
+Beaujeu. A preliminary study shows that two flood events can be
+considered independent if they do not lie within a 8 days window. Note
+that unit to define \verb|tim.cond| must be the same than the data
+analyzed. 
+\begin{verbatim}
+> data(ardieres)
+> clust(ardieres, u = 2, tim.cond = 8 / 365)
+\end{verbatim}
+
+Several options can be passed to the ``clust'' function. By default,
+it will return a list with the identified clusters. Usually, we want
+only cluster maxima, this is achieved by passing option
+\verb|clust.max = TRUE|. Users can also ask for a graphic
+representation of clusters by passing option \verb|plot = TRUE| - see
+Figure~\ref{fig:clust}.
+\begin{verbatim}
+> clustMax <- clust(ardieres, u = 2, tim.cond = 8 / 365,
++ clust.max = TRUE, plot = TRUE, xlim = c(1971.1, 1972.9))
+\end{verbatim}
+\begin{figure}
+  \centering
+  \includegraphics[angle=-90,width=\textwidth]{clust}
+  \caption{The identified clusters. Data Ardi\`eres, u = 2, tim.cond = 8}
+  \label{fig:clust}
+\end{figure}
+
+\subsection{Miscellaneous functions}
+\label{subsec:miscFunc}
+
+\subsubsection{Return periods: \emph{rp2prob} and \emph{prob2rp}}
+
+The functions \textbf{rp2prob} and \textbf{prob2rp} are useful to
+convert return periods to non exceedence probabilities and vice
+versa. It needs either a return period either a non exceedence
+probability. Moreover, the mean number of events per year ``npy'' must
+be specified.
+\begin{verbatim}
+> rp2prob(50, 1.8)
+  npy retper      prob
+1 1.8     50 0.9888889
+> prob2rp(0.6, 2.2)
+  npy   retper prob
+1 2.2 1.136364  0.6
+\end{verbatim}
+
+\subsubsection{Unbiased Sample L-Moments: \emph{samlmu}}
+
+The function \textbf{samlmu} computes the unbiased sample L-Moments.
+\begin{verbatim}
+> x <- runif(50)
+> samlmu(x, nmom = 5)
+        l_1         l_2         t_3         t_4         t_5 
+ 0.53337554  0.16743489 -0.04026843  0.01243610  0.01386457
+\end{verbatim}
+
+\subsubsection{Mobile average window on time series: \emph{ts2tsd}}
+
+The function \textbf{ts2tsd} computes an ``average'' time series
+\verb|tsd| from the initial time series \verb|ts|. This is achieved by
+using a mobile average window of length \verb|d| on the initial time
+series.
+\begin{verbatim}
+> data(ardieres)
+> tsd <- ts2tsd(ardieres, 3 / 365)
+> plot(ardieres, type = "l", col = "blue")
+> lines(tsd, col = "green")
+\end{verbatim}
+The latter execution is depicted in Figure~\ref{fig:ts2tsd}.
+\begin{figure}
+  \centering
+  \includegraphics[angle=-90,width=\textwidth]{ts2tsd}
+  \caption{Instantaneous flood discharges and averaged dischaged over
+    duration 3 days. Data ardieres}
+  \label{fig:ts2tsd}
+\end{figure}
+
+\section{A Concrete Statistical Analysis of Peaks Over a Threshold}
+\label{sec:concAn}
+
+In this section, we provide a full and detailed analysis of peaks over
+a threshold for the river Ardi\`eres at
+Beaujeu. Figure~\ref{fig:ts2tsd} depicts instantaneous flood
+discharges - blue line.
+
+As this is a time series, we must selects independent events above a
+threshold. First, we fix a relatively low threshold to ``extract''
+more events. Thus, some of them are not extreme but regular
+events. This is necessary to select a reasonable threshold for the
+asymptotic approximation by a GPD - see section~\ref{sec:introEVT}.
+\begin{verbatim}
+> summary(ardieres)
+      time           obs        
+ Min.   :1970   Min.   : 0.022  
+ 1st Qu.:1981   1st Qu.: 0.236  
+ Median :1991   Median : 0.542  
+ Mean   :1989   Mean   : 1.024  
+ 3rd Qu.:1997   3rd Qu.: 1.230  
+ Max.   :2004   Max.   :44.200  
+                NA's   : 1.000  
+> events0 <- clust(ardieres, u = 1.5, tim.cond = 8/365,
++  clust.max = TRUE)
+> par(mfrow=c(2,2))
+> mrlplot(events0[,"obs"])
+> abline( v = 6, col = "green")
+> diplot(events0)
+> abline( v = 6, col = "green")
+> tcplot(events0[,"obs"])
+\end{verbatim}
+From Figure~\ref{fig:threshSelect}, a threshold value of $6 m^3/s$
+should be reasonable. The Mean residual life plot - top left panel-
+indicates that a threshold around $10 m^3/s$ should be
+adequate. However, the selected threshold must be low enough to have
+enough events above it to reduce variance while not too low as it
+increase the bias\footnote{As the asymptotic approximation by a GPD is
+  not accurate anymore.}.
+
+\begin{figure}
+  \centering
+  \includegraphics[angle=-90,width=\textwidth]{threshSelect}
+  \caption{Threshold selection for river Ardi\`eres at Beaujeu.}
+  \label{fig:threshSelect}
+\end{figure}
+
+Thus, we can now ``re-extract'' events above the threshold $6 m^3/s$,
+obtaining object \verb|events1|. This is necessary as sometimes
+\verb|events1| is not equal to observations of \verb|events0| greater
+than $6 m^3/s$. We can now define the mean number of events per year
+``npy''. Note that an estimation of the extremal index is available.
+\begin{verbatim}
+> events1 <- clust(ardieres, u = 6, tim.cond = 8/365,
++ clust.max = TRUE)
+> npy <- length(events1[,"obs"]) / (diff(range(ardieres[,"time"],
+ na.rm = TRUE)) - diff(ardieres[c(20945,20947),"time"]))
+> ##Because there is a gap !!!
+> print(npy)
+[1] 1.677934
+> attributes(events1)$exi
+[1] 0.1225383
+\end{verbatim}
+
+Let's fit the GPD.
+\begin{verbatim}
+> mle <- fitgpd(events1[,"obs"], thresh = 6, method = "mle")
+Estimator: MLE 
+
+Varying Threshold: FALSE 
+
+Threshold: 6 
+Number Above: 56 
+Proportion Above: 1 
+
+Estimates
+ scale   shape  
+3.8285  0.1579  
+
+Standard Error Type: Observed 
+
+Standard Errors
+ scale   shape  
+0.7224  0.1349  
+
+Asymptotic Variance Covariance
+       scale     shape   
+scale   0.52180  -0.05714
+shape  -0.05714   0.01819
+
+Optimization Information
+  Convergence: successful 
+  Function Evaluations: 36 
+  Gradient Evaluations: 9 
+\end{verbatim}
+The result of function \textbf{fitgpd} gives the name of the
+estimator, if a varying threshold was used, the threshold value, the
+number and the proportion of observations above the threshold,
+parameter estimates, standard error estimates and type, the asymptotic
+variance-covariance matrix and convergence diagnostic.
+
+\begin{figure}
+  \centering
+  \includegraphics[angle=-90,width=\textwidth]{checkArdieres}
+  \caption{Graphic diagnostics for river Ardi\`eres at Beaujeu}
+  \label{fig:checkArdieres}
+\end{figure}
+
+Figure~\ref{fig:checkArdieres} shows graphic diagnostics for the
+fitted model. It can be seen that the fitted model ``mle'' seems to be
+appropriate. Suppose we want to know the return level associated to
+the 100-year return period.
+\begin{verbatim}
+> ##First convert return period in prob
+> rp2prob(retper = 100, npy = npy)
+       npy retper      prob
+1 1.677934    100 0.9940403
+> prob <- rp2prob(retper = 100, npy = npy)[,"prob"]
+> qgpd(prob, loc = 6, scale = mle$param["scale"],
++  shape = mle$param["shape"])
+36.19317 
+\end{verbatim}
+
+
+To take into account uncertainties, Figure~\ref{fig:pfrlArdieres}
+depicts the profile confidence interval for the quantile associated to
+the 100-year return period.
+\begin{verbatim}
+> gpd.pfrl(mle, prob, range = c(25, 90), nrang = 200)
+If there is some troubles try to put vert.lines = FALSE or change
+ the range...
+conf.inf conf.sup 
+25.48995 87.87688 
+\end{verbatim}
+\begin{figure}
+  \centering
+  \includegraphics[angle=-90,width=\textwidth]{pfrlArdieres}
+  \caption{Profile-likelihood function for the 100-year return period
+    quantile} 
+  \label{fig:pfrlArdieres}
+\end{figure}
+
+Sometimes it is necessary to know the estimated return period of a
+specified events. Lets do it with the larger events in ``events1''.
+\begin{verbatim}
+> maxEvent <- max(events1[,"obs"])
+> print(maxEvent)
+[1] 44.2
+> prob <- pgpd(maxEvent, loc = 6, scale = mle$param["scale"],
++ shape = mle$param["shape"])
+> print(prob)
+0.997501 
+> prob2rp(prob, npy = npy)
+       npy   retper     prob
+1 1.677934 238.4804 0.997501
+\end{verbatim}
+Thus, the largest events that occurs in June 2000 has approximately a
+return period of 240 years.
+
+Maybe it is a good idea to fit the GPD with the other estimators
+available in the \textbf{POT} package.
+\bibliography{biblio}
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

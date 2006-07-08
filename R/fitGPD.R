@@ -465,11 +465,11 @@ gpdmle <- function(x, threshold, start, ...,
       
       if(corr) {
         .mat <- diag(1/std.err, nrow = length(std.err))
-        corr <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
-        diag(corr) <- rep(1, length(std.err))
+        corr.mat <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
+        diag(corr.mat) <- rep(1, length(std.err))
       }
       else {
-        corr <- NULL
+        corr.mat <- NULL
       }
     }
     std.err.type <- "Observed"
@@ -490,11 +490,11 @@ gpdmle <- function(x, threshold, start, ...,
     
     if(corr) {
       .mat <- diag(1/std.err, nrow = length(std.err))
-      corr <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
-      diag(corr) <- rep(1, length(std.err))
+      corr.mat <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
+      diag(corr.mat) <- rep(1, length(std.err))
     }
     else
-      corr <- NULL
+      corr.mat <- NULL
     
     std.err.type <- "Expected"
   }
@@ -510,7 +510,7 @@ gpdmle <- function(x, threshold, start, ...,
   
   list(estimate = opt$par, std.err = std.err, std.err.type = std.err.type,
        var.cov = var.cov, fixed = unlist(fixed.param), param = param,
-       deviance = 2*opt$value, corr = corr, convergence = opt$convergence,
+       deviance = 2*opt$value, corr = corr.mat, convergence = opt$convergence,
        counts = opt$counts, message = opt$message, threshold = threshold,
        nhigh = nhigh, nat = nat, pat = pat, data = x, exceedances = exceed,
        scale = scale, var.thresh = var.thresh, type = "MLE")

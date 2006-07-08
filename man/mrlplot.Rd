@@ -5,15 +5,15 @@
   The empirical mean residual life plot. 
 }
 \usage{
-mrlplot(data, tlim, main, xlab, ylab, nt = max(100, length(data)),
+mrlplot(data, u.range, main, xlab, ylab, nt = max(100, length(data)),
 lty = c(3, 1, 3), col = c('grey', 'black', 'grey'), conf = 0.95, lwd = c(1,
 1.5, 1), \dots) 
 }
 \arguments{
   \item{data}{A numeric vector.}
-  \item{tlim}{A numeric vector of length two, giving the limits for
+  \item{u.range}{A numeric vector of length two, giving the limits for
     the thresholds at which the mean residual life plot is
-    evaluated. If \code{tlim} is not given, sensible defaults
+    evaluated. If \code{u.range} is not given, sensible defaults
     are used.}
   \item{main}{Plot title.}
   \item{xlab, ylab}{x and y axis labels.}
@@ -57,7 +57,8 @@ lty = c(3, 1, 3), col = c('grey', 'black', 'grey'), conf = 0.95, lwd = c(1,
 }
 \examples{
 data(ardieres)
-flows <- ardieres[, "flows"]
+ardieres <- clust(ardieres, 4, 10 / 365, clust.max = TRUE)
+flows <- ardieres[, "obs"]
 mrlplot(flows)
 }
 \keyword{hplot}

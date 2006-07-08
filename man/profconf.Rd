@@ -46,7 +46,7 @@ gpd.pfrl(fitted, prob, range, thresh, xlab, ylab, conf = 0.95, nrang =
 }
 \examples{
 data(ardieres)
-fitted <- fitgpd(ardieres[, "flows"], 5, 'mle')
+fitted <- fitgpd(ardieres[, "obs"], 5, 'mle')
 gpd.pfshape(fitted, c(0, 0.8))
 rp2prob(10, 2)
 gpd.pfrl(fitted, 0.95, c(14, 32))
