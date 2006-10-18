@@ -1,6 +1,6 @@
 \name{Threshold Selection}
 \alias{tcplot}
-\title{Threshold Choice Plot}
+\title{Threshold Selection: The Threshold Choice Plot}
 \description{
   Plots of parameter estimates at various thresholds for peaks
   over threshold modelling, using the Generalized Pareto or Point

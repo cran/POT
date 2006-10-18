@@ -4,13 +4,12 @@
 \usepackage[latin1]{inputenc}
 \usepackage[english]{babel}
 \usepackage[dvips]{hyperref}
-\usepackage{amsmath,amssymb}
+\usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
-\usepackage{url}
 \usepackage{float}
 
 \usepackage[round]{natbib}
-\bibliographystyle{jrss}
+\bibliographystyle{plainnat}
 
 \pagestyle{plain}
 \setlength{\parindent}{0in}
@@ -24,11 +23,14 @@
 \numberwithin{equation}{section}
 \newcommand\email{\begingroup \urlstyle{rm}\Url}
 
+\theoremstyle{definition}
+\newtheorem{defi}{Definition}[subsection]
+
 \begin{document}
 
 \begin{center}
   \LARGE 
-  A User's Guide to the POT Package (Version 1.0) \\
+  A User's Guide to the POT Package (Version 1.1) \\
   \Large
   \vspace{0.2cm}
   Mathieu Ribatet \\
@@ -42,7 +44,7 @@
   09 France\\ 
   \vspace{0.2cm}
   E-mail: \email{ribatet@hotmail.com} \\
-  7th August 2006 
+  17th October 2006
 \end{center}
 
 \section{Introduction}
@@ -111,13 +113,16 @@ without any warranty; without even the implied warranty of
 merchantability or fitness for a particular purpose.  See the GNU
 General Public License for more details.
 
-A copy of the GNU General Public License can be obtained from
+The GNU General Public License can be obtained from
 \url{http://www.gnu.org/copyleft/gpl.html}.  You can also obtain it by
 writing to the Free Software Foundation, Inc., 59 Temple Place --
 Suite 330, Boston, MA 02111-1307, USA.
 
 \section{An Introduction the EVT}
 \label{sec:introEVT}
+
+\subsection{The univariate case}
+\label{subsec:univ}
 
 Even if this package is only related to peaks over a threshold, a
 classical introduction to the EVT must deal with ``block maxima''. Let
@@ -141,7 +146,8 @@ Value (\textbf{GEV}) distribution. The GEV has a distribution function
 defined by:
 \begin{equation}
   \label{eq:GEV}
-  G(y) = \exp\left[ -\left( 1 + \xi \frac{y-\mu}{\sigma} \right)_+^{-1/\xi} \right], 
+  G(y) = \exp\left[ -\left( 1 + \xi \frac{y-\mu}{\sigma}
+    \right)_+^{-1/\xi} \right],
 \end{equation}
 where $(\mu,\sigma,\xi)$ are the location, scale and shape parameters
 respectively, $\sigma>0$ and $z_+=\max(z,0)$.
@@ -174,6 +180,117 @@ Exponential distribution is obtained by continuity as $\xi \rightarrow
 In practice, these two asymptotical results motivated modelling block
 maxima with a GEV, while peaks over threshold with a GPD.
 
+\subsection{The multivariate case}
+\label{subsec:multiv}
+
+When dealing with multivariate extremes, it is usual to transform data
+to a particular distribution. For example, \citet{Falk2005} used the
+inverted standard exponential distribution -- $\Pr[Z \leq z ] =
+\exp(z)$, $z \leq 0$, \citet{Coles1999} use the uniform distribution
+on $[0,1]$. However, the most common distribution seems to be the
+standard Fr\'echet one -- $\Pr[Z \leq z] = \exp(-1/z)$
+\citep{Smith1994,Smith1997,Bortot2000}. Thus, in the following, we
+will only consider this case. For this purpose, margins are
+transformed according to:
+\begin{displaymath}
+  Z_j = - \frac{1}{\log F_j \left( Y_j \right)}
+\end{displaymath}
+where $F_j$ is the distribution of the $j$-th margin.
+
+Obviously, in practice, the margins $F_j$ are unknown. When dealing
+with extremes, the univariate EVT tells us what to do. Thus, if block
+maxima or peaks over a threshold are of interest, we must replace
+$F_j$ with GEV or GPD respectively.
+
+\begin{defi}
+  A multivariate extreme value distribution in dimension $d$ has
+  representation:
+  \begin{equation}
+    \label{eq:expMesRep}
+    G\left(y_1, \ldots, y_d \right) = \exp\left[-V\left(z_1, \ldots,
+        z_d \right) \right]
+  \end{equation}
+  with
+  \begin{displaymath}
+    V(z_1, \ldots, z_d) = \int_{T_p} \max_{j=1,\ldots,d}
+    \left(\frac{q_j}{z_j} \right) \mbox{dH}\left(q_1,
+      \ldots,q_d\right) 
+  \end{displaymath}
+  where $H$ is a measure with mass 2 called \emph{spectral density}
+  defined on the set
+  \begin{displaymath}
+    T_p = \left\{ \left(q_1, \ldots, q_d \right) : q_j \geq 0,
+    \sum_{j=1}^d q_j^2 = 1 \right\}
+  \end{displaymath}
+  with the constraint
+  \begin{displaymath}
+    \int_{T_p} q_jdH(q_j) = 1, \qquad \forall j \in \left\{1, \ldots,
+      d\right\}
+  \end{displaymath}
+\end{defi}
+
+The $V$ function is often called \emph{exponential
+  measure}~\citep{Kluppelberg2006} and is an homogeneous function of
+order -1.
+
+Contrary to the univariate case, there is an infinity of functions $V$
+for $d>1$. Thus, it is usual to used specific parametric families for
+$V$. Several examples for these families are given in
+Annexe~\ref{sec:copula}.
+
+Another representation for a multivariate extreme value distribution
+is the Pickands' representation~\citep{Pickands1981}. We give here
+only the bivariate case.
+
+\begin{defi}
+  A bivariate extreme value distribution has the Pickands' representation:
+  \begin{equation}
+    \label{eq:pickDepRep}
+    G\left(y_1, y_2 \right) = \exp\left[- \left(\frac{1}{z_1} +
+        \frac{1}{z_2} \right) A\left( \frac{z_2}{z_1+z_2} \right)
+    \right]
+  \end{equation}
+  with
+  \begin{eqnarray*}
+    A : \left[0, 1 \right] &\longrightarrow& \left[0, 1 \right]\\
+    w &\longmapsto& A(w) = \int_0^1 \max\left\{w\left(1-q\right),
+      \left(1-w \right)q \right\} dH(q)
+  \end{eqnarray*}
+\end{defi}
+
+In particular, the functions $V$ and $A$ are linked by the relation:
+\begin{displaymath}
+  A(w) = \frac{V\left(z_1,z_2\right)}{z_1^{-1} + z_2^{-1}},
+  \qquad w = \frac{z_2}{z_1 + z_2}
+\end{displaymath}
+
+The dependence function $A$ holds:
+\begin{enumerate}
+\item $A(0) = A(1) = 1$;
+\item $\max(w, 1 -w) \leq A(w) \leq 1$, $\forall w$;
+\item $A$ is convex;
+\item Two random variables (with unit Fr\'echet margins) are
+  independent if $A(w)=1$, $\forall w$; 
+\item Two random variables (with unit Fr\'echet margins) are
+  perfectly dependent if $A(w)=\max(w,1-w)$, $\forall w$. 
+\end{enumerate}
+
+We define the multivariate extreme value distributions which are
+identical to the block maxima approach in higher dimensions. We now
+establish the multivariate theory for peaks over threshold.
+
+According to~\citet[Prop. 5.15]{Resnick1987}, multivariate peaks over
+thresholds $u_j$ has the same representation than for block
+maxima. Only the margins $F_j$ must be replaced by GPD instead of
+GEV\@. Thus,
+\begin{equation}
+  \label{eq:multExcess}
+  F\left(y_1, \ldots, y_d \right) = \exp\left[-V\left( - \frac{1}{\log
+      F_1\left(y_1 \right)}, \ldots, - \frac{1}{\log F_d\left(y_d
+      \right)} \right) \right], \qquad y_j > u_j
+\end{equation}
+
+ 
 \section{Basic Use}
 \label{sec:BasicUse}
 
@@ -233,7 +350,7 @@ threshold. For this purpose, the user must use
 
 The main goal of threshold selection is to selects enough events to
 reduce the variance; but not too much as we could select events coming
-from the central part of the distribution\footnote{i.e. not extreme
+from the central part of the distribution\footnote{i.e.\ not extreme
   events.} and induce bias.
 
 \subsubsection{Threshold Choice plot:  \emph{tcplot}}
@@ -286,7 +403,7 @@ clear-cut as for this synthetic example.
 \subsubsection{Mean Residual Life Plot: \emph{mrlplot}}
 
 The \textbf{mean residual life plot} is based on the theoretical mean
-of the GPD. Let $X$ be a \textit{r.v.} distributed as $GPD(\mu,
+of the GPD\@. Let $X$ be a \textit{r.v.} distributed as $GPD(\mu,
 \sigma, \xi)$. Then, theoretically we have:
 \begin{equation}
   \label{eq:meanGPD}
@@ -400,7 +517,7 @@ We found that this graphic has often poor performance on real data.
 
 The \textbf{Dispersion Index plot} is particularly useful when dealing
 with time series. The EVT states that excesses over a threshold can be
-approximated by a GPD. However, the EVT also states that the
+approximated by a GPD\@. However, the EVT also states that the
 occurrences of these excesses must be represented by a Poisson
 process.
 
@@ -456,6 +573,8 @@ be reasonable.
 
 \subsection{Fitting the GPD}
 \label{subsec:fitGPD}
+
+\subsubsection{The univariate case}
 
 The main function to fit the GPD is called \textbf{fitgpd}. This is a
 generic function which can fit the GPD according several
@@ -514,7 +633,170 @@ If now, we want to fit a GPD with a varying threshold, just do:
 
 Note that the varying threshold is repeated cyclically until it
 matches the length of object \verb|x|.
- 
+
+\subsubsection{The bivariate case}
+
+The generic function to fit bivariate POTs is \textbf{fitbvgpd}. There
+is currently 6 models for the bivariates GPD -- see
+Annexe~\ref{sec:copula}. All of these models are fitted using maximum
+likelihood estimator. Moreover, the approach uses \emph{censored}
+likelihood -- see \citep{Smith1997}.
+
+\begin{verbatim}
+> x <- rgpd(500, 0, 1, 0.25)
+> y <- rgpd(500, 2, 0.5, -0.25)
+> Mlog <- fitbvgpd(cbind(x,y), c(0,2), model = "log")
+> Mlog
+
+Call: fitbvgpd(data = cbind(x, y), threshold = c(0, 2), model = "log") 
+Estimator: MLE 
+Dependence Model and Strenght:
+	Model : Logistic 
+	lim_u Pr[ X_1 > u | X_2 > u] = 0.02
+
+Deviance: 1397.460 
+     AIC: 1407.460 
+
+Marginal Threshold: 0 2 
+Marginal Number Above: 500 500 
+Marginal Proportion Above: 1 1 
+Joint Number Above: 500 
+Joint Proportion Above: 1 
+Number of events such as {Y1 > u1} U {Y2 > u2}: 500 
+
+Estimates
+ scale1   scale2   shape1   shape2    alpha  
+ 1.0912   0.5155   0.2241  -0.2500   0.9853  
+
+Standard Errors
+ scale1   scale2   shape1   shape2    alpha  
+0.07892  0.03026  0.05767  0.03960  0.02398  
+
+Asymptotic Variance Covariance
+        scale1      scale2      shape1      shape2      alpha     
+scale1   6.228e-03   3.624e-05  -3.033e-03  -3.347e-05   1.561e-05
+scale2   3.624e-05   9.157e-04  -7.282e-07  -1.002e-03   1.856e-05
+shape1  -3.033e-03  -7.282e-07   3.326e-03   2.136e-05  -9.574e-05
+shape2  -3.347e-05  -1.002e-03   2.136e-05   1.568e-03  -5.620e-05
+alpha    1.561e-05   1.856e-05  -9.574e-05  -5.620e-05   5.750e-04
+
+Optimization Information
+	Convergence: successful 
+	Function Evaluations: 47 
+	Gradient Evaluations: 10
+\end{verbatim}
+
+In the summary, we can see \verb+lim_u Pr[ X_1 > u | X_2 > u] = 0.02+
+. This is the $\chi$ statistics of \citet{Coles1999}. For the
+parametric model, we have:
+\begin{displaymath}
+  \chi = 2 - V(1,1) = 2 \left(1 - A(0.5) \right)
+\end{displaymath}
+
+For independent variables, $\chi = 0$ while for perfect dependence,
+$\chi = 1$. In our application, the value 0.02 indicates that the
+variables are independent -- which is obvious. In this perspective, it
+is possible to fixed some parameters. For our purpose of independence,
+we can run:
+\begin{verbatim}
+> fitbvgpd(cbind(x,y), c(0,2), model = "log", alpha = 1)
+> ##This is equivalent to fit x and y separately of course.
+\end{verbatim}
+
+Note that as all bivariate extreme value distributions are
+asymptotically dependent, the $\overline{\chi}$ statistic of
+\citet{Coles1999} is always equal to 1.
+
+Another way to detect the strength of dependence is to plot the
+Pickands' dependence function. This is simply done with the
+\textbf{pickdep} function.
+\begin{verbatim}
+> pickdep(Mlog)
+\end{verbatim}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\textwidth]{pickdep}
+  \caption{The Pickands' dependence function.}
+  \label{fig:pickdep}
+\end{figure}
+
+The horizontal line corresponds to independence while the
+other ones corresponds to perfect dependence. Please note that by
+construction, the \emph{mixed} and \emph{asymetric mixed} models can
+not model perfect dependence variables.
+
+\subsubsection{Markov Chains for Exceedances}
+
+The classical way to perform an analysis of peaks over a threshold is
+to fit the GPD to cluster maxima. However, there is a waste of data as
+only the cluster maxima is considered. On the contrary, if we fit the
+GPD to all exceedances, standard errors are underestimated as we
+consider independence for dependent observations. Here is where Markov
+Chains can help us. The main idea is to model the dependence structure
+using a Markov Chains while the joint distribution is obviously a
+multivariate extreme value distribution. This idea was first
+introduces by~\citet{Smith1997}.
+
+In the remainder of this section, we will only focus with first order
+Markov Chains. Thus, the likelihood for all exceedances is:
+
+\begin{equation}
+  \label{eq:likMC}
+  L(y_1, \ldots, y_n; \theta, \psi) = \frac{\prod_{i=2}^n
+    f(y_{i-1},y_i;\theta, \psi)} {\prod_{i=2}^{n-1} f(y_i;\theta)}
+\end{equation}
+where $f(y_{i-1},y_i;\theta, \psi)$ is the joint density,
+$f(y_i;\theta)$ is the marginal density, $\theta$ is the marginal GPD
+parameters and $\psi$ is the dependence parameter. The marginals are
+modelled using a GPD, while the joint distribution is a bivariate
+extreme value distribution.
+
+For our application, we use the \textbf{simmc} function which simulate
+a first order Markov chain with extreme value dependence structure.
+
+\begin{verbatim}
+> ## First simulate a first order Markov Chain with
+> ## uniform(0,1) marge.
+> mc <- simmc(1000, alpha = 0.5, model = "log")
+> ## Transform it to a GPD
+> mc <- qgpd(mc, 2, 1, 0.15)
+> fitmcgpd(mc, 2, "log")
+
+Call: fitmcgpd(data = mc, threshold = 2, model = "log") 
+Estimator: MLE 
+Dependence Model and Strenght:
+	Model : Logistic 
+	lim_u Pr[ X_1 > u | X_2 > u] = 0.571 
+Deviance: 1448.343 
+     AIC: 1454.343 
+
+Threshold: 2 
+Number Above: 998 
+Proportion Above: 1 
+
+Estimates
+ scale   shape   alpha  
+0.9453  0.1682  0.5146  
+
+Standard Error Type: 
+
+Standard Errors
+  scale    shape    alpha  
+0.09219  0.04742  0.02237  
+
+Asymptotic Variance Covariance
+       scale       shape       alpha     
+scale   0.0084994  -0.0018018  -0.0010052
+shape  -0.0018018   0.0022488  -0.0004062
+alpha  -0.0010052  -0.0004062   0.0005005
+
+Optimization Information
+  Convergence: successful 
+  Function Evaluations: 72 
+  Gradient Evaluations: 13 
+\end{verbatim}
+
 \subsection{Confidence Intervals}
 \label{subsec:confInt}
 
@@ -572,18 +854,19 @@ exceedence probability 0.95.
 \label{subsec:modCheck}
 
 
-To check the fitted model, users must call function
-\textbf{plotgpd}. This is a generic function which calls functions:
-\verb|pp.gpd| (probability/probability plot), \verb|qq.gpd|
+To check the fitted model, users must call function \textbf{plot}
+which has a method for the \verb|uvpot|, \verb|bvpot| and \verb|mcpot|
+classes. For example, this is a generic function which calls
+functions: \verb|pp.gpd| (probability/probability plot), \verb|qq.gpd|
 (quantile/quantile plot), \verb|dens.gpd| (density plot) and
-\verb|retlev.gpd| (return level plot).
+\verb|retlev.gpd| (return level plot) for the uvpot class.
 
-Here is a basic illustration of the function \verb|plotgpd|.
+Here is a basic illustration of the function \verb|plot|.
 \begin{verbatim}
 > x <- rgpd(200, 10, 0.5, -0.2)
 > fitted <- fitgpd(x, 10, method = "mle")
 > par(mfrow=c(2,2))
-> plotgpd(fitted, npy = 1)
+> plot(fitted, npy = 1)
 \end{verbatim}
 
 \begin{figure}
@@ -610,13 +893,14 @@ Note that ``which'' can be a vector like \verb|c(1,3)| or \verb|1:3|.
 
 Thus, the following instruction gives the same graphic.
 \begin{verbatim}
-> plotgpd(fitted, which = 1)
+> plot(fitted, which = 1)
 > pp.gpd(fitted)
 \end{verbatim}
 
 If a return level plot is asked ($4 \in$ \verb|which|), a value for
 \verb|npy| is needed. ``npy'' corresponds to the \emph{mean number of
-  events per year}. This is required to define the ``return period''.
+  events per year}. This is required to define the ``return
+period''. If missing, the default value (i.e. 1) will be chosen.
 
 \subsection{Declustering Techniques}
 \label{subsec:declust}
@@ -878,7 +1162,133 @@ return period of 240 years.
 
 Maybe it is a good idea to fit the GPD with the other estimators
 available in the \textbf{POT} package.
-\bibliography{biblio}
+
+\appendix
+
+\section{Dependence Models for Bivariate Extreme Value
+  Distributions}
+\label{sec:copula}
+
+\subsection{The Logisitic model}
+
+The logisitic model is defined by:
+\begin{equation}
+  \label{eq:logistic}
+  V(x,y) = \left( x^{-1/\alpha} + y^{-1/\alpha} \right)^\alpha, \qquad
+  0 < \alpha \leq 1 
+\end{equation}
+
+Independence is obtained when $\alpha = 1$ while total dependence for
+$\alpha \rightarrow 0$.
+
+The Pickands' dependence function for the logistic model is:
+\begin{eqnarray*}
+  A: \left[0,1\right] &\longrightarrow& \left[0,1\right]\\
+  w &\longmapsto& \left[\left(1-w\right)^\frac{1}{\alpha} +
+    w^\frac{1}{\alpha} \right]^\alpha
+\end{eqnarray*}
+
+\subsection{The Asymetric Logistic model}
+
+The asymetric logistic model is defined by:
+\begin{displaymath}
+  V(x,y) = \frac{1 - \theta_1}{x} + \frac{1 - \theta_2}{y} + \left[
+    \left(\frac{x}{\theta_1} \right)^{-\frac{1}{\alpha}} +
+      \left(\frac{y}{\theta_2} \right)^{-\frac{1}{\alpha}}
+    \right]^\alpha,
+\end{displaymath}
+with $0 < \alpha \leq 1$, $0 \leq \theta_1, \theta_2 \leq 1$.
+
+Independence is obtained when either $\alpha=1$, $\theta_1=0$ or
+$\theta_2=0$. Differents limits occur when $\theta_1$ and $\theta_2$
+are fixed and $\alpha=1 \rightarrow 0$.
+
+The Pickands' dependence function for the asymetric logistic model is:
+\begin{displaymath}
+  A(w) = \left(1 - \theta_1 \right) \left(1 - w\right) +  \left(1 -
+    \theta_2 \right) w + \left[ (1 - w)^{\frac{1}{\alpha}}
+    \theta_1^{\frac{1}{\alpha}} + w^{\frac{1}{\alpha}}
+    \theta_2^{\frac{1}{\alpha}} \right]^{\alpha}
+\end{displaymath}
+
+\subsection{The Negative Logistic model}
+
+The negative logistic model is defined by:
+\begin{equation}
+  \label{eq:negLog}
+  V(x,y) = \frac{1}{x} + \frac{1}{y} - \left(x^{\alpha} + y^{\alpha}
+  \right)^{-\frac{1}{\alpha}}, \qquad \alpha > 0
+\end{equation}
+
+Independence is obtained when $\alpha \rightarrow 0$ while total
+dependence when $\alpha \rightarrow +\infty$. 
+
+The Pickands' dependence function for the negative logistic model is:
+\begin{displaymath}
+  A(w) = 1 - \left[ (1 - w)^{-\alpha} + w^{-\alpha}
+  \right]^{-\frac{1}{\alpha}}
+\end{displaymath} 
+
+\subsection{The Asymetric Negative Logistic model}
+
+The asymetric negative logistic model is defined by:
+\begin{displaymath}
+  V(x,y) = \frac{1}{x} + \frac{1}{y} - \left[ \left(\frac{x}{\theta_1}
+    \right)^\alpha  + \left(\frac{y}{\theta_2} \right)^\alpha
+  \right]^{-\frac{1}{\alpha}}, \qquad \alpha > 0, \quad 0 <
+  \theta_1, \theta_2 \leq 1
+\end{displaymath}
+
+Independence is obtained when either $\alpha \rightarrow 0$, $\theta_1
+\rightarrow 0$ or $\theta_2 \rightarrow 0$. Different limits occur
+when $\theta_1$ and $\theta_2$ are fixed and $\alpha \rightarrow
++\infty$.
+
+The Pickands' dependence function for the asymetric negative logistic
+model is:
+\begin{displaymath}
+  A(w) = 1 - \left[ \left(\frac{1 - w}{\theta_1} \right)^{-\alpha} + 
+    \left(\frac{w}{\theta_2} \right)^{-\alpha}
+  \right]^{-\frac{1}{\alpha}}
+\end{displaymath}
+
+\subsection{The Mixed model}
+
+The mixed model is defined by:
+\begin{displaymath}
+  V(x,y) = \frac{1}{x} + \frac{1}{y} - \frac{\alpha}{x+y}, \qquad 0
+  \leq \alpha \leq 1
+\end{displaymath}
+
+Independence is obtained when $\alpha = 0$ while total dependence
+could never be reached.
+
+The Pickands' dependence function for the mixed model is:
+\begin{displaymath}
+  A(w) = 1 - w  \left(1 -w\right) \alpha
+\end{displaymath}
+
+\subsection{The Asymetric Mixed model}
+
+The asymetric mixed model is defined by:
+\begin{displaymath}
+  V(x,y) = \frac{1}{x} + \frac{1}{y} - \frac{\left( \alpha + \theta
+    \right) x + \left(\alpha + 2\theta \right) y}{\left( x+ y
+    \right)^2}, \qquad \alpha \geq 0,\quad \alpha + 2 \theta \leq 1,
+  \quad  \alpha + 3\theta \geq 0
+\end{displaymath}
+
+Independence is obtained when $\alpha = \theta = 0$ while total
+dependence could never be reached.
+
+The Pickands' dependence function for the asymetric mixed model is:
+\begin{displaymath}
+  A(w) = \theta w^3 + \alpha w^2 - \left(\alpha + \theta \right) w +
+  1
+\end{displaymath}
+
+
+\bibliography{e:/Docs/LateX/biblio_ribatet}
 \end{document}
 %%% Local Variables: 
 %%% mode: latex

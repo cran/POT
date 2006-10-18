@@ -47,12 +47,15 @@ gpd.pfshape <- function(fitted, range, xlab, ylab,
   
   exceed<- fitted$exceedances
   threshold <- fitted$threshold
-  nhigh <- fitted$nhigh
+  nat <- fitted$nat
+
+  if (!fitted$var.thresh)
+    threshold <- rep(threshold, nat)
   
   ## First define a function who compute the profile log-likelihood
   ## for the shape parameter.
   gpd.plikshape <- function(scale){
-    -.C("gpdlik", exceed, nhigh, threshold, scale, shape, dns = double(1),
+    -.C("gpdlik", exceed, nat, threshold, scale, shape, dns = double(1),
         PACKAGE = "POT")$dns
   }
  
@@ -114,12 +117,15 @@ gpd.pfscale <- function(fitted, range, xlab, ylab,
   
   exceed<- fitted$exceedances
   threshold <- fitted$threshold
-  nhigh <- fitted$nhigh
+  nat <- fitted$nat
+
+  if (!fitted$var.thresh)
+    threshold <- rep(threshold, nat)
   
   ## First define a function who compute the profile log-likelihood
   ## for the scale parameter.
   gpd.plikscale <- function(shape){
-    -.C("gpdlik", exceed, nhigh, threshold, scale, shape, dns = double(1),
+    -.C("gpdlik", exceed, nat, threshold, scale, shape, dns = double(1),
         PACKAGE = "POT")$dns
   }
  
@@ -181,10 +187,13 @@ gpd.pfrl <- function(fitted, prob, range, thresh, xlab, ylab,
   
   exceed <- fitted$exceedances
   threshold <- fitted$threshold
-  nhigh <- fitted$nhigh
+  nat <- fitted$nat
   scale.fit <- fitted$scale
   shape.fit <- fitted$param[2]
 
+  if (!fitted$var.thresh)
+    threshold <- rep(threshold, nat)
+  
   if (fitted$var.thresh & missing(thresh))
     stop("You must specify a particular threshold ``thresh'' when ``fitted'' has a varying threshold")
   
@@ -209,7 +218,7 @@ gpd.pfrl <- function(fitted, prob, range, thresh, xlab, ylab,
       scale <- (retlev - thresh) / log(1 - prob)
     else
       scale <- (retlev - thresh) * shape / ( (1 - prob)^(-shape) - 1 )
-    -.C("gpdlik", exceed, nhigh, threshold, scale, shape,
+    -.C("gpdlik", exceed, nat, threshold, scale, shape,
         dns = double(1), PACKAGE = "POT")$dns
   }
    
@@ -262,7 +271,7 @@ gpd.pfrl <- function(fitted, prob, range, thresh, xlab, ylab,
 ## for the shape parameter
 gpd.fishape <- function(fitted, conf = 0.95){
 
-  nhigh <- fitted$nhigh
+  nat <- fitted$nat
   se.shape <- fitted$std.err[2]
   shape.mle <- fitted$param[2]
   
@@ -279,7 +288,7 @@ gpd.fishape <- function(fitted, conf = 0.95){
 ## for the scale parameter 
 gpd.fiscale <- function(fitted, conf = 0.95){
   
-  nhigh <- fitted$nhigh
+  nat <- fitted$nat
   se.scale <- fitted$std.err[1]
   scale.mle <- fitted$scale
   

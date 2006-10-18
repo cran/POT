@@ -9,7 +9,7 @@
 ##   7) Method of Medians Estimator
 
 ## A generic function for estimate the GPD parameters
-fitgpd <- function(data, threshold, method, ...){
+fitgpd <- function(data, threshold, method = "mle", ...){
   fitted <- switch(method, 'moments' = gpdmoments(data, threshold, ...),
                    'pwmb' = gpdpwmb(data, threshold, ...),
                    'pwmu' = gpdpwmu(data, threshold, ...),
@@ -18,8 +18,8 @@ fitgpd <- function(data, threshold, method, ...){
                    'mdpd' = gpdmdpd(data, threshold, ...),
                    'med' = gpdmed(data, threshold, ...)
                    )
-  printpot(fitted)
-  invisible(fitted)
+  class(fitted) <- c("uvpot","pot")
+  return(fitted)
 }
 
 ##Pickand's Estimator
@@ -56,9 +56,9 @@ gpdpickands <- function(data, threshold, ...){
   var.thresh <- FALSE
   
   
-  return(list(estimate = estim, std.err = std.err, var.cov = var.cov,
+  return(list(fitted.values = estim, std.err = std.err, var.cov = var.cov,
               param = param, message = message, threshold = threshold,
-              nhigh = nat, nat = nat, pat = pat, convergence = convergence,
+              nat = nat, pat = pat, convergence = convergence,
               corr = corr, counts = counts, exceedances = exceed,
               scale = scale, var.thresh = var.thresh, type = "pickands"))
 }
@@ -118,9 +118,9 @@ for standard error may not be fullfilled !'
   
   var.thresh <- FALSE
   
-  return(list(estimate = estim, std.err = std.err, var.cov = var.cov,
+  return(list(fitted.values = estim, std.err = std.err, var.cov = var.cov,
               param = param, message = message, threshold = threshold,
-              nhigh = nat, nat = nat, pat = pat, convergence = convergence,
+              nat = nat, pat = pat, convergence = convergence,
               corr= corr, counts = counts, exceedances = exceed,
               scale=scale, var.thresh = var.thresh, type = "moments"))
 }
@@ -190,10 +190,10 @@ gpdpwmb <- function(data, threshold, a=0.35, b=0, ...){
   
   var.thresh <- FALSE
   
-  return(list(estimate = estim, std.err = std.err, var.cov = var.cov,
+  return(list(fitted.values = estim, std.err = std.err, var.cov = var.cov,
               param = param, message = type, threshold = threshold,
               corr = corr, convergence = convergence, counts = counts,
-              nhigh = nat, nat = nat, pat = pat, exceedances = exceed,
+              nat = nat, pat = pat, exceedances = exceed,
               scale=scale, var.thresh = var.thresh, type = type))
 }
 
@@ -270,10 +270,10 @@ for standard error may not be fullfilled !"
   
   var.thresh <- FALSE
   
-  return(list(estimate = estim, std.err = std.err, var.cov = var.cov,
+  return(list(fitted.values = estim, std.err = std.err, var.cov = var.cov,
               param = param, message = message, threshold = threshold,
               corr = corr, convergence = convergence, counts = counts,
-              nhigh = nat, nat = nat, pat = pat, exceedances = exceed,
+              nat = nat, pat = pat, exceedances = exceed,
               scale=scale, var.thresh = var.thresh, type = "PWMU"))
 }
 
@@ -296,11 +296,11 @@ gpdmdpd <- function(x, threshold, a, start, ...,
   high <- (x > threshold) & !is.na(x)
   threshold <- as.double(threshold[high])
   exceed <- as.double(x[high])
-  nhigh <- nat <- length(exceed)
+  nat <- length(exceed)
   
   excess <- exceed - threshold
   
-  if(!nhigh) stop("no data above threshold")
+  if(!nat) stop("no data above threshold")
   
   pat <- nat/nn
   param <- c("scale", "shape")
@@ -353,17 +353,17 @@ gpdmdpd <- function(x, threshold, a, start, ...,
   
   var.thresh <- FALSE
   
-  list(estimate = opt$par, std.err = std.err, std.err.type = std.err.type,
+  list(fitted.values = opt$par, std.err = std.err, std.err.type = std.err.type,
        var.cov = var.cov, fixed = NULL, param = param,
        deviance = NULL, corr = corr, convergence = opt$convergence,
        counts = opt$counts, message = opt$message, threshold = threshold,
-       nhigh = nhigh, nat = nat, pat = pat, data = x, exceedances = exceed,
+       nat = nat, pat = pat, data = x, exceedances = exceed,
        scale = scale, var.thresh = var.thresh, type = "MDPD")
 }
 
 
 
-## The last two fucntions came from the evd package. The gpd.mle function
+## This function comes from the evd package. The gpdmle function
 ## corresponds to the fpot function. Nevertheless, it was sligthly modified
 ## to simplify it. So, this function is a ligther version of fpot.
 ## So, I'm very gratefull to Alec Stephenson.
@@ -373,7 +373,7 @@ gpdmle <- function(x, threshold, start, ...,
                    method = "BFGS", warn.inf = TRUE){
   
   nlpot <- function(scale, shape) { 
-    -.C("gpdlik", exceed, nhigh, threshold, scale,
+    -.C("gpdlik", exceed, nat, threshold, scale,
         shape, dns = double(1), PACKAGE = "POT")$dns
   }
   
@@ -384,9 +384,9 @@ gpdmle <- function(x, threshold, start, ...,
   high <- (x > threshold) & !is.na(x)
   threshold <- as.double(threshold[high])
   exceed <- as.double(x[high])
-  nhigh <- nat <- length(exceed)
+  nat <- length(exceed)
   
-  if(!nhigh) stop("no data above threshold")
+  if(!nat) stop("no data above threshold")
   
   pat <- nat/nn
   param <- c("scale", "shape")
@@ -483,7 +483,7 @@ gpdmle <- function(x, threshold, start, ...,
     a12 <- 1/(scale*(1+shape)*(1+2*shape))
     a11 <- 1/((scale^2)*(1+2*shape))
     ##Expected Matix of Information of Fisher
-    expFisher <- nhigh * matrix(c(a11,a12,a12,a22),nrow=2)
+    expFisher <- nat * matrix(c(a11,a12,a12,a22),nrow=2)
     
     var.cov <- solve(expFisher, tol = tol)
     std.err <- sqrt(diag(var.cov))
@@ -507,13 +507,16 @@ gpdmle <- function(x, threshold, start, ...,
   scale <- param["scale"]
   
   var.thresh <- !all(threshold == threshold[1])
+
+  if (!var.thresh)
+    threshold <- threshold[1]
   
-  list(estimate = opt$par, std.err = std.err, std.err.type = std.err.type,
+  list(fitted.values = opt$par, std.err = std.err, std.err.type = std.err.type,
        var.cov = var.cov, fixed = unlist(fixed.param), param = param,
        deviance = 2*opt$value, corr = corr.mat, convergence = opt$convergence,
        counts = opt$counts, message = opt$message, threshold = threshold,
-       nhigh = nhigh, nat = nat, pat = pat, data = x, exceedances = exceed,
-       scale = scale, var.thresh = var.thresh, type = "MLE")
+       nat = nat, pat = pat, data = x, exceedances = exceed, scale = scale,
+       var.thresh = var.thresh, type = "MLE", logLik = -opt$value)
 }
 
 ##Medians estimation for the GPD ( Peng, L. and Welsh, A. (2002) )
@@ -532,11 +535,11 @@ gpdmed <- function(x, threshold, start, ..., tol = 10^-3, maxit = 500,
   high <- (x > threshold) & !is.na(x)
   threshold <- as.double(threshold[high])
   exceed <- as.double(x[high])
-  nhigh <- nat <- length(exceed)
+  nat <- length(exceed)
   
   excess <- exceed - threshold
   
-  if(!nhigh) stop("no data above threshold")
+  if(!nat) stop("no data above threshold")
   
   pat <- nat/nn
   param <- c("scale", "shape")
@@ -612,55 +615,12 @@ gpdmed <- function(x, threshold, start, ..., tol = 10^-3, maxit = 500,
   if (show.trace)
     print(round(trace, 3))
   
-  list(estimate = param, std.err = std.err, std.err.type = std.err.type,
+  list(fitted.values = param, std.err = std.err, std.err.type = std.err.type,
        var.cov = var.cov, fixed = NULL, param = param,
        deviance = NULL, corr = corr, convergence = opt$convergence,
        counts = opt$counts, message = opt$message, threshold = threshold,
-       nhigh = nhigh, nat = nat, pat = pat, data = x, exceedances = exceed,
+       nat = nat, pat = pat, data = x, exceedances = exceed,
        scale = scale, var.thresh = var.thresh, type = "MEDIANS")
   
 }
 
-"printpot" <-  function(x, digits = max(3, getOption("digits") - 3), ...) 
-{
-  cat("Estimator:", x$type, "\n")
-  
-  if (x$type == 'mle')
-    cat("Deviance:", x$deviance, "\n")
-  
-  cat("\nVarying Threshold:", x$var.thresh, "\n")
-  
-  if(!x$var.thresh)
-    x$threshold <- x$threshold[1]
-  
-  cat("\nThreshold:", round(x$threshold, digits), "\n")
-  cat("Number Above:", x$nat, "\n")
-  cat("Proportion Above:", round(x$pat, digits), "\n")
-  
-  cat("\nEstimates\n") 
-  print.default(format(x$estimate, digits = digits), print.gap = 2, 
-                quote = FALSE)
-  if(!is.null(x$std.err)) {
-    cat("\nStandard Error Type:", x$std.err.type, "\n")
-    cat("\nStandard Errors\n")
-    print.default(format(x$std.err, digits = digits), print.gap = 2, 
-                  quote = FALSE)
-  }
-  if(!is.null(x$var.cov)) {
-    cat("\nAsymptotic Variance Covariance\n")
-    print.default(format(x$var.cov, digits = digits), print.gap = 2, 
-                  quote = FALSE)
-  }
-  if(!is.null(x$corr)) {
-    cat("\nCorrelation\n")
-    print.default(format(x$corr, digits = digits), print.gap = 2, 
-                  quote = FALSE)
-  }
-  cat("\nOptimization Information\n")
-  cat("  Convergence:", x$convergence, "\n")
-  cat("  Function Evaluations:", x$counts["function"], "\n")
-  if(!is.na(x$counts["gradient"]))
-    cat("  Gradient Evaluations:", x$counts["gradient"], "\n")
-  if(!is.null(x$message)) cat("\nMessage:", x$message, "\n")
-  cat("\n")
-}

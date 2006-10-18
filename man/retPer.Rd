@@ -1,7 +1,7 @@
 \name{Return Periods Tools}
 \alias{rp2prob}
 \alias{prob2rp}
-\title{Tools to convert return periods to probability and vice versa}
+\title{Tools to Convert Return Periods to Probability and Vice Versa}
 \description{
   Compute return period from probability of non exceedance and vice versa.
 }

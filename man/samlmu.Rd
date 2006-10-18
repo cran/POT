@@ -1,6 +1,6 @@
 \name{L-moments}
 \alias{samlmu}
-\title{Compute sample L-moments}
+\title{Compute Sample L-moments}
 \description{Compute the sample L-moments - unbiased version.}
 
 \usage{samlmu(x, nmom = 4, sort.data = TRUE)}

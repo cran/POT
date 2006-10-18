@@ -68,7 +68,7 @@ diplot <- function(data, u.range, main, xlab, ylab,
 
 mrlplot <- function(data, u.range, main, xlab, ylab,
                     nt = max(100, length(data)),
-                    lty = c(3, 1, 3), col = c('grey','black','grey'),
+                    lty = rep(1, 3), col = c('grey','black','grey'),
                     conf = 0.95, lwd = c(1, 1.5, 1),...){
   
   data <- sort(data[!is.na(data)])
@@ -137,13 +137,13 @@ tcplot <- function (data, u.range, cmax = FALSE, r = 1,
   
   dimnames(scls) <- list(round(u, 2), c("lower", pname, "upper"))
   z <- gpdmle(data, u[1], corr = TRUE, ...)
-  stvals <- as.list(round(z$estimate, 3))
+  stvals <- as.list(round(fitted(z), 3))
   
   for (i in 1:nt) {
     
     z <- gpdmle(data, u[i], corr = TRUE, ...)
     stvals <- as.list(fitted(z))
-    mles <- z$estimate
+    mles <- fitted(z)
     stderrs <- z$std.err
     cnst <- qnorm((1 + conf)/2)
     shp <- mles["shape"]

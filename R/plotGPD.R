@@ -14,10 +14,10 @@ retlev.gpd <- function(fitted, npy, main, xlab,
   
   data <- fitted$exceedances
   loc <- fitted$threshold[1]
-  scale <- fitted$estimate[1]
-  shape <- fitted$estimate[2]
+  scale <- fitted$param["scale"]
+  shape <- fitted$param["shape"]
   
-  n <- fitted$nhigh
+  n <- fitted$nat
   
   pot.fun <- function(T){
     p <- rp2prob(T, npy)[,"prob"]
@@ -45,8 +45,8 @@ retlev.gpd <- function(fitted, npy, main, xlab,
     samp <- matrix(samp, n, 999)
     samp <- apply(samp, 2, sort)
     samp <- apply(samp, 1, sort)
-    ci_inf <- samp[30,]
-    ci_sup <- samp[970,]
+    ci_inf <- samp[25,]
+    ci_sup <- samp[975,]
     lines( 1 / ( npy * (1 - p_emp) ), ci_inf, lty = 2)
     lines( 1 / ( npy * (1 - p_emp) ), ci_sup, lty = 2)
   }
@@ -61,9 +61,9 @@ qq.gpd <- function(fitted, main, xlab,
   
   data <- fitted$exceedances
   loc <- fitted$threshold[1]
-  scale <- fitted$estimate[1]
-  shape <- fitted$estimate[2]
-  n <- fitted$nhigh
+  scale <- fitted$param["scale"]
+  shape <- fitted$param["shape"]
+  n <- fitted$nat
 
   quant_fit <- qgpd(ppoints(n), loc, scale, shape)
 
@@ -81,8 +81,8 @@ qq.gpd <- function(fitted, main, xlab,
     samp <- matrix(samp, n, 999)
     samp <- apply(samp, 2, sort)
     samp <- apply(samp, 1, sort)
-    ci_inf <- samp[30,]
-    ci_sup <- samp[970,]
+    ci_inf <- samp[25,]
+    ci_sup <- samp[975,]
     points( quant_fit, ci_inf, pch = '-')
     points( quant_fit, ci_sup, pch = '-')
   }
@@ -97,9 +97,9 @@ pp.gpd <- function(fitted, main, xlab,
   
   data <- fitted$exceedances
   loc <- fitted$threshold[1]
-  scale <- fitted$estimate[1]
-  shape <- fitted$estimate[2]
-  n <- fitted$nhigh
+  scale <- fitted$param["scale"]
+  shape <- fitted$param["shape"]
+  n <- fitted$nat
 
   p_emp <- ppoints(n)
   p_fit <- pgpd(sort(data), loc, scale, shape)
@@ -117,8 +117,8 @@ pp.gpd <- function(fitted, main, xlab,
     samp <- matrix(samp, n, 999)
     samp <- apply(samp, 2, sort)
     samp <- apply(samp, 1, sort)
-    ci_inf <- pgpd(samp[30,], loc, scale, shape)
-    ci_sup <- pgpd(samp[970,], loc, scale, shape)
+    ci_inf <- pgpd(samp[25,], loc, scale, shape)
+    ci_sup <- pgpd(samp[975,], loc, scale, shape)
     points( p_emp, ci_inf, pch = '-')
     points( p_emp, ci_sup, pch = '-')
   }
@@ -138,9 +138,9 @@ dens.gpd <- function(fitted, main, xlab, ylab,
   if (length(unique(loc)) != 1)
       stop("Density plot not avalaible for varying threshold...")
 
-  scale <- fitted$estimate[1]
-  shape <- fitted$estimate[2]
-  n <- fitted$nhigh
+  scale <- fitted$param["scale"]
+  shape <- fitted$param["shape"]
+  n <- fitted$nat
 
   dens <- function(x) dgpd(x, loc, scale, shape)
   eps <- 10^(-5)
@@ -162,13 +162,15 @@ dens.gpd <- function(fitted, main, xlab, ylab,
   if (rug) rug(data)
 }
 
-plotgpd <- function(fitted, npy, main, which = 1:4,
-                      ask = nb.fig < length(which) && 
-                     dev.interactive(),ci = TRUE, ...){
+plot.uvpot <- function(x, npy, main, which = 1:4,
+                       ask = nb.fig < length(which) && 
+                       dev.interactive(),ci = TRUE, ...){
   if (!is.numeric(which) || any(which < 1) || any(which > 4)) 
         stop("`which' must be in 1:4")
-  if (any(which == 4) & missing(npy))
-    stop("Argument ``npy'' must be present !!!")
+  if (any(which == 4) & missing(npy)){
+    warning("Argument ``npy'' should be specified !!! Setting it to 1.")
+    npy <- 1
+  }
   
   show <- rep(FALSE, 4)
   show[which] <- TRUE
@@ -179,16 +181,16 @@ plotgpd <- function(fitted, npy, main, which = 1:4,
     on.exit(par(op))
   }
   if (show[1]) {
-    pp.gpd(fitted, ci = ci, main, xlim = c(0, 1), ylim = c(0, 
+    pp.gpd(x, ci = ci, main, xlim = c(0, 1), ylim = c(0, 
                                                     1), ...)
   }
   if (show[2]) {
-    qq.gpd(fitted, ci = ci, main, ...)
+    qq.gpd(x, ci = ci, main, ...)
   }
   if (show[3]) {
-    dens.gpd(fitted, main, ...)
+    dens.gpd(x, main, ...)
   }
   if (show[4]) {
-    retlev.gpd(fitted, npy, main, ...)
+    retlev.gpd(x, npy, main, ...)
   }
 }

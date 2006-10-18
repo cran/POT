@@ -1,7 +1,7 @@
 \name{Threshold Selection}
 \alias{diplot}
 
-\title{Dispersion Index Plot}
+\title{Threshold Seclection: The Dispersion Index Plot}
 \description{The Dispersion Index Plot}
 \usage{
 diplot(data, u.range, main, xlab, ylab, conf=0.95, \dots)

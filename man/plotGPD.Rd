@@ -1,22 +1,19 @@
-\name{Plot GPD fit}
-\alias{plotgpd}
-\alias{qq.gpd}
-\alias{pp.gpd}
-\alias{dens.gpd}
-\alias{retlev.gpd}
+\name{plot.uvpot}
+\alias{plot.uvpot}
 
-\title{Graphical Functions to compare the GP Fitted Model to Empirical One}
+\title{Graphical Diagnostic: the Univariate GPD Model}
 \description{Produces QQ-plot, Probability Plot and a Denstiy Plot of
   the fitted model versus the empirical one.  Another function computes
   the Return Level Plot of the fitted model.}
 
-\usage{plotgpd(fitted, npy, main, which = 1:4, ask = nb.fig < length(which) && 
-                     dev.interactive(),ci = TRUE, ...)
+\usage{
+\method{plot}{uvpot}(x, npy, main, which = 1:4, ask = nb.fig <
+length(which) && dev.interactive(),ci = TRUE, \dots)
 }
 \arguments{
-  \item{fitted}{A fitted object of class \code{'gpd'}. Generally, an object
+  \item{x}{A fitted object of class \code{'uvpot'}. Generally, an object
     return by \code{fitgpd}}
-  \item{npy}{The \bold{M}ean number of events \bold{P}er \bold{Y}ear - or
+  \item{npy}{The mean \bold{N}umber of events \bold{P}er \bold{Y}ear - or
     more generally a block.}
   \item{main}{optional. A string vector corresponding to the title of
     each plot.}
@@ -26,14 +23,14 @@
   \item{ask}{Logical. If \code{TRUE}, user is asked before each plot.}
   \item{ci}{Logical. If \code{TRUE}, the simulated 95\% confidence
     interval is plotted.}
-  \item{...}{Other parameters to pass to the \code{\link{plot}} function.}
+  \item{\dots}{Other parameters to pass to the \code{\link{plot}} function.}
 }
 \examples{
 data(ardieres)
 ardieres <- clust(ardieres, 4, 10 / 365, clust.max = TRUE)
 fitted <- fitgpd(ardieres[, "obs"], 6, 'mle')
-npy <- fitted$nhigh / 33.4 ##33.4 is total record length (in year)
-plotgpd(fitted, npy = npy)
+npy <- fitted$nat / 33.4 ##33.4 is total record length (in year)
+plot(fitted, npy = npy)
 }
 \author{Mathieu Ribatet}
 \keyword{hplot}

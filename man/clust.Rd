@@ -1,6 +1,6 @@
-\name{Clusters}
+\name{clust}
 \alias{clust}
-\title{Clustering Techniques}
+\title{Identify Extreme Clusters within a Time Series}
 \description{
   A function to identify clusters of exceedences of a time series.
 }

@@ -1,6 +1,6 @@
 \name{Threshold Selection}
 \alias{mrlplot}
-\title{Empirical Mean Residual Life Plot}
+\title{Threshold Selection: The Empirical Mean Residual Life Plot}
 \description{
   The empirical mean residual life plot. 
 }

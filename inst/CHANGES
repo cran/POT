@@ -1,3 +1,14 @@
+Version 0.0-8:
+  - Add a function ``fitbvgpd'' to fit bivariate POT
+  - Add a function ``fitmcgpd'' to fit all exceedances with a first
+    order Markov chain
+  - Implement methods for classes ``uvpot'', ``bvpot'' and ``mcpot''
+  - Update user's guide
+  - Add a function ``simmc'' to simulate first order Markov chains
+    with a fixed extreme value dependence.
+  - Add a function for bivariate return level plot
+  - Add a the Ferro and Seger's estimator for the extremal index
+
 Version 0.0-7:
   - Add a function ``clust'' for identify clusters of extreme
   - Add a function ``ts2tsd'' for a mobile average window in a time

@@ -1,3 +1,21 @@
+2006-10-18  ribatema@BRANDY  <ribatema@brandy>
+
+	* CHANGES: Update this file for the new version
+
+	* doc/guide.pdf, doc/guide.tex: Modification du guide de l'utilisateur
+
+2006-08-07  ribatema@BRANDY  <ribatema@brandy>
+
+	* CHANGES: Update to the current stable version of the package
+
+	* ChangeLog: *** empty log message ***
+
+	* doc/guide.tex: The user's guide in LaTeX
+
+	* doc/guide.pdf: The user's guide in pdf
+
+	* CHANGES: Move file CHANGES in the inst/ directory
+
 2006-08-03  ribatema@BRANDY  <ribatema@brandy>
 
 	* CHANGES:

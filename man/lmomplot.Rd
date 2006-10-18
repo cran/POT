@@ -1,6 +1,6 @@
 \name{Threshold Selection}
 \alias{lmomplot}
-\title{L-moments Plot}
+\title{Threshold Selection: The L-moments Plot}
 \description{
   Plots of sample L-Skewness ans L-Kurtosis estimates at various
   thresholds for peaks over threshold modelling, using the Generalized

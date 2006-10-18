@@ -1,6 +1,6 @@
 \name{Flood Flows}
 \alias{ardieres}
-\title{High Flood Flows of river Ardieres at Beaujeu}
+\title{High Flood Flows of the Ardieres River at Beaujeu}
 \usage{data(ardieres)}
 \description{
   A data frame containing flood discharges, in units of cubic meters per
