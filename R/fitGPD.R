@@ -4,63 +4,108 @@
 ##   2) Unbiased Probability Weighted Moment (PWMU) Estimator
 ##   3) Biased Probability Weighted Moment (PWMB) Estimator
 ##   4) Maximum Likelihood Estimator
-
+##   5) Pickands' Estimator
+##   6) Minimum Density Power Divergence Estimator
+##   7) Method of Medians Estimator
 
 ## A generic function for estimate the GPD parameters
 fitgpd <- function(data, threshold, method, ...){
   fitted <- switch(method, 'moments' = gpdmoments(data, threshold, ...),
-                 'pwmb' = gpdpwmb(data, threshold, ...),
-                 'pwmu' = gpdpwmu(data, threshold, ...),
-                 'mle' = gpdmle(data, threshold, ...)
-                 )
+                   'pwmb' = gpdpwmb(data, threshold, ...),
+                   'pwmu' = gpdpwmu(data, threshold, ...),
+                   'mle' = gpdmle(data, threshold, ...),
+                   'pickands' = gpdpickands(data, threshold, ...),
+                   'mdpd' = gpdmdpd(data, threshold, ...),
+                   'med' = gpdmed(data, threshold, ...)
+                   )
   printpot(fitted)
+  invisible(fitted)
+}
+
+##Pickand's Estimator
+gpdpickands <- function(data, threshold, ...){
+  
+  if ( length(unique(threshold)) != 1){
+    warning("Threshold must be a single numeric value for method = 'pickands'. Taking only the first value !!!")
+    threshold <- threshold[1]
+  }
+  
+  exceed <- data[data>threshold]
+  nat <- length( exceed )
+  pat <- nat / length( data )
+  
+  excess <- sort(exceed - threshold)
+  
+  n <- length(excess)
+  xn.2 <- excess[ceiling(n/2)]
+  x3n.4 <- excess[ceiling(.75*n)]
+  d <- xn.2^2 / (2 * xn.2 - x3n.4)
+  
+  shape <- -log(xn.2 / (x3n.4 - xn.2) ) / log(2)
+  scale <- -shape * d
+  
+  if ( (max(excess) * shape) > -scale)
+    message <- "Estimates are valid"
+  
+  else
+    message <- "Estimates are not valid"
+  
+  estim <- param <- c(scale = scale, shape = shape)
+  std.err <- var.cov <- corr <- NULL
+  convergence <- counts <- NA
+  var.thresh <- FALSE
+  
+  
+  return(list(estimate = estim, std.err = std.err, var.cov = var.cov,
+              param = param, message = message, threshold = threshold,
+              nhigh = nat, nat = nat, pat = pat, convergence = convergence,
+              corr = corr, counts = counts, exceedances = exceed,
+              scale = scale, var.thresh = var.thresh, type = "pickands"))
 }
 
 ## Moments Estimator
 
-gpdmoments <- function(data,threshold){
-
+gpdmoments <- function(data, threshold, ...){
+  
   if ( length(unique(threshold)) != 1){
-    warning("Threshold must be a single numeric value for method = 'moments'. Taking the first value !!!")
+    warning("Threshold must be a single numeric value for method = 'moments'. Taking only the first value !!!")
     threshold <- threshold[1]
   }
-
+  
   exceed <- data[data>threshold]
   nat <- length( exceed )
   pat <- nat / length( data )
   
   if ( nat == 0 )
     stop("None observation above the specified threshold !!!")
-
+  
   exceed <- sort(exceed)
   
   loc <- threshold
-
+  
   ## Evaluate the excess above the threshold 
   exces <- exceed - loc
-
+  
   m <- mean(exces)
   v <- var(exces)
-
+  
   scale <- m / 2 * ( m^2 / v +1 )
   shape <- - ( m^2 / v -1 ) / 2
-
-  estim <- c(scale  = scale, shape = shape)
-  param <-  c(scale = scale, shape =shape)
-  convergence <- NA
-  counts <- NA
-
+  
+  estim <- param <- c(scale  = scale, shape = shape)
+  convergence <- counts <- NA
+  
   a11 <- 2*scale^2 * ( 1 - 6*shape + 12*shape^2)
   a12 <- - scale * (1-2*shape) * (1-4*shape+12*shape^2)
   a21 <- a12
   a22 <- (1-2*shape)^2 * (1-shape+6*shape^2)
-
+  
   var.cov <- (1 - shape)^2 / ( (1-2*shape)*(1-3*shape)*(1-4*shape)*nat ) *
     matrix(c(a11,a21,a12,a22),2)
   colnames(var.cov) <- c('scale','shape')
   rownames(var.cov) <- c('scale','shape')
   std.err <- sqrt( diag(var.cov) )
-
+  
   .mat <- diag(1/std.err, nrow = length(std.err))
   corr <- structure(.mat %*% var.cov %*% .mat)                    
   diag(corr) <- rep(1, length(std.err))
@@ -71,59 +116,64 @@ gpdmoments <- function(data,threshold){
 for standard error may not be fullfilled !'
   else message <- NULL
   
+  var.thresh <- FALSE
+  
   return(list(estimate = estim, std.err = std.err, var.cov = var.cov,
               param = param, message = message, threshold = threshold,
               nhigh = nat, nat = nat, pat = pat, convergence = convergence,
-              corr= corr, counts = counts, exceedances = exceed, scale=scale))
+              corr= corr, counts = counts, exceedances = exceed,
+              scale=scale, var.thresh = var.thresh, type = "moments"))
 }
 
 ##PWMB Estimator
 
-gpdpwmb <- function(data,threshold,a=0.35,b=0){
-
+gpdpwmb <- function(data, threshold, a=0.35, b=0, ...){
+  
   if ( length(unique(threshold)) != 1){
-    warning("Threshold must be a single numeric value for method = 'pwmb'. Taking the first value !!!")
+    warning("Threshold must be a single numeric value for method = 'pwmb'. Taking only the first value !!!")
     threshold <- threshold[1]
   }
-
+  
   exceed <- data[data>threshold]
   nat <- length( exceed )
   pat <- nat / length( data )
   
   if ( nat == 0 )
     stop("None observation above the specified threshold !!!")
-
+  
   exceed <- sort(exceed)
   
   loc <- threshold
   
-  exces <- exceed - loc
-
-  m <- mean(exces)
-  n <- length(exces)
-  p <- 0
-
-  for (i in 1:n){
-    p[i] <- (i-a)/(n+b)
-  }
-
-  t <- sum((1-p)*exces)/n
-
+  excess <- exceed - loc
+  
+  m <- mean(excess)
+  n <- length(excess)
+  p <- (1:n - a) / (n + b)
+  
+  t <- sum((1-p)*excess)/n
+  
   shape <- - m / (m- 2*t ) + 2
   scale <- 2 * m * t / (m - 2*t )
-  type <- 'PWM'
-
+  type <- 'PWMB'
+  
+  if ( max(excess) <= (-scale / shape) ){
+    shape <- -scale / max(excess)
+    type <- 'PWMB Hybrid'
+  }
+  
   estim <- c(scale  = scale, shape = shape)
   param <-  c(scale = scale, shape =shape)
   convergence <- NA
   counts <- NA
-
+  
   a11 <- scale^2 * (7-18*shape+11*shape^2-2*shape^3)
   a12 <- - scale * (2-shape) * (2-6*shape+7*shape^2-2*shape^3)
   a21 <- a12
   a22 <- (1-shape) * (2 -shape)^2 * (1-shape+2*shape^2)
-
-  var.cov <- 1 / ( (1-2*shape) * (3-2*shape)*nat ) * matrix(c(a11,a21,a12,a22),2)
+  
+  var.cov <- 1 / ( (1-2*shape) * (3-2*shape)*nat ) *
+    matrix(c(a11,a21,a12,a22),2)
   colnames(var.cov) <- c('scale','shape')
   rownames(var.cov) <- c('scale','shape')
   std.err <- sqrt( diag(var.cov) )
@@ -133,16 +183,18 @@ gpdpwmb <- function(data,threshold,a=0.35,b=0){
   diag(corr) <- rep(1, length(std.err))
   colnames(corr) <- c('scale','shape')
   rownames(corr) <- c('scale','shape')
-      
+  
   if ( shape > 0.5 )
     message <- "Assymptotic theory assumptions for standard error may not be fullfilled !"
   else message <- NULL
   
+  var.thresh <- FALSE
+  
   return(list(estimate = estim, std.err = std.err, var.cov = var.cov,
               param = param, message = type, threshold = threshold,
               corr = corr, convergence = convergence, counts = counts,
-              nhigh = nat, nat = nat, pat = pat,
-              exceedances = exceed, scale=scale))
+              nhigh = nat, nat = nat, pat = pat, exceedances = exceed,
+              scale=scale, var.thresh = var.thresh, type = type))
 }
 
 
@@ -151,49 +203,37 @@ gpdpwmb <- function(data,threshold,a=0.35,b=0){
 
 samlmu <- function (x, nmom = 4, sort.data = TRUE)
 {
-    xok <- x[!is.na(x)]
-    n <- length(xok)
-    if (nmom <= 0) return(numeric(0))
-    if (nmom <= 2) rnames <- paste("l", 1:nmom, sep = "_")
-    else rnames <- c("l_1", "l_2", paste("t", 3:nmom, sep = "_"))
-    lmom <- rep(NA, nmom)
-    names(lmom) <- rnames
-    if (n == 0) return(lmom)
-    if (sort.data == TRUE) xok <- sort(xok)
-    nmom.actual <- min(nmom, n)
-    lmom[1] <- mean(xok)
-    if (nmom.actual == 1) return(lmom)
-    temp <- seq(1-n, n-1, by = 2)
-    p1 <- rep(1, n)
-    p <- temp/(n-1)
-    lmom[2] <- mean(xok * p)
-    if (nmom.actual == 2) return(lmom)
-    if (xok[1] == xok[n]) {
-        warning("all data values equal")
-        return(lmom)
-    }
-    for (j in 3:nmom.actual) {
-        p2 <- p1
-        p1 <- p
-        p <- ((2*j-3)*temp*p1 - (j-2)*(n+j-2)*p2) / ((j-1)*(n-j+1))
-        lmom[j] <- mean(xok * p)/lmom[2]
-    }
-    return(lmom)
+  xok <- x[!is.na(x)]
+  n <- length(xok)
+  if (nmom <= 0) return(numeric(0))
+  if (nmom <= 2) rnames <- paste("l", 1:nmom, sep = "_")
+  else rnames <- c("l_1", "l_2", paste("t", 3:nmom, sep = "_"))
+  lmom <- rep(NA, nmom)
+  names(lmom) <- rnames
+  if (n == 0) return(lmom)
+  if (sort.data == TRUE) xok <- sort(xok)
+  nmom.actual <- min(nmom, n)
+  
+  lmom <- .C("samlmu", as.double(xok), as.integer(nmom.actual),
+             as.integer(n), lmom = double(nmom.actual),
+             PACKAGE = "POT")$lmom
+  names(lmom) <- rnames
+  return(lmom)
 }
 
 gpdpwmu <- function(data,threshold){
-
+  
   if ( length(unique(threshold)) != 1){
-    warning("Threshold must be a single numeric value for method = 'pwmu'. Taking the first value !!!")
+    warning("Threshold must be a single numeric value for method = 'pwmu'. Taking only the first value !!!")
     threshold <- threshold[1]
   }
   
   exceed <- data[data>threshold]
-
+  
   if ( length(exceed) == 0 )
     stop("None observation above the specified threshold !!!")
-
-  exceed <- sort(unique(exceed))
+  
+  exceed <- sort(exceed)
   nat <- length( exceed )
   pat <- nat / length( data )
   
@@ -204,16 +244,15 @@ gpdpwmu <- function(data,threshold){
   scale <- (1 - shape)*(lmoments[1] - loc)
   names(shape) <- NULL
   names(scale) <- NULL
-
-  estim <- c(scale  = scale, shape = shape)
-  param <-  c(scale = scale, shape =shape)
-  convergence <- NA
-  counts <- NA
+  
+  estim <- param <- c(scale  = scale, shape = shape)
+  convergence <- counts <- NA
+  
   a11 <- scale^2 * (7-18*shape+11*shape^2-2*shape^3)
   a12 <- - scale * (2-shape) * (2-6*shape+7*shape^2-2*shape^3)
   a21 <- a12
   a22 <- (1-shape) * (2 -shape)^2 * (1-shape+2*shape^2)
-
+  
   var.cov <- 1 / ( (1-2*shape) * (3-2*shape)*nat ) * matrix(c(a11,a21,a12,a22),2)
   colnames(var.cov) <- c('scale','shape')
   rownames(var.cov) <- c('scale','shape')
@@ -224,17 +263,105 @@ gpdpwmu <- function(data,threshold){
   diag(corr) <- rep(1, length(std.err))
   colnames(corr) <- c('scale','shape')
   rownames(corr) <- c('scale','shape')
-      
+  
   if ( shape > 0.5 ) message <- "Assymptotic theory assumptions
 for standard error may not be fullfilled !"
   else message <- NULL
   
+  var.thresh <- FALSE
+  
   return(list(estimate = estim, std.err = std.err, var.cov = var.cov,
               param = param, message = message, threshold = threshold,
               corr = corr, convergence = convergence, counts = counts,
-              nhigh = nat, nat = nat, pat = pat,
-              exceedances = exceed, scale=scale))
+              nhigh = nat, nat = nat, pat = pat, exceedances = exceed,
+              scale=scale, var.thresh = var.thresh, type = "PWMU"))
 }
+
+##MDPD estimators for the GPD.
+gpdmdpd <- function(x, threshold, a, start, ...,
+                    method = "BFGS", warn.inf = TRUE){
+  
+  if ( length(unique(threshold)) != 1){
+    warning("Threshold must be a single numeric value for method = 'mdpd'. Taking only the first value !!!")
+    threshold <- threshold[1]
+  }
+  
+  if (missing(a))
+    a <- .1
+  
+  nn <- length(x)
+  
+  threshold <- rep(threshold, length.out = nn)
+  
+  high <- (x > threshold) & !is.na(x)
+  threshold <- as.double(threshold[high])
+  exceed <- as.double(x[high])
+  nhigh <- nat <- length(exceed)
+  
+  excess <- exceed - threshold
+  
+  if(!nhigh) stop("no data above threshold")
+  
+  pat <- nat/nn
+  param <- c("scale", "shape")
+  
+  if(missing(start)) {
+    
+    start <- c(scale = 0, shape = 0.1)
+    start["scale"] <- mean(exceed) - min(threshold)
+    
+  }
+  
+  pddf <- function(param){
+    ## Evaluates the (P)ower (D)ensity (D)ivergence (F)unction which is
+    ## criterion function of the MDPDE
+    scale <- param["scale"]
+    shape <- param["shape"]
+    
+    if ( (-max(excess) * shape) < scale){
+      n <- length(excess)
+      t <- (-1/shape -1) * a
+      y <- excess / scale
+      y <- 1 + shape*y
+      y <- y^t
+      c1 <- 1 / (scale^a * (1 + a + a * shape))
+      c2 <- (1 + 1/a ) / scale^a / n
+      div <- c1 - c2 * sum(y)
+    }
+    
+    else
+      div <- Inf
+    
+    return(div)
+  }
+  
+  opt <- optim(start, pddf, hessian = TRUE, ..., method = method)
+  
+  if (opt$convergence != 0) {
+    warning("optimization may not have succeeded")
+    if(opt$convergence == 1) opt$convergence <- "iteration limit reached"
+  }
+  
+  else opt$convergence <- "successful"
+  
+  shape <- opt$par[2]
+  scale <- opt$par[1]
+  
+  param <- c(scale = scale, shape = shape)
+  
+  std.err <- std.err.type <- var.cov <- corr <- NULL
+  
+  var.thresh <- FALSE
+  
+  list(estimate = opt$par, std.err = std.err, std.err.type = std.err.type,
+       var.cov = var.cov, fixed = NULL, param = param,
+       deviance = NULL, corr = corr, convergence = opt$convergence,
+       counts = opt$counts, message = opt$message, threshold = threshold,
+       nhigh = nhigh, nat = nat, pat = pat, data = x, exceedances = exceed,
+       scale = scale, var.thresh = var.thresh, type = "MDPD")
+}
+
+
 
 ## The last two fucntions came from the evd package. The gpd.mle function
 ## corresponds to the fpot function. Nevertheless, it was sligthly modified
@@ -242,32 +369,23 @@ for standard error may not be fullfilled !"
 ## So, I'm very gratefull to Alec Stephenson.
 
 gpdmle <- function(x, threshold, start, ...,
-                    obs.fish = TRUE, corr = FALSE,
-                    method = "BFGS", warn.inf = TRUE){
-
-  if (length(threshold) == 1)
-    nlpot <- function(scale, shape) { 
-      -.C("gpdlik",
-          exceed, nhigh, threshold, scale, shape,
-          dns = double(1), PACKAGE = "POT")$dns
-    }
-  else
-    nlpot <- function(scale, shape) { 
-      -.C("gpdlik2",
-          exceed, nhigh, threshold, scale, shape,
-          dns = double(1), PACKAGE = "POT")$dns
-    }
+                   obs.fish = TRUE, corr = FALSE,
+                   method = "BFGS", warn.inf = TRUE){
+  
+  nlpot <- function(scale, shape) { 
+    -.C("gpdlik", exceed, nhigh, threshold, scale,
+        shape, dns = double(1), PACKAGE = "POT")$dns
+  }
   
   nn <- length(x)
-      
-  if (length(threshold) != 1 & length(threshold) != length(x))
-    threshold <- rep(threshold, length.out = nn)
-    
-  extind <- r <- NULL
+  
+  threshold <- rep(threshold, length.out = nn)
+  
   high <- (x > threshold) & !is.na(x)
+  threshold <- as.double(threshold[high])
   exceed <- as.double(x[high])
   nhigh <- nat <- length(exceed)
-    
+  
   if(!nhigh) stop("no data above threshold")
   
   pat <- nat/nn
@@ -276,8 +394,8 @@ gpdmle <- function(x, threshold, start, ...,
   if(missing(start)) {
     
     start <- list(scale = 0, shape = 0)
-    start$scale <- mean(exceed) - mean(threshold)
-   
+    start$scale <- mean(exceed) - min(threshold)
+    
     start <- start[!(param %in% names(list(...)))]
     
   }
@@ -310,7 +428,7 @@ gpdmle <- function(x, threshold, start, ...,
     stop("unspecified parameters")
   
   start.arg <- c(list(p = unlist(start)), fixed.param)
-  if( warn.inf && !is.finite(do.call("nllh", start.arg)) )
+  if( warn.inf && do.call("nllh", start.arg) == 1e6 )
     warning("negative log-likelihood is infinite at starting values")
   
   opt <- optim(start, nllh, hessian = TRUE, ..., method = method)
@@ -321,32 +439,43 @@ gpdmle <- function(x, threshold, start, ...,
   }
   
   else opt$convergence <- "successful"
-
+  
   tol <- .Machine$double.eps^0.5
   
   if(obs.fish) {
     
     var.cov <- qr(opt$hessian, tol = tol)
-    if(var.cov$rank != ncol(var.cov$qr)) 
-      stop("observed information matrix is singular; use obs.fish = FALSE")
-    var.cov <- solve(var.cov, tol = tol)
-    
-    std.err <- diag(var.cov)
-    if(any(std.err <= 0))
-      stop("observed information matrix is singular; use obs.fish = FALSE")
-    std.err <- sqrt(std.err)
-    
-    if(corr) {
-      .mat <- diag(1/std.err, nrow = length(std.err))
-      corr <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
-      diag(corr) <- rep(1, length(std.err))
+    if(var.cov$rank != ncol(var.cov$qr)){
+      warning("observed information matrix is singular; passing obs.fish to FALSE")
+      obs.fish <- FALSE
+      return
     }
-    else {
-      corr <- NULL
+    
+    if (obs.fish){
+      var.cov <- solve(var.cov, tol = tol)
+      
+      std.err <- diag(var.cov)
+      if(any(std.err <= 0)){
+        warning("observed information matrix is singular; passing obs.fish to FALSE")
+        obs.fish <- FALSE
+        return
+      }
+      
+      std.err <- sqrt(std.err)
+      
+      if(corr) {
+        .mat <- diag(1/std.err, nrow = length(std.err))
+        corr <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
+        diag(corr) <- rep(1, length(std.err))
+      }
+      else {
+        corr <- NULL
+      }
     }
+    std.err.type <- "Observed"
   }
   
-  else{
+  if (!obs.fish){
     
     shape <- opt$par[2]
     scale <- opt$par[1]
@@ -355,10 +484,10 @@ gpdmle <- function(x, threshold, start, ...,
     a11 <- 1/((scale^2)*(1+2*shape))
     ##Expected Matix of Information of Fisher
     expFisher <- nhigh * matrix(c(a11,a12,a12,a22),nrow=2)
-
+    
     var.cov <- solve(expFisher, tol = tol)
     std.err <- sqrt(diag(var.cov))
-
+    
     if(corr) {
       .mat <- diag(1/std.err, nrow = length(std.err))
       corr <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
@@ -366,68 +495,172 @@ gpdmle <- function(x, threshold, start, ...,
     }
     else
       corr <- NULL
-    }
-
+    
+    std.err.type <- "Expected"
+  }
+  
   colnames(var.cov) <- nm
   rownames(var.cov) <- nm
   names(std.err) <- nm
   
   param <- c(opt$par, unlist(fixed.param))
   scale <- param["scale"]
-
-  if (length(unique(threshold) == 1))
-    threshold <- unique(threshold)
   
-  list(estimate = opt$par, std.err = std.err, var.cov = var.cov, fixed =
-       unlist(fixed.param), param = param, deviance = 2*opt$value,
-       corr = corr, convergence = opt$convergence, counts =
-       opt$counts, message = opt$message, threshold = threshold, nhigh =
-       nhigh, nat = nat, pat = pat, data = x, exceedances = exceed,
-       scale = scale)
+  var.thresh <- !all(threshold == threshold[1])
+  
+  list(estimate = opt$par, std.err = std.err, std.err.type = std.err.type,
+       var.cov = var.cov, fixed = unlist(fixed.param), param = param,
+       deviance = 2*opt$value, corr = corr, convergence = opt$convergence,
+       counts = opt$counts, message = opt$message, threshold = threshold,
+       nhigh = nhigh, nat = nat, pat = pat, data = x, exceedances = exceed,
+       scale = scale, var.thresh = var.thresh, type = "MLE")
+}
+
+##Medians estimation for the GPD ( Peng, L. and Welsh, A. (2002) )
+gpdmed <- function(x, threshold, start, ..., tol = 10^-3, maxit = 500,
+                   show.trace = FALSE){
+  
+  if ( length(unique(threshold)) != 1){
+    warning("Threshold must be a single numeric value for method = 'med'. Taking only the first value !!!")
+    threshold <- threshold[1]
+  }
+  
+  nn <- length(x)
+  
+  threshold <- rep(threshold, length.out = nn)
+  
+  high <- (x > threshold) & !is.na(x)
+  threshold <- as.double(threshold[high])
+  exceed <- as.double(x[high])
+  nhigh <- nat <- length(exceed)
+  
+  excess <- exceed - threshold
+  
+  if(!nhigh) stop("no data above threshold")
+  
+  pat <- nat/nn
+  param <- c("scale", "shape")
+
+   if(missing(start)) {
+    
+    start <- c(scale = 0, shape = 0.1)
+    start["scale"] <- mean(exceed) - min(threshold)
+    
+  }
+    
+  iter <- 1
+  
+  trace <- round(start, 3)
+  
+  ##Definition of a function to solve
+  f <- function(x, y){
+    -log(x)/y - (1+y)/y^2 * (1 - x^y) + log(x + .5)/y +
+      (1+y)/y^2 * (1 - (x+.5)^y)
+  }
+  
+  
+  while (iter < maxit){
+    ##If we have a non feasible point, we move back to feasible region
+    if ( start[2] < 0 & max(excess) >= -start[1] / start[2])
+      start[2] <- start[1] / max(excess) + .1
+    
+    r1 <- start[2] * median(excess) / (2^start[2] - 1) - start[1]
+    
+    a <- log( 1 + start[2] * excess / start[1] ) / start[2]^2
+    b <- (1 + start[2]) * excess / (start[1]*start[2] +
+                                    start[2]^2 * excess)
+    
+    if (start[2] <= -1)
+      y1 <- .5
+    
+    else
+      y1 <- uniroot(f, c(10^-12, .5), y = start[2])$root
+    
+    r2 <- median(a - b) + log(y1)/start[2] + (1 + start[2]) /
+      start[2]^2 * (1 - y1^start[2])
+    
+    next.point <- c(r1, r2) + start
+    
+    if (sqrt(sum( (next.point - start)^2) ) < tol)
+      break
+    
+    trace <- rbind(trace, next.point)
+    iter <- iter + 1
+    start <- next.point
+    
+  }
+  
+  opt <- list()
+  if(iter == maxit) opt$convergence <- "iteration limit reached"
+  
+  else opt$convergence <- "successful"
+  
+  opt$counts <- iter - 1
+  names(opt$counts) <- "function"
+  
+  shape <- start[2]
+  scale <- start[1]
+  
+  param <- c(scale = scale, shape = shape)
+  names(param) <- c("scale", "shape")
+  
+  std.err <- std.err.type <- var.cov <- corr <- NULL
+  
+  var.thresh <- FALSE
+  
+  rownames(trace) <- c("Init. Val.", 1:(iter-1))
+  if (show.trace)
+    print(round(trace, 3))
+  
+  list(estimate = param, std.err = std.err, std.err.type = std.err.type,
+       var.cov = var.cov, fixed = NULL, param = param,
+       deviance = NULL, corr = corr, convergence = opt$convergence,
+       counts = opt$counts, message = opt$message, threshold = threshold,
+       nhigh = nhigh, nat = nat, pat = pat, data = x, exceedances = exceed,
+       scale = scale, var.thresh = var.thresh, type = "MEDIANS")
+  
 }
 
 "printpot" <-  function(x, digits = max(3, getOption("digits") - 3), ...) 
 {
-    cat("\nCall:", deparse(x$call), "\n")
+  cat("Estimator:", x$type, "\n")
+  
+  if (x$type == 'mle')
     cat("Deviance:", x$deviance, "\n")
-
-    cat("\nThreshold:", round(x$threshold, digits), "\n")
-    cat("Number Above:", x$nat, "\n")
-    cat("Proportion Above:", round(x$pat, digits), "\n")
-    if(!is.null(x$extind)) {
-      cat("\nClustering Interval:", x$r, "\n")
-      if(is.finite(x$ulow)) {
-        cat("Lower Threshold:", round(x$ulow, digits), "\n")
-        cat("Lower Clustering Interval:", x$rlow, "\n")
-      }
-      cat("Number of Clusters:", x$nhigh, "\n")
-      cat("Extremal Index:", round(x$extind, digits), "\n")
-    }
-    
-    cat("\nEstimates\n") 
-    print.default(format(x$estimate, digits = digits), print.gap = 2, 
-        quote = FALSE)
-    if(!is.null(x$std.err)) {
+  
+  cat("\nVarying Threshold:", x$var.thresh, "\n")
+  
+  if(!x$var.thresh)
+    x$threshold <- x$threshold[1]
+  
+  cat("\nThreshold:", round(x$threshold, digits), "\n")
+  cat("Number Above:", x$nat, "\n")
+  cat("Proportion Above:", round(x$pat, digits), "\n")
+  
+  cat("\nEstimates\n") 
+  print.default(format(x$estimate, digits = digits), print.gap = 2, 
+                quote = FALSE)
+  if(!is.null(x$std.err)) {
+    cat("\nStandard Error Type:", x$std.err.type, "\n")
     cat("\nStandard Errors\n")
     print.default(format(x$std.err, digits = digits), print.gap = 2, 
-        quote = FALSE)
-    }
-    if(!is.null(x$var.cov)) {
+                  quote = FALSE)
+  }
+  if(!is.null(x$var.cov)) {
     cat("\nAsymptotic Variance Covariance\n")
     print.default(format(x$var.cov, digits = digits), print.gap = 2, 
-        quote = FALSE)
-    }
-    if(!is.null(x$corr)) {
+                  quote = FALSE)
+  }
+  if(!is.null(x$corr)) {
     cat("\nCorrelation\n")
     print.default(format(x$corr, digits = digits), print.gap = 2, 
-        quote = FALSE)
-    }
-    cat("\nOptimization Information\n")
-    cat("  Convergence:", x$convergence, "\n")
-    cat("  Function Evaluations:", x$counts["function"], "\n")
-    if(!is.na(x$counts["gradient"]))
-        cat("  Gradient Evaluations:", x$counts["gradient"], "\n")
-    if(!is.null(x$message)) cat("  Message:", x$message, "\n")
-    cat("\n")
-    invisible(x)
+                  quote = FALSE)
+  }
+  cat("\nOptimization Information\n")
+  cat("  Convergence:", x$convergence, "\n")
+  cat("  Function Evaluations:", x$counts["function"], "\n")
+  if(!is.na(x$counts["gradient"]))
+    cat("  Gradient Evaluations:", x$counts["gradient"], "\n")
+  if(!is.null(x$message)) cat("\nMessage:", x$message, "\n")
+  cat("\n")
 }

@@ -6,8 +6,8 @@
   A data frame containing flood discharges over a threshold, in
   units of cubic meters per second, of the Ardieres River at Beaujeu
   (FRANCE), over a period of 33 years and the related date of those
-  events. Unfortunately, the data are   ordered from largest to
-  smallest. The threshold was fixed too low to test functions for the
+  events.  Unfortunately, the data are   ordered from largest to
+  smallest.  The threshold was fixed too low to test functions for the
   threshold selection.}
 \format{A vector containing 166 observations.}
 \examples{

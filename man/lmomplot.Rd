@@ -6,7 +6,7 @@
   thresholds for peaks over threshold modelling, using the Generalized
   Pareto parametrization.}
 \usage{
-lmomplot(data,tlim,identify = TRUE,\dots)
+lmomplot(data, tlim, identify = TRUE, \dots)
 }
 \arguments{
   \item{data}{A numeric vector.}
@@ -27,23 +27,23 @@ lmomplot(data,tlim,identify = TRUE,\dots)
     \tau_4\right)} are near the theoretical curve.
 }
 \section{Warnings}{
-  L-moments plot are really difficult to interpret. It can help us to
+  L-moments plot are really difficult to interpret.  It can help us to
   say if the GP distribution is suited to model data.
 }
 \seealso{\code{\link{fitgpd}}, \code{\link{mrlplot}},
   \code{\link{tcplot}}}
 
-\references{Hosking, J. R. M. and Wallis, J. R. (1997). \emph{Regional
+\references{Hosking, J. R. M. and Wallis, J. R. (1997) \emph{Regional
     Frequency Analysis}. Cambridge University Press.
 
-  Begueria, S. (2005). \emph{Uncertainties in partial duration series
-    modelling of extremes related to the choice of the threshold value.}
-  Journal of Hydrology, 303(1-4) :215-230.
+  Begueria, S. (2005) Uncertainties in partial duration series
+    modelling of extremes related to the choice of the threshold value.
+  Journal of Hydrology, 303\bold{(1-4)}: 215--230.
 }
 \examples{
 data(ardieres)
-flows <- ardieres[,"flows"]
-\dontrun{lmomplot(flows, identify = FALSE)}
+flows <- ardieres[, "flows"]
+lmomplot(flows, identify = FALSE)
 }
 \author{Mathieu Ribatet}
 \keyword{hplot}

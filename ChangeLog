@@ -1,16 +1,30 @@
+Version 0.0-6:
+  - Fix a bug in ``gpdmle'' while passing to option obs.fish = FALSE
+  - Add Medians estimator to fitgpd.
+  - Add Pickands' estimators to fitgpd.
+  - Add (M)inimum (D)ensity (P)ower (D)ivergence estimator
+    to fitgpd.
+  - Add details to ``rp2prob'' and ``prob2rp'' functions.
+  - Changing graphic display in ``plotgpd''
+  - Add warnings for profile confidence interval with
+    varying threshold.
+  - Passing automatically to ``expected'' information of
+    fisher if the expected information matrix of Fisher is
+    singular in function ``gpdmle''.  
+
 Version 0.0-5:
-  - Add functions ``rp2prob'' and ``prob2rp''
+  - Add functions ``rp2prob'' and ``prob2rp''.
   - Allow varying threshold in ``fitgpd'' with method = 'mle'
   - Return level confidence interval are now defined with
     probability of non exceedance instead of return periods.
 
 Version 0.0-4:
-  - Compute Expected Matrix Information of Fisher in gpdmle
+  - Compute Expected Matrix Information of Fisher in gpdmle.
 
 Version 0.0-3:
-  - Fix a message bug in gpdpwmb
+  - Fix a message bug in gpdpwmb.
 
 Version 0.0-2:
-  - Modifying documentation of function mrlplot
-  - Fix a wrong title and y-label axis in function diplot
-  - Add references in documentation files
+  - Modifying documentation of function mrlplot.
+  - Fix a wrong title and y-label axis in function diplot.
+  - Add references in documentation files.

@@ -6,7 +6,7 @@
 }
 \usage{
 mrlplot(data, tlim, main, xlab, ylab, nt = max(100, length(data)),
-lty = c(3,1,3), col = c('grey','black','grey'), conf = 0.95, lwd = c(1,
+lty = c(3, 1, 3), col = c('grey', 'black', 'grey'), conf = 0.95, lwd = c(1,
 1.5, 1), \dots) 
 }
 \arguments{
@@ -31,10 +31,10 @@ lty = c(3,1,3), col = c('grey','black','grey'), conf = 0.95, lwd = c(1,
   \deqn{\left(u,\frac{1}{n_u} \sum\nolimits_{i=1}^{n_u}
     (x_{(i)} - u) \right)}{{u,1/n_u \sum_{i=1}^{n_u} (x(i) - u)}}
   where \eqn{x_{(1)}, \dots, x_{(n_u)}}{x(1), \dots, x(n_u)} are
-  the \eqn{n_u} observations that exceed the threshold \eqn{u}.
-  If the exceedances of a threshold \eqn{u_0}{u0}
-  are generalized Pareto, the empirical mean residual life plot
-  should be approximately linear for \eqn{u > u_0}{u > u0}.
+  the \eqn{n_u} observations that exceed the threshold \eqn{u}.  If the
+  exceedances of a threshold \eqn{u_0}{u0} are generalized Pareto, the
+  empirical mean residual life plot should be approximately linear for
+  \eqn{u > u_0}{u > u0}.
   
   The confidence intervals within the plot are symmetric intervals
   based on the approximate normality of sample means.
@@ -49,15 +49,15 @@ lty = c(3,1,3), col = c('grey','black','grey'), conf = 0.95, lwd = c(1,
 \seealso{\code{\link{fitgpd}}, \code{\link{matplot}},
   \code{\link{tcplot}}}
 
-\references{Coles, S. (2001). \emph{An Introduction to Statistical
+\references{Coles, S. (2001) \emph{An Introduction to Statistical
     Modelling of Extreme Values}. Springer Series in Statistics. London.
 
-Embrechts, P., Kl\"uppelberg, C., and Mikosch,
-T. (1997). \emph{Modelling Extremal Events for Insurance and Finance.}
-Springer, New York.}
+  Embrechts, P., Kl\"uppelberg, C., and Mikosch, T. (1997)
+  \emph{Modelling Extremal Events for Insurance and Finance.}
+}
 \examples{
 data(ardieres)
-flows <- ardieres[,"flows"]
+flows <- ardieres[, "flows"]
 mrlplot(flows)
 }
 \keyword{hplot}

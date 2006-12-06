@@ -5,7 +5,7 @@
 
 \title{Confidence interval for the GP distribution}
 \description{Compute confidence intervals on parameter and return level
-  for the GP distribution. This is achieved through asymptotic theory
+  for the GP distribution.  This is achieved through asymptotic theory
   and the Observed information matrix of Fisher.
 }
 

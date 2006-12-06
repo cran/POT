@@ -7,17 +7,17 @@
 
 \title{Graphical Functions to compare the GP Fitted Model to Empirical One}
 \description{Produces QQ-plot, Probability Plot and a Denstiy Plot of
-  the fitted model versus the empirical one. Another function computes
+  the fitted model versus the empirical one.  Another function computes
   the Return Level Plot of the fitted model.}
 
-\usage{plotgpd(fitted, mu, main, which = 1:4, ask = nb.fig < length(which) && 
+\usage{plotgpd(fitted, npy, main, which = 1:4, ask = nb.fig < length(which) && 
                      dev.interactive(),ci = TRUE, ...)
 }
 \arguments{
   \item{fitted}{A fitted object of class \code{'gpd'}. Generally, an object
     return by \code{fitgpd}}
-  \item{mu}{The mean number that occur in a block -generally a block
-    consits of a year.}
+  \item{npy}{The \bold{M}ean number of events \bold{P}er \bold{Y}ear - or
+    more generally a block.}
   \item{main}{optional. A string vector corresponding to the title of
     each plot.}
   \item{which}{a numeric vector which specifies which plot must be drawn
@@ -30,9 +30,9 @@
 }
 \examples{
 data(ardieres)
-fitted <- fitgpd(ardieres[,"flows"], 6, 'mle')
-mu <- fitted$nhigh / 33.4
-plotgpd(fitted, mu = mu)
+fitted <- fitgpd(ardieres[, "flows"], 6, 'mle')
+npy <- fitted$nhigh / 33.4 ##33.4 is total record length (in year)
+plotgpd(fitted, npy = npy)
 }
 \author{Mathieu Ribatet}
 \keyword{hplot}

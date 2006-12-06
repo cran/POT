@@ -5,7 +5,7 @@
 
 \title{Confidence interval for the GP distribution}
 \description{Compute confidence intervals on parameter and return level
-  for the GP distribution. This is achieved through the profile
+  for the GP distribution.  This is achieved through the profile
   likelihood procedure.
 }
 
@@ -14,15 +14,16 @@ gpd.pfshape(fitted, range, xlab, ylab, conf = 0.95, nrang = 100,
 vert.lines = TRUE, \dots)
 gpd.pfscape(fitted, range, xlab, ylab, conf = 0.95, nrang = 100,
 vert.lines = TRUE, \dots)
-gpd.pfrl(fitted, retper, mu, range, xlab, ylab, conf = 0.95, nrang =
+gpd.pfrl(fitted, prob, range, thresh, xlab, ylab, conf = 0.95, nrang =
 100, vert.lines = TRUE, \dots)
 }
 \arguments{
   \item{fitted}{\code{R} object given by function \code{\link{fitgpd}}.}
-  \item{retper}{Numeric. The return period of interest.}
-  \item{mu}{Numeric. The mean number of event per year.}
+  \item{prob}{The probability of non exceedance.}
   \item{range}{Vector of dimension two. It gives the lower and upper
     bound on which the profile likelihood is performed.}
+  \item{thresh}{Optional. The threshold. Only needed with non constant
+    threshold.}
   \item{xlab, ylab}{Optional Strings. Allows to label the x-axis and
     y-axis. If missing, default value are considered.}
   \item{conf}{Numeric. The confidence level.}
@@ -35,7 +36,7 @@ gpd.pfrl(fitted, retper, mu, range, xlab, ylab, conf = 0.95, nrang =
 }
 \value{
   Returns a vector of the lower and upper bound for the profile confidence
-  interval. Moreover, a graphic of the profile likelihood function is
+  interval.  Moreover, a graphic of the profile likelihood function is
   displayed.
 }
 
@@ -45,10 +46,10 @@ gpd.pfrl(fitted, retper, mu, range, xlab, ylab, conf = 0.95, nrang =
 }
 \examples{
 data(ardieres)
-fitted <- fitgpd(ardieres[,"flows"], 5, 'mle')
-gpd.pfshape(fitted, c(0,0.8))
+fitted <- fitgpd(ardieres[, "flows"], 5, 'mle')
+gpd.pfshape(fitted, c(0, 0.8))
 rp2prob(10, 2)
-gpd.pfrl(fitted, 0.95, c(14,32))
+gpd.pfrl(fitted, 0.95, c(14, 32))
 }
 \author{Mathieu Ribatet}
 \keyword{htest}

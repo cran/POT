@@ -44,15 +44,15 @@ tcplot(data, tlim, cmax = FALSE, r = 1,
 }
 \details{
   For each of the \code{nt} thresholds a peaks over threshold model
-  is fitted using the function \code{fitgpd}. The maximum likelihood
+  is fitted using the function \code{fitgpd}.  The maximum likelihood
   estimates for the shape and the modified scale parameter (modified by
   subtracting the shape multiplied by the threshold) are plotted against
-  the thresholds. If the threshold \code{u} is a valid threshold to be
+  the thresholds.  If the threshold \code{u} is a valid threshold to be
   used for peaks over threshold modelling, the parameter estimates
   depicted should be approximately constant above \code{u}.
 }
 \value{
-  A list is invisibly returned. Each component is a matrix with
+  A list is invisibly returned.  Each component is a matrix with
   three columns giving parameter estimates and confidence limits.
 }
 \author{Stuart Coles and Alec Stephenson}
@@ -60,13 +60,12 @@ tcplot(data, tlim, cmax = FALSE, r = 1,
 \seealso{\code{\link{fitgpd}}, \code{\link{mrlplot}}}
 
 \references{
-  Coles, S. (2001). \emph{An Introduction to Statistical
+  Coles, S. (2001) \emph{An Introduction to Statistical
     Modelling of Extreme Values}. Springer Series in Statistics. London.
 }
 \examples{
 data(ardieres)
-flows <- ardieres[,"flows"]
-tcplot(flows, tlim = c(0,15) )
+flows <- ardieres[, "flows"]
+tcplot(flows, tlim = c(0, 15) )
 }
 \keyword{hplot}
-

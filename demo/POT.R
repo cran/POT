@@ -41,8 +41,7 @@ cat("The same can also be obtained for return levels...")
 mu <-  fitted$nhigh / diff(range(date))
 rp2prob(10, 2)
 gpd.pfrl(fitted, 0.95, range=c(14, 35),
-         main=expression(paste("95% Profile C.I. for the 10-year return level, "
-             ,mu==1.5,sep="")))
+         main="95% Profile C.I. for the 10-year return level, npy = 1.5")
 cat("We can produce several graphics really usefull for diagnostic of our model
 of Peaks over threshold...")
 plot(ardieres, ylab = expression(paste("Flood Discharge  ",m^3/s, sep="")),

@@ -18,9 +18,9 @@
 }
 
 \references{
-  Hosking, J. R. M. (1990). \emph{L-moment analysis and estimation of
-    order statistics.} Journal of the Royal Statistical Society Series
-  B, 52:105-124.
+  Hosking, J. R. M. (1990) L-moment analysis and estimation of
+  order statistics. Journal of the Royal Statistical Society Series
+  B, \bold{52}: 105--124.  
 }
 \examples{
 x <- runif(50)

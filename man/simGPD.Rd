@@ -45,8 +45,8 @@ dgpd(x, loc = 0, scale = 1, shape = 0, log = FALSE)
 }
 \examples{
 dgpd(0.1)
-rgpd(100,1,2,0.2)
-qgpd(seq(0.1,0.9,0.1),1,0.5,-0.2)
-pgpd(12.6,2,0.5,0.1)
+rgpd(100, 1, 2, 0.2)
+qgpd(seq(0.1, 0.9, 0.1), 1, 0.5, -0.2)
+pgpd(12.6, 2, 0.5, 0.1)
 }
 \keyword{distribution}

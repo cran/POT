@@ -23,13 +23,13 @@ diplot(data, tlim, main, xlab, ylab, conf=0.95, \dots)
 \details{
   According to the Extreme Value Theory, the number of exceedance
   over a high threshold in a fixed period - generally a year - must be
-  distributed as Poisson processus. As for a random variable Poisson
+  distributed as Poisson processus.  As for a random variable Poisson
   distributed, the ratio of the variance and the mean is equal to 1, one
   can test if the ratio \eqn{\code{DI} = var / mean} differs from
-  1. Moreover, confidence levels for \code{DI} can be calculated by
+  1.  Moreover, confidence levels for \code{DI} can be calculated by
   testing against a \eqn{\chi^2} distribution with \code{M}-1 degree of
   freedom, \code{M} being the total number of fixed periods -generally
-  the total number of years in the sample. So, the Poisson hypothesis is
+  the total number of years in the sample.  So, the Poisson hypothesis is
   not rejected if the estimated \code{DI} is within the range
   \deqn{\left[ \frac{\chi^2_{\alpha/2, \code{M}-1}}{\code{M}-1},
     \frac{\chi^2_{1 - \alpha/2, \code{M}-1} }{\code{M} - 1} \right]}{
@@ -41,6 +41,7 @@ data(ardieres)
 diplot(ardieres)
 }
 \author{Mathieu Ribatet}
-\references{Cunnane, C. (1979). \emph{Note on the poisson assumption in
-    partial duration series model.} Water Resource Research, 15(2) :489-494.} 
+\references{Cunnane, C. (1979) Note on the poisson assumption in
+    partial duration series model. Water Resource Research, 15\bold{(2)}
+    :489--494.}
 \keyword{hplot}
