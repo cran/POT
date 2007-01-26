@@ -66,11 +66,11 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
   ##model (if needed) that is MLE estimates on marginal data
   if (missing(start)){
     start <- list(scale1 = 0, shape1 = 0)
-    temp <- gpdmle(data1, threshold[1], std.err.type = "none")$param
+    temp <- fitgpd(data1, threshold[1], method = "pwmu")$param
     start$scale1 <- temp[1]
     start$shape1 <- temp[2]
 
-    temp <- gpdmle(data2, threshold[2], std.err.type = "none")$param
+    temp <- fitgpd(data2, threshold[2], method = "pwmu")$param
     if (!cscale)
       start$scale2 <- temp[1]
 

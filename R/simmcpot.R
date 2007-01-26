@@ -8,12 +8,25 @@ simmcpot <- function(fitted, plot = TRUE, ...){
   shape <- fitted$param["shape"]
   alpha <- fitted$param["alpha"]
   pat <- fitted$pat
-
-
+  model <- fitted$model
   n <- length(fitted$data)
 
-  args <- list(n = n, alpha = alpha)
-  prob <- do.call(simmc, args)
+  if (model %in% c("log", "nlog"))
+    param <- list(alpha = alpha)
+
+  if (model %in% c("alog", "anlog"))
+    param <- list(alpha = alpha, asCoef1 = x$param["asCoef1"],
+                  asCoef2 = x$param["asCoef2"])
+
+  if (model == "mix")
+    param <- list(alpha = alpha, asCoef = 0)
+  
+  if (model == "amix")
+    param <- list(alpha = alpha, asCoef = x$param["asCoef"])
+
+  param <- c(param, list(n = n, model = model))
+
+  prob <- do.call(simmc, param)
 
   mcpot <- rep(NA, n)
   idx <- which(prob > (1 - pat))

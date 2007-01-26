@@ -7,7 +7,7 @@ void gpdmclog(double *data1, double *data2, double *data3, int *nj,
   int i;
 
   double eps, *t1, *t2, *z1, *z2, *dvecj, v, nv1, nK1,
-    nv2, nK2, v12, censCont, *dvecm;
+    nv2, nK2, v12, censCont, *dvecm, lambda2;
 
   eps = R_pow(DOUBLE_EPS, 0.3);
   t1 = (double *)R_alloc(*nnj, sizeof(double));
@@ -38,10 +38,8 @@ void gpdmclog(double *data1, double *data2, double *data3, int *nj,
     //Margin 1
     t1[i] = (data1[i]  - *thresh) / *scale;
         
-    if (data1[i] <= *thresh){
+    if (data1[i] <= *thresh)
       t1[i] = 1;
-      data1[i] = 0;
-    }
 
     else{
 
@@ -66,11 +64,9 @@ void gpdmclog(double *data1, double *data2, double *data3, int *nj,
     //Margin 2
     t2[i] = (data2[i]  - *thresh) / *scale;
 
-    if (data2[i] <= *thresh){
+    if (data2[i] <= *thresh)
       t2[i] = 1;
-      data2[i] = 0;
-    }
-
+        
     else{
 
       if (fabs(*shape) <= eps){
@@ -94,6 +90,14 @@ void gpdmclog(double *data1, double *data2, double *data3, int *nj,
     //Transform observed datas to unit frechet ones
     z1[i] = -1 / log(1 - *lambda * t1[i]);
     z2[i] = -1 / log(1 - *lambda * t2[i]);
+
+    //To avoid numerical troubles
+    if (!R_FINITE(z1[i]) || !R_FINITE(z2[i]) || !R_FINITE(log(z1[i])) ||
+	!R_FINITE(log(z2[i]))){
+      *dns = -1e6;
+      return;
+    }
+
   }
   
   //+++++++++++++++++++++++++++++++++++++//
@@ -108,7 +112,7 @@ void gpdmclog(double *data1, double *data2, double *data3, int *nj,
     //(z[1], z[2]) (but omitting the alpha power!!!)
     v = R_pow(z1[i], - 1 / *alpha) + R_pow(z2[i], - 1 / *alpha);
       
-    if ((data1[i] == 0) && (data2[i] > 0)){
+    if ((data1[i] <= *thresh) && (data2[i] > *thresh)){
 
       //Case 2: x1 <= threshold1 & x2 > threshold2
       
@@ -126,7 +130,7 @@ void gpdmclog(double *data1, double *data2, double *data3, int *nj,
       
     }
     
-    if ((data1[i] > 0) && (data2[i] == 0)){ 
+    if ((data1[i] > *thresh) && (data2[i] <= *thresh)){ 
 
       //Case 3: x1 > threshold1 & x2 <= threshold2
       
@@ -144,7 +148,7 @@ void gpdmclog(double *data1, double *data2, double *data3, int *nj,
       
     }
 
-    if ((data1[i] * data2[i]) > 0){
+    if ((data1[i] > *thresh) && (data2[i] > *thresh)){
 
       //Case 4: x1 > threshold1 & x2 > threshold2
       
@@ -185,8 +189,8 @@ void gpdmclog(double *data1, double *data2, double *data3, int *nj,
   
   //Now add the censored contribution to loglikelihood
   if (*nnj != *nj){
-    *lambda = - 1 / log(1 - *lambda);
-    censCont = 2 * R_pow(*lambda, -1 / *alpha);
+    lambda2 = - 1 / log(1 - *lambda);
+    censCont = 2 * R_pow(lambda2, -1 / *alpha);
     censCont = -R_pow(censCont, *alpha);
     *dns = *dns + (*nj - *nnj) * censCont;
   }
@@ -209,11 +213,11 @@ void gpdmclog(double *data1, double *data2, double *data3, int *nj,
   }
   
   for(i=0;i<*nnm;i++)
-    *dns = *dns + dvecm[i];
+    *dns = *dns - dvecm[i];
 
   //Now add the censored contribution to loglikelihood
   if (*nm != *nnm)
-    *dns = *dns - (*nm - *nnm) / *lambda;
+    *dns = *dns - (*nm - *nnm) * log(1 - *lambda);
 }
 
 
@@ -225,7 +229,7 @@ void gpdmcalog(double *data1, double *data2, double *data3, int *nj,
   int i;
 
   double eps, *t1, *t2, *z1, *z2, *dvecj, v, nv1, nK1,
-    nv2, nK2, v12, censCont, *dvecm;
+    nv2, nK2, v12, censCont, *dvecm, lambda2;
 
   eps = R_pow(DOUBLE_EPS, 0.3);
   t1 = (double *)R_alloc(*nnj, sizeof(double));
@@ -254,10 +258,8 @@ void gpdmcalog(double *data1, double *data2, double *data3, int *nj,
     //Margin 1
     t1[i] = (data1[i]  - *thresh) / *scale;
         
-    if (data1[i] <= *thresh){
+    if (data1[i] <= *thresh)
       t1[i] = 1;
-      data1[i] = 0;
-    }
 
     else{
 
@@ -282,10 +284,8 @@ void gpdmcalog(double *data1, double *data2, double *data3, int *nj,
     //Margin 2
     t2[i] = (data2[i]  - *thresh) / *scale;
 
-    if (data2[i] <= *thresh){
+    if (data2[i] <= *thresh)
       t2[i] = 1;
-      data2[i] = 0;
-    }
 
     else{
 
@@ -310,6 +310,14 @@ void gpdmcalog(double *data1, double *data2, double *data3, int *nj,
     //Transform observed datas to unit frechet ones
     z1[i] = -1 / log(1 - *lambda * t1[i]);
     z2[i] = -1 / log(1 - *lambda * t2[i]);
+
+    //To avoid numerical troubles
+    if (!R_FINITE(z1[i]) || !R_FINITE(z2[i]) || !R_FINITE(log(z1[i])) ||
+	!R_FINITE(log(z2[i]))){
+      *dns = -1e6;
+      return;
+    }
+
   }
 
     
@@ -327,7 +335,7 @@ void gpdmcalog(double *data1, double *data2, double *data3, int *nj,
       R_pow(R_pow(*asCoef1 / z1[i], 1 / *alpha) + 
 	    R_pow(*asCoef2 / z2[i], 1 / *alpha), *alpha);
       
-    if ((data1[i] == 0) && (data2[i] > 0)){
+    if ((data1[i] <= *thresh) && (data2[i] > *thresh)){
 
       //Case 2: x1 <= threshold1 & x2 > threshold2
       
@@ -347,7 +355,7 @@ void gpdmcalog(double *data1, double *data2, double *data3, int *nj,
      	
     }
     
-    if ((data1[i] > 0) && (data2[i] == 0)){
+    if ((data1[i] > *thresh) && (data2[i] <= *thresh)){
 
       //Case 3: x1 > threshold1 & x2 <= threshold2
       
@@ -368,7 +376,7 @@ void gpdmcalog(double *data1, double *data2, double *data3, int *nj,
       
     }
 
-    if ((data1[i] * data2[i]) > 0){
+    if ((data1[i] > *thresh) && (data2[i] > *thresh)){
       //Case 4: x1 > threshold1 & x2 > threshold2
       
       //Compute the negative partial derivative with
@@ -412,9 +420,9 @@ void gpdmcalog(double *data1, double *data2, double *data3, int *nj,
 
   //Now add the censored contribution to loglikelihood
   if (*nnj != *nj){
-    *lambda = - 1 / log(1 - *lambda);
-    censCont = 2 *R_pow(*lambda / *asCoef1, - 1 / *alpha);
-    censCont = (*asCoef1 - 1) / *lambda + (*asCoef2 - 1) / *lambda -
+    lambda2 = - 1 / log(1 - *lambda);
+    censCont = 2 *R_pow(lambda2 / *asCoef1, - 1 / *alpha);
+    censCont = (*asCoef1 - 1) / lambda2 + (*asCoef2 - 1) / lambda2 -
       R_pow(censCont, *alpha);
     *dns = *dns + (*nj - *nnj) * censCont;
   }
@@ -437,11 +445,11 @@ void gpdmcalog(double *data1, double *data2, double *data3, int *nj,
   }
   
   for(i=0;i<*nnm;i++)
-    *dns = *dns + dvecm[i];
+    *dns = *dns - dvecm[i];
 
   //Now add the censored contribution to loglikelihood
   if (*nm != *nnm)
-    *dns = *dns - (*nm - *nnm) / *lambda;
+    *dns = *dns - (*nm - *nnm) * log(1 - *lambda);
 }
     
 void gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
@@ -451,7 +459,7 @@ void gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
   int i;
 
   double eps, *t1, *t2, *z1, *z2, *dvecj, v, nv1, nK1,
-    nv2, nK2, v12, censCont, *dvecm;
+    nv2, nK2, v12, censCont, *dvecm, lambda2;
 
   eps = R_pow(DOUBLE_EPS, 0.3);
   t1 = (double *)R_alloc(*nnj, sizeof(double));
@@ -478,10 +486,8 @@ void gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
     //Margin 1
     t1[i] = (data1[i]  - *thresh) / *scale;
         
-    if (data1[i] <= *thresh){
+    if (data1[i] <= *thresh)
       t1[i] = 1;
-      data1[i] = 0;
-    }
 
     else{
 
@@ -506,10 +512,8 @@ void gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
     //Margin 2
     t2[i] = (data2[i]  - *thresh) / *scale;
 
-    if (data2[i] <= *thresh){
+    if (data2[i] <= *thresh)
       t2[i] = 1;
-      data2[i] = 0;
-    }
 
     else{
 
@@ -531,10 +535,17 @@ void gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
       }
     }
        
+    
     //Transform observed datas to unit frechet ones
     z1[i] = -1 / log(1 - *lambda * t1[i]);
     z2[i] = -1 / log(1 - *lambda * t2[i]);
     
+    //To avoid numerical troubles
+    if (!R_FINITE(z1[i]) || !R_FINITE(z2[i]) || !R_FINITE(log(z1[i])) ||
+	!R_FINITE(log(z2[i]))){
+      *dns = -1e6;
+      return;
+    }
   }
 
   
@@ -552,7 +563,7 @@ void gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
       R_pow(R_pow(z1[i], *alpha) + R_pow(z2[i], *alpha),
 	    - 1 / *alpha);
       
-    if ((data1[i] == 0) && (data2[i] > 0)){
+    if ((data1[i] <= *thresh) && (data2[i] > *thresh)){
 
       //Case 2: x1 <= threshold1 & x2 > threshold2
       
@@ -567,11 +578,16 @@ void gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
 	(1 + *shape) * log(t2[i]) + 2 * log(z2[i]) +
 	1 / z2[i];
       
+      if (!R_FINITE(log(nv2))){
+	*dns = -1e6;
+	return;
+      }
+
       dvecj[i] = log(nv2) + nK2 - v;
       
     }
     
-    if ((data1[i] > 0) && (data2[i] == 0)){
+    if ((data1[i] > *thresh) && (data2[i] <= *thresh)){
 
       //Case 3: x1 > threshold1 & x2 <= threshold2
 	
@@ -585,12 +601,17 @@ void gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
       nK1 = log(*lambda) - log(*scale) + 
 	(1 + *shape) * log(t1[i]) + 2 * log(z1[i]) +
 	1 / z1[i];
-      
+
+      if (!R_FINITE(log(nv1))){
+	*dns = -1e6;
+	return;
+      }
+
       dvecj[i] = log(nv1) + nK1 - v;
       
     }
 
-    if ((data1[i] * data2[i]) > 0){
+    if ((data1[i] > *thresh) && (data2[i] > *thresh)){
 
       //Case 4: x1 > threshold1 & x2 > threshold2
       
@@ -621,6 +642,11 @@ void gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
 	R_pow(R_pow(z1[i], *alpha) + R_pow(z2[i], *alpha),
 		- 1 / *alpha - 2);
       
+      if (!R_FINITE(log(nv1 * nv2 - v12))){
+	*dns = -1e6;
+	return;
+      }
+
       dvecj[i] = nK1 + nK2 + log(nv1 * nv2 - v12)
 	- v;
       
@@ -632,9 +658,9 @@ void gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
 
   //Now add the censored contribution to loglikelihood
   if (*nnj != *nj){
-    *lambda = - 1 / log(1 - *lambda);
-    censCont = 2 * R_pow(*lambda, *alpha);
-    censCont = - 2 / *lambda + R_pow(censCont, -1 / *alpha);
+    lambda2 = - 1 / log(1 - *lambda);
+    censCont = 2 * R_pow(lambda2, *alpha);
+    censCont = - 2/lambda2 + R_pow(censCont, -1 / *alpha);
     *dns = *dns + (*nj - *nnj) * censCont;
   }
 
@@ -656,11 +682,11 @@ void gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
   }
   
   for(i=0;i<*nnm;i++)
-    *dns = *dns + dvecm[i];
+    *dns = *dns - dvecm[i];
 
   //Now add the censored contribution to loglikelihood
   if (*nm != *nnm)
-    *dns = *dns - (*nm - *nnm) / *lambda;
+    *dns = *dns - (*nm - *nnm) * log(1 - *lambda);
 }
 
 
@@ -672,7 +698,7 @@ void gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
   int i;
 
   double eps, *t1, *t2, *z1, *z2, *dvecj, v, nv1, nK1,
-    nv2, nK2, v12, censCont, *dvecm;
+    nv2, nK2, v12, censCont, *dvecm, lambda2;
 
   eps = R_pow(DOUBLE_EPS, 0.3);
   t1 = (double *)R_alloc(*nnj, sizeof(double));
@@ -700,10 +726,8 @@ void gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
     //Margin 1
     t1[i] = (data1[i]  - *thresh) / *scale;
         
-    if (data1[i] <= *thresh){
+    if (data1[i] <= *thresh)
       t1[i] = 1;
-      data1[i] = 0;
-    }
 
     else{
 
@@ -735,10 +759,8 @@ void gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
 
     else{
 
-      if (fabs(*shape) <= eps){
+      if (fabs(*shape) <= eps)
 	*shape = 0;
-	t2[i] = exp(-t2[i]);
-      }
 
       else {
 	t2[i] = 1 + *shape * t2[i];
@@ -756,7 +778,14 @@ void gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
     //Transform observed datas to unit frechet ones
     z1[i] = -1 / log(1 - *lambda * t1[i]);
     z2[i] = -1 / log(1 - *lambda * t2[i]);
-    
+
+    //To avoid numerical troubles
+    if (!R_FINITE(z1[i]) || !R_FINITE(z2[i]) || !R_FINITE(log(z1[i])) ||
+	!R_FINITE(log(z2[i]))){
+      *dns = -1e6;
+      return;
+    }
+
   }
 
   
@@ -774,7 +803,7 @@ void gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
       R_pow(R_pow(z1[i] / *asCoef1, *alpha) +
 	    R_pow(z2[i] / *asCoef2, *alpha), - 1 / *alpha);
       
-    if ((data1[i] == 0) && (data2[i] > 0)){
+    if ((data1[i] <= *thresh) && (data2[i] > *thresh)){
 
       //Case 2: x1 <= threshold1 & x2 > threshold2
       
@@ -790,12 +819,17 @@ void gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
       nK2 = log(*lambda) - log(*scale) + 
 	(1 + *shape) * log(t2[i]) + 2 * log(z2[i]) +
 	1 / z2[i];
-      
+
+      if (!R_FINITE(log(nv2))){
+      	*dns = -1e6;
+      	return;
+      }
+            
       dvecj[i] = log(nv2) + nK2 - v;
      	
     }
   
-    if ((data1[i]>0) && (data2[i] == 0)){
+    if ((data1[i] > *thresh) && (data2[i] <= *thresh)){
 
       //Case 3: x1 > threshold1 & x2 <= threshold2
       
@@ -812,11 +846,16 @@ void gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
 	(1 + *shape) * log(t1[i]) + 2 * log(z1[i]) +
 	1 / z1[i];
       
+      if (!R_FINITE(log(nv1))){
+      	*dns = -1e6;
+      	return;
+      }
+            
       dvecj[i] = log(nv1) + nK1 - v;
       
     }
     
-    if ((data1[i] * data2[i]) > 0){
+    if ((data1[i] > *thresh) && (data2[i] > *thresh)){
 
       //Case 4: x1 > threshold1 & x2 > threshold2
       
@@ -852,9 +891,13 @@ void gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
 	R_pow(R_pow(z1[i] / *asCoef1, *alpha) +
 	      R_pow(z2[i] / *asCoef2, *alpha), - 1 / *alpha - 2);
       
+      if (!R_FINITE(log(nv1 * nv2 - v12))){
+	*dns = -1e6;
+	return;
+      }
+
       dvecj[i] = nK1 + nK2 + log(nv1 * nv2 - v12)
 	- v;
-      
     }
   }
       
@@ -863,10 +906,10 @@ void gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
 
   //Now add the censored contribution to loglikelihood
   if (*nnj != *nj){
-    *lambda = - 1 / log(1 - *lambda);
-    censCont = R_pow(*lambda / *asCoef1, *alpha) +
-      R_pow(*lambda / *asCoef2, *alpha);
-    censCont = - 2 / *lambda + R_pow(censCont, -1 / *alpha);
+    lambda2 = - 1 / log(1 - *lambda);
+    censCont = R_pow(lambda2 / *asCoef1, *alpha) +
+      R_pow(lambda2 / *asCoef2, *alpha);
+    censCont = - 2/lambda2 + R_pow(censCont, -1 / *alpha);
     *dns = *dns + (*nj - *nnj) * censCont;
   }
 
@@ -888,11 +931,11 @@ void gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
   }
   
   for(i=0;i<*nnm;i++)
-    *dns = *dns + dvecm[i];
+    *dns = *dns - dvecm[i];
 
   //Now add the censored contribution to loglikelihood
   if (*nm != *nnm)
-    *dns = *dns - (*nm - *nnm) / *lambda;
+    *dns = *dns - (*nm - *nnm) * log(1 - *lambda);
 }
 
 
@@ -904,7 +947,7 @@ void gpdmcmix(double *data1, double *data2, double *data3, int *nj,
   int i;
 
   double eps, *t1, *t2, *z1, *z2, *dvecj, v, nv1, nK1,
-    nv2, nK2, v12, censCont, *dvecm;
+    nv2, nK2, v12, censCont, *dvecm, lambda2;
 
   eps = R_pow(DOUBLE_EPS, 0.3);
   t1 = (double *)R_alloc(*nnj, sizeof(double));
@@ -930,10 +973,8 @@ void gpdmcmix(double *data1, double *data2, double *data3, int *nj,
     //Margin 1
     t1[i] = (data1[i]  - *thresh) / *scale;
         
-    if (data1[i] <= *thresh){
+    if (data1[i] <= *thresh)
       t1[i] = 1;
-      data1[i] = 0;
-    }
 
     else{
 
@@ -958,10 +999,8 @@ void gpdmcmix(double *data1, double *data2, double *data3, int *nj,
     //Margin 2
     t2[i] = (data2[i]  - *thresh) / *scale;
 
-    if (data2[i] <= *thresh){
+    if (data2[i] <= *thresh)
       t2[i] = 1;
-      data2[i] = 0;
-    }
 
     else{
 
@@ -987,6 +1026,13 @@ void gpdmcmix(double *data1, double *data2, double *data3, int *nj,
     z1[i] = -1 / log(1 - *lambda * t1[i]);
     z2[i] = -1 / log(1 - *lambda * t2[i]);
     
+    //To avoid numerical troubles
+    if (!R_FINITE(z1[i]) || !R_FINITE(z2[i]) || !R_FINITE(log(z1[i])) ||
+	!R_FINITE(log(z2[i]))){
+      *dns = -1e6;
+      return;
+    }
+
   }
 
   
@@ -1003,7 +1049,7 @@ void gpdmcmix(double *data1, double *data2, double *data3, int *nj,
     v = R_pow_di(z1[i], - 1) + R_pow_di(z2[i], - 1) -
       *alpha / (z1[i] + z2[i]);
       
-    if ((data1[i] == 0) && (data2[i] > 0)){
+    if ((data1[i] <= *thresh) && (data2[i] > *thresh)){
 
       //Case 2: x1 <= threshold1 & x2 > threshold2
       
@@ -1017,11 +1063,16 @@ void gpdmcmix(double *data1, double *data2, double *data3, int *nj,
 	(1 + *shape) * log(t2[i]) + 2 * log(z2[i]) +
 	1 / z2[i];
       
+      if (!R_FINITE(log(nv2))){
+	*dns = -1e6;
+	return;
+      }
+
       dvecj[i] = log(nv2) + nK2 - v;
       
     }
   
-    if ((data1[i] > 0) && (data2[i] == 0)){
+    if ((data1[i] > *thresh) && (data2[i] <= *thresh)){
       
       //Case 3: x1 > threshold1 & x2 <= threshold2
       
@@ -1035,11 +1086,16 @@ void gpdmcmix(double *data1, double *data2, double *data3, int *nj,
 	(1 + *shape) * log(t1[i]) + 2 * log(z1[i]) +
 	1 / z1[i];
 	
+      if (!R_FINITE(log(nv1))){
+	*dns = -1e6;
+	return;
+      }
+
       dvecj[i] = log(nv1) + nK1 - v;
       
     }
     
-    if ((data1[i] * data2[i]) > 0){
+    if ((data1[i] > *thresh) && (data2[i] > *thresh)){
       
       //Case 4: x1 > threshold1 & x2 > threshold2
       
@@ -1066,6 +1122,11 @@ void gpdmcmix(double *data1, double *data2, double *data3, int *nj,
       //Compute the partial mixed derivative	
       v12 = -2 * *alpha * R_pow_di(z1[i] + z2[i], -3);
       
+      if (!R_FINITE(log(nv1 * nv2 - v12))){
+	*dns = -1e6;
+	return;
+      }
+
       dvecj[i] = nK1 + nK2 + log(nv1 * nv2 - v12)
 	- v;
       
@@ -1077,8 +1138,8 @@ void gpdmcmix(double *data1, double *data2, double *data3, int *nj,
 
   //Now add the censored contribution to loglikelihood
   if (*nnj != *nj){
-    *lambda = - 1 / log(1 - *lambda);
-    censCont = - 2 / *lambda + *alpha / (2 * *lambda);      
+    lambda2 = - 1 / log(1 - *lambda);
+    censCont = - 2/lambda2 + *alpha / (2 * lambda2);      
     *dns = *dns + (*nj - *nnj) * censCont;
   }
 
@@ -1100,11 +1161,11 @@ void gpdmcmix(double *data1, double *data2, double *data3, int *nj,
   }
   
   for(i=0;i<*nnm;i++)
-    *dns = *dns + dvecm[i];
+    *dns = *dns - dvecm[i];
 
   //Now add the censored contribution to loglikelihood
   if (*nm != *nnm)
-    *dns = *dns - (*nm - *nnm) / *lambda;
+    *dns = *dns - (*nm - *nnm) * log(1 - *lambda);
 }
 
 
@@ -1116,7 +1177,7 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
   int i;
 
   double eps, *t1, *t2, *z1, *z2, *dvecj, v, nv1, nK1,
-    nv2, nK2, v12, censCont, *dvecm, c1;
+    nv2, nK2, v12, censCont, *dvecm, c1, lambda2;
 
   eps = R_pow(DOUBLE_EPS, 0.3);
   t1 = (double *)R_alloc(*nnj, sizeof(double));
@@ -1143,10 +1204,8 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
     //Margin 1
     t1[i] = (data1[i]  - *thresh) / *scale;
         
-    if (data1[i] <= *thresh){
+    if (data1[i] <= *thresh)
       t1[i] = 1;
-      data1[i] = 0;
-    }
 
     else{
 
@@ -1171,10 +1230,8 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
     //Margin 2
     t2[i] = (data2[i]  - *thresh) / *scale;
 
-    if (data2[i] <= *thresh){
+    if (data2[i] <= *thresh)
       t2[i] = 1;
-      data2[i] = 0;
-    }
 
     else{
 
@@ -1200,6 +1257,12 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
     z1[i] = -1 / log(1 - *lambda * t1[i]);
     z2[i] = -1 / log(1 - *lambda * t2[i]);
     
+    //To avoid numerical troubles
+    if (!R_FINITE(z1[i]) || !R_FINITE(z2[i]) || !R_FINITE(log(z1[i])) ||
+	!R_FINITE(log(z2[i]))){
+      *dns = -1e6;
+      return;
+    }
   }
 
   
@@ -1218,7 +1281,7 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
 	  z2[i]) / R_pow_di(z1[i] + z2[i], 2);
     v = 1/z1[i] + 1/z2[i] - c1;
       
-    if ((data1[i] == 0) && (data2[i] > 0)){
+    if ((data1[i] <= *thresh) && (data2[i] > *thresh)){
 
       //Case 2: x1 <= threshold1 & x2 > threshold2
       
@@ -1233,11 +1296,16 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
 	(1 + *shape) * log(t2[i]) + 2 * log(z2[i]) +
 	1 / z2[i];
       
+      if (!R_FINITE(log(nv2))){
+	*dns = -1e6;
+	return;
+      }
+
       dvecj[i] = log(nv2) + nK2 - v;
       
     }
   
-    if ((data1[i] > 0) && (data2[i] == 0)){
+    if ((data1[i] > *thresh) && (data2[i] <= *thresh)){
 
       //Case 3: x1 > threshold1 & x2 <= threshold2
       
@@ -1252,11 +1320,16 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
 	(1 + *shape) * log(t1[i]) + 2 * log(z1[i]) +
 	1 / z1[i];
       
+      if (!R_FINITE(log(nv1))){
+	*dns = -1e6;
+	return;
+      }
+
       dvecj[i] = log(nv1) + nK1 - v;
       
     }
     
-    if ((data1[i] * data2[i]) > 0){
+    if ((data1[i] > *thresh) && (data2[i] > *thresh)){
 
       //Case 4: x1 > threshold1 & x2 > threshold2
       
@@ -1287,6 +1360,11 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
 	R_pow_di(z1[i] + z2[i], 3) - 6 * c1 /
 	R_pow_di(z1[i] + z2[i], 2);
       
+      if (!R_FINITE(log(nv1 * nv2 - v12))){
+	*dns = -1e6;
+	return;
+      }
+
       dvecj[i] = nK1 + nK2 + log(nv1 * nv2 - v12)
 	- v;
     }
@@ -1297,11 +1375,11 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
   
   //Now add the censored contribution to loglikelihood
   if (*nnj != *nj){
-    *lambda = - 1 / log(1 - *lambda);
-    censCont = ((*alpha + *asCoef) * *lambda +
-		(*alpha + 2 * *asCoef) * *lambda) /
-      R_pow_di( 2 * *lambda, 2);
-    censCont = censCont - 2 / *lambda;
+    lambda2 = - 1 / log(1 - *lambda);
+    censCont = ((*alpha + *asCoef) * lambda2 +
+		(*alpha + 2 * *asCoef) * lambda2) /
+      R_pow_di( 2 * lambda2, 2);
+    censCont = censCont - 2 / lambda2;
     *dns = *dns + (*nj - *nnj) * censCont;
   }
 
@@ -1323,9 +1401,9 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
   }
   
   for(i=0;i<*nnm;i++)
-    *dns = *dns + dvecm[i];
+    *dns = *dns - dvecm[i];
 
   //Now add the censored contribution to loglikelihood
   if (*nm != *nnm)
-    *dns = *dns - (*nm - *nnm) / *lambda;
+    *dns = *dns - (*nm - *nnm) * log(1 - *lambda);
 }

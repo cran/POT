@@ -38,7 +38,7 @@ specdens <- function(fitted, main, plot = TRUE, ...){
         return(NaN)
       else
         (1 + alpha) * (q * (1-q))^(alpha-1) *
-          (q^alpha + (1-a)^alpha)^(-1/alpha-2)
+          (q^alpha + (1-q)^alpha)^(-1/alpha-2)
     }
   }
 

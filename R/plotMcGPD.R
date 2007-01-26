@@ -1,6 +1,6 @@
 ##The generic function for graphical diagnostic of a Markov chain
 ##pot object
-plot.mcpot <- function(x, opy, npy, mains, which = 1:4,
+plot.mcpot <- function(x, opy, exi, mains, which = 1:4,
                        ask = nb.fig < length(which) &&
                        dev.interactive(), acf.type = "partial",
                        ...){
@@ -36,37 +36,34 @@ plot.mcpot <- function(x, opy, npy, mains, which = 1:4,
   if (show[3])
     specdens(x, main = mains[3], ...)
   if (show[4])
-    retlev(x, opy = opy, npy = npy, main = mains[4], ...)
+    retlev(x, opy = opy, exi = exi, main = mains[4], ...)
   
 }
 
 ##The return level plot for object of class ``mcpot''
-retlev.mcpot <- function(fitted, opy, npy, exi, main, xlab, ylab,
-                         xlimsup, ...){
+retlev.mcpot <- function(fitted, opy, exi, main, xlab,
+                         ylab, xlimsup, ...){
   loc <- fitted$threshold
   scale <- fitted$param["scale"]
   shape <- fitted$param["shape"]
   data <- fitted$data
   pat <- fitted$pat
-  
+
   if (missing(exi))
     exi <- fitexi(data, loc)$exi
-
+  
   pot.fun <- function(T){
-    p <- 1 - 1 / (npy * T)
+    p <- 1 - 1 / T
     q <- (1 - p^(1/opy/exi)) / pat
     q <- loc - scale / shape * (1 - q^(-shape))
     return(q)
   }
-
+  
   if (missing(opy)){
-    warning("Argument ``opy'' is missing. Setting it to 365.")
-    opy <- 365
+    warning("Argument ``opy'' is missing. Setting it to 365.25.")
+    opy <- 365.25
   }
-  if (missing(npy)){
-    warning("Argument ``npy'' is missing. Setting it to 1.")
-    npy <- 1
-  }
+  
   if (missing(main)) main <- 'Return Level Plot'
   if (missing(xlab)) xlab <- 'Return Period (Years)'
   if (missing(ylab)) ylab <- 'Return Level'

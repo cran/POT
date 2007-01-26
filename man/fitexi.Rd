@@ -40,7 +40,8 @@ data(ardieres)
 exi <- fitexi(ardieres, 6)
 exi
 ##Extract events with the ``automatic'' procedure
-clust(ardieres, 6, tim.cond = exi$tim.cond, clust.max = TRUE)
+##Please be carefull for the time unit in tim.cond
+clust(ardieres, 6, tim.cond = exi$tim.cond / 365.25, clust.max = TRUE)
 }
 \author{Mathieu Ribatet}
 \keyword{htest}

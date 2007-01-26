@@ -51,38 +51,6 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
   
   param <- c("scale", "shape", "alpha")
   
-  ##Creating suited starting values according to the chosen
-  ##model (if needed) that is MLE estimates on marginal data
-  if (missing(start)){
-    start <- list(scale = 0, shape = 0)
-    temp <- gpdmle(data, threshold, std.err.type = "none")$param
-    names(temp) <- NULL
-    start$scale <- temp[1]
-    start$shape <- temp[2]
-            
-    if (model == "log")
-      start <- c(start, list(alpha = 0.75))
-    if (model == "nlog")
-      start <- c(start, list(alpha = 0.6))
-    if (model == "alog")
-      start <- c(start, list(alpha = 0.65, asCoef1 = 0.75,
-                             asCoef2 = 0.75))
-    if (model == "anlog")
-      start <- c(start, list(alpha = 0.8, asCoef1 = 0.75,
-                             asCoef2 = 0.75))
-    if (model == "mix")
-      start <- c(start, list(alpha = 0.25))
-    if (model == "amix")
-      start <- c(start, list(alpha = 0.75, asCoef = 0))
-  }
-
-  start <- start[!(param %in% names(list(...)))]
-
-  if (!is.list(start)) 
-    stop("`start' must be a named list")
-  if (!length(start)) 
-    stop("there are no parameters left to maximize over")
-
   ##Creating suited negative log-likelihood according to the
   ##specified model
   if (model == "log"){
@@ -132,6 +100,38 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
         dns = double(1), PACKAGE = "POT")$dns
     param <- c(param, "asCoef")
   }    
+
+  ##Creating suited starting values according to the chosen
+  ##model (if needed) that is MLE estimates on marginal data
+  if (missing(start)){
+    start <- list(scale = 0, shape = 0)
+    temp <- fitgpd(data, threshold, method = "pwmu")$param
+    names(temp) <- NULL
+    start$scale <- temp[1]
+    start$shape <- temp[2]
+            
+    if (model == "log")
+      start <- c(start, list(alpha = 0.75))
+    if (model == "nlog")
+      start <- c(start, list(alpha = 0.6))
+    if (model == "alog")
+      start <- c(start, list(alpha = 0.65, asCoef1 = 0.75,
+                             asCoef2 = 0.75))
+    if (model == "anlog")
+      start <- c(start, list(alpha = 0.8, asCoef1 = 0.75,
+                             asCoef2 = 0.75))
+    if (model == "mix")
+      start <- c(start, list(alpha = 0.25))
+    if (model == "amix")
+      start <- c(start, list(alpha = 0.75, asCoef = 0))
+  }
+
+  start <- start[!(param %in% names(list(...)))]
+
+  if (!is.list(start)) 
+    stop("`start' must be a named list")
+  if (!length(start)) 
+    stop("there are no parameters left to maximize over")
 
   nm <- names(start)
   l <- length(nm)
@@ -215,18 +215,58 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
 
   if(std.err.type == "none")
     std.err <- corr.mat <- var.cov <- NULL
-  
+
   param <- c(opt$par, unlist(fixed.param))
   
   fitted <- list(fitted.values = opt$par, std.err = std.err, var.cov = var.cov,
                  fixed = unlist(fixed.param), param = param, deviance = 2*opt$value,
                  corr = corr.mat, convergence = opt$convergence, counts = opt$counts,
                  message = opt$message, threshold = threshold, nat = nat3, pat = pat3,
-                 data = data, exceed = data3, call = call,
-                 type = "MLE", model = model, logLik = -opt$value, var.thresh = FALSE)
+                 data = data, exceed = exceed3, call = call, type = "MLE",
+                 model = model, logLik = -opt$value, var.thresh = FALSE)
 
   chi <- 2 * (1 - pickdep(fitted, plot = FALSE)(0.5))
   fitted <- c(fitted, list(chi = chi))
   class(fitted) <- c("mcpot", "uvpot", "pot")
   return(fitted)
+}
+
+dexi <- function(x, n.sim = 1000, n.mc = length(x$data), ...){
+  
+  thresh <- x$threshold
+  scale <- x$param["scale"]
+  shape <- x$param["shape"]
+  alpha <- x$param["alpha"]
+  pat <- x$pat
+  model <- x$model
+  
+  scale.new <- shape * thresh / (pat^(-shape) - 1)
+
+  if (model %in% c("log", "nlog"))
+    param <- list(alpha = alpha)
+
+  if (model %in% c("alog", "anlog"))
+    param <- list(alpha = alpha, asCoef1 = x$param["asCoef1"],
+                  asCoef2 = x$param["asCoef2"])
+
+  if (model == "mix")
+    param <- list(alpha = alpha, asCoef = 0)
+  
+  if (model == "amix")
+    param <- list(alpha = alpha, asCoef = x$param["asCoef"])
+
+  param <- c(param, list(n = n.mc, model = model))
+
+  exi <- rep(0, n.sim)
+  mc <- rep(0, n.mc)
+  
+  for (i in 1:n.sim){
+    mc <- do.call("simmc", param)
+    mc <- qgpd(mc, 0, scale.new, shape)
+
+    exi[i] <- fitexi(mc, thresh)$exi
+  }
+
+  plot(density(exi, bw = sd(exi) /2), ...)
+  invisible(exi)
 }

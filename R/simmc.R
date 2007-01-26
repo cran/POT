@@ -47,15 +47,15 @@ simmc <- function(n, alpha, model = "log", asCoef, asCoef1,
       switch(model, log = .C("rbvlog", nn, alpha, sim = evmc[c(i,i-1)],
                       PACKAGE = "POT")$sim,
              alog = .C("rbvalog", nn, alpha, asy, sim = evmc[c(i,i-1)],
-                      PACKAGE = "POT")$sim,
+               PACKAGE = "POT")$sim,
              nlog = .C("rbvnlog", nn, alpha, sim = evmc[c(i,i-1)],
-                      PACKAGE = "POT")$sim,
+               PACKAGE = "POT")$sim,
              anlog = .C("rbvanlog", nn, alpha, asy, sim = evmc[c(i,i-1)],
-                      PACKAGE = "POT")$sim,
-             amix = .C("rbvamix", nn, alpha, as.double(0), sim = evmc[c(i,i-1)],
-                      PACKAGE = "POT")$sim,
+               PACKAGE = "POT")$sim,
+             mix = .C("rbvmix", nn, alpha, sim = evmc[c(i,i-1)],
+               PACKAGE = "POT")$sim,
              amix = .C("rbvamix", nn, alpha, asCoef, sim = evmc[c(i,i-1)],
-                      PACKAGE = "POT")$sim)
+               PACKAGE = "POT")$sim)
   }
 
   switch(margins, frechet = -1/log(evmc), uniform = evmc,

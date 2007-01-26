@@ -79,7 +79,7 @@ fitmcgpd(data, threshold, model = "log", start, \dots, std.err.type =
   Most of models are described in Kluppelberg (2006).
 }
 \section{Warnings}{
-  Because of numerical problems, their exists artificial numerical
+  Because of numerical problems, there exists artificial numerical
   constraints imposed on each model. These are:
   \itemize{
     \item For the logistic and asymmetric logistic models: \eqn{\alpha}{alpha}
@@ -105,22 +105,35 @@ fitmcgpd(data, threshold, model = "log", start, \dots, std.err.type =
   Thus, user may want to plot the Pickands' dependence function to see
   if variable are near independence or dependence cases using the
   \code{\link{pickdep}} function.
+
+  In addition, we recommend to fix the marginal parameters. Indeed, even
+  this is a two steps optimization procedure, this avoid numerical
+  troubles - the likelihood function for the Markov chain model seems to
+  be problematic. Thus, estimates are often better using the two stages
+  approach.
 }
 \references{
   Kl\"uppelberg, C., and May A. (2006) Bivariate extreme value
   distributions based on polynomial dependence functions. Mathematical
-  Methods in the Applied Sciences, \bold{29}: 1467--1480.
+  Methods in the Applied Sciences, \bold{29} 1467--1480.
 
 
   Ledford A., and Tawn, J. (1996) Statistics for near Independence in
-  Multivariate Extreme Values. Biometrika, \bold{83}: 169--187.
+  Multivariate Extreme Values. Biometrika, \bold{83} 169--187.
 
 
   Smith, R., and Tawn, J., and Coles, S. (1997) Markov chain models for
-  threshold exceedances. Biometrika, \bold{84}: 249--268
+  threshold exceedances. Biometrika, \bold{84} 249--268
 }
 \seealso{\code{\link{optim}}, \code{\link{pickdep}}}
 \examples{
+mc <- simmc(1000, alpha = 0.25)
+mc <- qgpd(mc, 0, 1, 0.25)
+##A first application when marginal parameter are estimated
+fitmcgpd(mc, 0)
+##Another one where marginal parameters are fixed
+mle <- fitgpd(mc, 0)
+fitmcgpd(mc, 0, scale = mle$param["scale"], shape = mle$param["shape"])
 }
 \author{Mathieu Ribatet}
 \keyword{models}

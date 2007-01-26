@@ -1,3 +1,7 @@
+Version 1.0-0:
+  - The fitting codes for Markov chain model is considered stable
+  - Add lots of tools for these Markov chain models
+
 Version 0.0-9:
   - Change printing methods
   - clust.R: the extremal index estimate was buggy !!!
