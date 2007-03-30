@@ -6,20 +6,22 @@
   fitted markov chain model.
 }
 \usage{
-dexi(x, n.sim = 1000, n.mc = length(x$data), \dots)
+dexi(x, n.sim = 1000, n.mc = length(x$data), plot = TRUE, \dots)
 }
 \arguments{
   \item{x}{A object of class \code{"mcpot"} - most often the returned
     object of the \code{\link{fitmcgpd}} function.}
   \item{n.sim}{The number of simulation of Markov chains.}
   \item{n.mc}{The length of the simulated Markov chains.}
+  \item{plot}{Logical. If \code{TRUE} (default), the density of the
+    extremal index is plotted.}
   \item{\dots}{Optional parameters to be passed to the
     \code{\link{plot}} function.}
 }
 \value{
-  The function returns a plot of the kernel density estimate of the
-  extremal index. In addition, the vector of extremal index estimations
-  is returned invisibly.}
+  The function returns a optionally plot of the kernel density estimate
+  of the extremal index. In addition, the vector of extremal index
+  estimations is returned invisibly.
 }
 \details{
   The Markov chains are simulated using the \code{\link{simmc}}

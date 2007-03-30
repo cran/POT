@@ -49,7 +49,7 @@ retlev.mcpot <- function(fitted, opy, exi, main, xlab,
   data <- fitted$data
   pat <- fitted$pat
 
-  if (missing(exi))
+  if (missing(exi) || !is.numeric(exi) || !is.finite(exi))
     exi <- fitexi(data, loc)$exi
   
   pot.fun <- function(T){

@@ -1,16 +1,12 @@
 \documentclass[a4paper]{article}
 
-\usepackage{t1enc}
-\usepackage[latin1]{inputenc}
 \usepackage[english]{babel}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{url}
 
-\usepackage[round]{natbib}
-\bibliographystyle{plainnat}
-
+\usepackage{natbib}
 \usepackage{hyperref}
 
 \pagestyle{plain}
@@ -1223,7 +1219,126 @@ The Pickands' dependence function for the asymetric mixed model is:
 \end{displaymath}
 
 
-\bibliography{e:/Docs/LateX/biblio_ribatet}
+%%\bibliography{/home/ribatet/Docs/LateX/biblio_ribatet}
+%%\bibliographystyle{plainnat}
+\begin{thebibliography}{18}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Bortot and Coles(2000)]{Bortot2000}
+P.~Bortot and S.~Coles.
+\newblock The multivariate gaussian tail model: An application to oceanographic
+  data.
+\newblock \emph{Journal of the Royal Statistical Society. Series C: Applied
+  Statistics}, 49\penalty0 (1):\penalty0 31--49, 2000.
+
+\bibitem[Coles(2001)]{Coles2001}
+S.~Coles.
+\newblock \emph{An Introduction to Statistical Modelling of Extreme Values}.
+\newblock Springer Series in Statistics. Springers Series in Statistics,
+  London, 2001.
+
+\bibitem[Coles et~al.(1999)Coles, Heffernan, and Tawn]{Coles1999}
+S.~Coles, J.~Heffernan, and J.~Tawn.
+\newblock Dependence measures for extreme value analyses.
+\newblock \emph{Extremes}, 2\penalty0 (4):\penalty0 339--365, December 1999.
+
+\bibitem[Cunnane(1979)]{Cunnane1979}
+C.~Cunnane.
+\newblock Note on the poisson assumption in partial duration series model.
+\newblock \emph{Water Resour Res}, 15\penalty0 (2):\penalty0 489--494, 1979.
+
+\bibitem[Falk and Reiss(2005)]{Falk2005}
+M.~Falk and R.-D. Reiss.
+\newblock On pickands coordinates in arbitrary dimensions.
+\newblock \emph{Journal of Multivariate Analysis}, 92\penalty0 (2):\penalty0
+  426--453, 2005.
+
+\bibitem[Fisher and Tippett(1928)]{Fisher1928}
+R.A. Fisher and L.H. Tippett.
+\newblock Limiting forms of the frequency distribution of the largest or
+  smallest member of a sample.
+\newblock In \emph{Proceedings of the Cambridge Philosophical Society},
+  volume~24, pages 180--190, 1928.
+
+\bibitem[Hosking and Wallis(1987)]{Hosking1987}
+J.R.M. Hosking and J.R. Wallis.
+\newblock Parameter and quantile estimation for the generalized pareto
+  distribution.
+\newblock \emph{Technometrics}, 29\penalty0 (3):\penalty0 339--349, 1987.
+
+\bibitem[Jenkinson(1955)]{Jenkinson1955}
+A.~F. Jenkinson.
+\newblock The frequency distribution of the annual maximum (or minimum) values
+  of meteorological events.
+\newblock \emph{Quaterly Journal of the Royal Meteorological Society},
+  81:\penalty0 158--172, 1955.
+
+\bibitem[Ju\'arez and Schucany(2004)]{Juarez2004}
+S.F. Ju\'arez and W.R. Schucany.
+\newblock Robust and efficient estimation for the generalized pareto
+  distribution.
+\newblock \emph{Extremes}, 7\penalty0 (3):\penalty0 237--251, 2004.
+\newblock ISSN 13861999 (ISSN).
+
+\bibitem[Kl\"uppelberg and May(2006)]{Kluppelberg2006}
+C.~Kl\"uppelberg and A.~May.
+\newblock Bivariate extreme value distributions based on polynomial dependence
+  functions.
+\newblock \emph{Math Methods Appl Sci}, 29\penalty0 (12):\penalty0 1467--1480,
+  2006.
+\newblock ISSN 01704214 (ISSN).
+
+\bibitem[Kluppelberg and Mikosch(1997)]{Kluppelberg1997}
+C.~Kluppelberg and T.~Mikosch.
+\newblock Large deviations of heavy-tailed random sums with applications in
+  insurance and finance.
+\newblock \emph{Journal of Applied Probability}, 34\penalty0 (2):\penalty0
+  293--308, 1997.
+
+\bibitem[Peng and Welsh(2001)]{Peng2001}
+Liang Peng and A.H. Welsh.
+\newblock Robust estimation of the generalized pareto distribution.
+\newblock \emph{Extremes}, 4\penalty0 (1):\penalty0 53--65, 2001.
+
+\bibitem[Pickands(1981)]{Pickands1981}
+J.~Pickands.
+\newblock Multivariate extreme value distributions.
+\newblock In \emph{Proceedings 43rd Session International Statistical
+  Institute}, 1981.
+
+\bibitem[Pickands(1975)]{Pickands1975}
+J.~III Pickands.
+\newblock Statistical inference using extreme order statistics.
+\newblock \emph{Annals of Statistics}, 3:\penalty0 119--131, 1975.
+
+\bibitem[{R Development Core Team}(2006)]{Rsoft}
+{R Development Core Team}.
+\newblock \emph{R: A Language and Environment for Statistical Computing}.
+\newblock R Foundation for Statistical Computing, Vienna, Austria, 2006.
+\newblock URL \url{http://www.R-project.org}.
+\newblock {ISBN} 3-900051-07-0.
+
+\bibitem[Resnick(1987)]{Resnick1987}
+S.~I. Resnick.
+\newblock \emph{Extreme Values, Regular Variation and Point Processes}.
+\newblock New--York: Springer--Verlag, 1987.
+
+\bibitem[Smith(1994)]{Smith1994}
+R.~L. Smith.
+\newblock \emph{Multivariate Threshold Methods}.
+\newblock Kluwer, Dordrecht, 1994.
+
+\bibitem[Smith et~al.(1997)Smith, Tawn, and Coles]{Smith1997}
+R.L. Smith, J.A. Tawn, and S.G. Coles.
+\newblock Markov chain models for threshold exceedances.
+\newblock \emph{Biometrika}, 84\penalty0 (2):\penalty0 249--268, 1997.
+\newblock ISSN 00063444 (ISSN).
+
+\end{thebibliography}
 \end{document}
 %%% Local Variables: 
 %%% mode: latex

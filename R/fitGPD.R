@@ -317,8 +317,8 @@ gpdmdpd <- function(x, threshold, a, start, ...,
   pddf <- function(param){
     ## Evaluates the (P)ower (D)ensity (D)ivergence (F)unction which is
     ## criterion function of the MDPDE
-    scale <- param["scale"]
-    shape <- param["shape"]
+    scale <- param[1]
+    shape <- param[2]
     
     if ( (-max(excess) * shape) < scale){
       n <- length(excess)

@@ -1,3 +1,6 @@
+Version 1.0-1:
+  - Add tools to assess for asymptotic (in)dependence
+
 Version 1.0-0:
   - The fitting codes for Markov chain model is considered stable
   - Add lots of tools for these Markov chain models

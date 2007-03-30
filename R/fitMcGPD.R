@@ -216,6 +216,10 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
   if(std.err.type == "none")
     std.err <- corr.mat <- var.cov <- NULL
 
+  names.fixed <- names(fixed.param)
+  fixed.param <- unlist(fixed.param)
+  names(fixed.param) <- names.fixed
+  
   param <- c(opt$par, unlist(fixed.param))
   
   fitted <- list(fitted.values = opt$par, std.err = std.err, var.cov = var.cov,
@@ -231,7 +235,8 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
   return(fitted)
 }
 
-dexi <- function(x, n.sim = 1000, n.mc = length(x$data), ...){
+dexi <- function(x, n.sim = 1000, n.mc = length(x$data),
+                 plot = TRUE, ...){
   
   thresh <- x$threshold
   scale <- x$param["scale"]
@@ -264,9 +269,16 @@ dexi <- function(x, n.sim = 1000, n.mc = length(x$data), ...){
     mc <- do.call("simmc", param)
     mc <- qgpd(mc, 0, scale.new, shape)
 
+    while(sum(mc > thresh) < 2){
+      mc <- do.call("simmc", param)
+      mc <- qgpd(mc, 0, scale.new, shape)
+    }
+    
     exi[i] <- fitexi(mc, thresh)$exi
   }
 
-  plot(density(exi, bw = sd(exi) /2), ...)
+  if (plot)
+    plot(density(exi, bw = sd(exi) /2), ...)
+  
   invisible(exi)
 }

@@ -181,7 +181,7 @@ pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
       lines(x= c(0,1), y = c(1,1), col = "grey", ...)
       lines(x = c(0,0.5,1), y = c(1, 0.5, 1), col = "grey", ...)
     }
-    plot(A, ylim = c(0.5, 1), add = TRUE)
+    plot(A, add = TRUE)
   }
   
   attributes(A) <- list(model = model)

@@ -1,4 +1,28 @@
-2007-01-26  ribatet@LYP1015  <ribatet@lyp1015>
+2007-03-30  author  <author@LYP1077>
+
+	* R/clust.R: Some modification for the extremal index estimation
+
+	* R/fitMcGPD.R:
+	Add the ``plot'' option to indicate if the density of the extremal
+	index must be plotted.
+
+	* R/fitGPD.R: Fix a bug in gpdmdpd
+
+	* man/dexi.Rd:
+	Add the ``plot'' option to indicate if the density of the extremal
+	index must be plotted.
+
+	* R/AsympDep.R, man/chimeas.Rd, man/tailind.test.Rd:
+	Add function to assess for the asymptotic (in)dependence
+
+2007-02-21  author  <author@LYP1077>
+
+	* R/plotBvGPD.R:
+	Fix a minor bug in function "pickdep" (graphic display bug)
+
+2007-01-26  author  <author@LYP1077>
+
+	* inst/CHANGES, inst/ChangeLog: Update the ChangeLog and CHANGES files
 
 	* src/mcgpdlik.c: Fix bugs in the likelihood computation
 
@@ -20,7 +44,7 @@
 
 	* DESCRIPTION: Update version number and date
 
-2007-01-19  ribatet@LYP1015  <ribatet@lyp1015>
+2007-01-19  author  <author@LYP1077>
 
 	* src/mcgpdlik.c:
 	Fix a major bug: variable lambda was multiply defined !!!
@@ -40,11 +64,11 @@
 	Starting  values are fitted  using pwu  estimates to  avoid degenerate
 	standard errors.
 
-2006-11-17  ribatema  <ribatema@lyp1015>
+2006-11-17  author  <author@LYP1077>
 
 	* R/plotBvGPD.R: Fix a bug in the spectral density for model "nlog"
 
-2006-11-08  ribatema  <ribatema@lyp1015>
+2006-11-08  author  <author@LYP1077>
 
 	* inst/doc/Rplots.ps, inst/doc/guide.pdf: Update vignette related files
 
@@ -73,7 +97,7 @@
 
 	* DESCRIPTION: Update the version and description part
 
-2006-11-06  ribatema  <ribatema@lyp1015>
+2006-11-06  author  <author@LYP1077>
 
 	* src/header.h: Add entry from mcgpdlik.c file
 
@@ -86,7 +110,7 @@
 
 	* demo/00Index: Add the entry for the second demo
 
-2006-11-03  ribatema  <ribatema@lyp1015>
+2006-11-03  author  <author@LYP1077>
 
 	* R/simmcpot.R: Simulation of a markov chain from a fitted mcpot object
 
@@ -117,7 +141,7 @@
 	* R/clust.R:
 	Change the computation of the extremal index. There was a bug !!!
 
-2006-10-24  ribatema  <ribatema@lyp1015>
+2006-10-24  author  <author@LYP1077>
 
 	* R/plotMcGPD.R: Add a method to plot ``mcpot'' objects
 
@@ -163,7 +187,7 @@
 	* R/plotGPD.R:
 	Replace the ``exceedance'' component of a ``uvpot'' object by
 	``exceed'' to be consistent with ``bvpot'' and ``mcpot'' objects
-
+	
 	Moreover, a little mistake for the point-wise confidence
 	intervals. Fixing it.
 
@@ -173,7 +197,7 @@
 	Replace the ``exceedance'' component of a ``uvpot'' object by
 	``exceed'' to be consistent with ``bvpot'' and ``mcpot'' objects
 
-2006-10-23  ribatema  <ribatema@lyp1015>
+2006-10-23  author  <author@LYP1077>
 
 	* man/plot.bvpot.Rd: Change the doc as methods were implemented
 
@@ -197,7 +221,7 @@
 	Add anova function to compare nested models
 	Add spectral density plot
 
-2006-10-20  ribatema  <ribatema@lyp1015>
+2006-10-20  author  <author@LYP1077>
 
 	* inst/doc/guide.pdf, inst/doc/guide.tex: Update version number
 
@@ -210,7 +234,7 @@
 	* R/confGPD.R, R/fitGPD.R:
 	Some modifications related to varying threshold
 
-2006-10-19  ribatema  <ribatema@lyp1015>
+2006-10-19  author  <author@LYP1077>
 
 	* R/clust.R: add as.integer for compatibility with the .C call
 
@@ -221,7 +245,7 @@
 	  break;
 	}
 
-2006-10-18  ribatema  <ribatema@lyp1015>
+2006-10-18  author  <author@LYP1077>
 
 	* man/fitBvGPD.Rd:
 	Modification du fichier pour correspondre avec son code R dans \usage{...}
@@ -239,33 +263,33 @@
 	Modification du guide de l'utilisateur
 
 	* src/ccop.c, src/cgpdlik.c:
-	Sources C pour l'ajustement censurÈ et les copules
+	Sources C pour l'ajustement censur¬ÅÈ et les copules
 
 	* man/fitexi.Rd, man/plot.bvpot.Rd:
 	Ajout de la doc Rd pour l'estimation de l'indice extremal selon Ferro
-	and Segers et de la reprÈsention graphique pour la classe ``bvpot''
+	and Segers et de la repr¬ÅÈsention graphique pour la classe ``bvpot''
 
 	* R/checkThresh.R, R/clust.R, R/confGPD.R, R/fitGPD.R, R/internals.R, R/plotGPD.R, demo/POT.R:
-	Modification des sources R du ‡ l'implÈmentation des mÈthodes
+	Modification des sources R du ¬Å‡ l'impl¬ÅÈmentation des m¬ÅÈthodes
 
-	* src/header.h: Modification du fichier d'en-tÍte
+	* src/header.h: Modification du fichier d'en-t¬ÅÍte
 
 	* R/fitBvGPD.R, R/plotBvGPD.R, man/fitBvGPD.Rd, man/pickDep.Rd, src/bvgpdlik.c:
-	Fichiers reliÈs ‡ l'ajustement bivariÈ d'une GPD
+	Fichiers reli¬ÅÈs ¬Å‡ l'ajustement bivari¬ÅÈ d'une GPD
 
 	* R/fitMcGPD.R, R/simmc.R, man/evmc.Rd, man/fitMcGPD.Rd, src/simmc.c:
-	Fichiers reliÈs aux chaÓnes de Markov
+	Fichiers reli¬ÅÈs aux cha¬ÅÓnes de Markov
 
-2006-10-03  ribatema  <ribatema@lyp1015>
+2006-10-03  author  <author@LYP1077>
 
 	* R/fitBvGPD.R, R/fitGPD.R, R/internals.R, R/plotBvGPD.R, man/fitBvGPD.Rd, man/fitGPD.Rd, man/internals.Rd, man/pickDep.Rd, man/ts2tsd.Rd, src/bvgpdlik.c, src/header.h:
-	Modifications suite ‡ une nouvelle approche. On ne calcule la
-	logvraisemblance que pour les observations (y1, y2) o˘ l'une des deux
-	composantes dÈpasse le seuil.
-	Ensuite, au final, on rajoute la ``contribution censurÈe'' i.e. pour
+	Modifications suite ¬Å‡ une nouvelle approche. On ne calcule la
+	logvraisemblance que pour les observations (y1, y2) o¬Å˘ l'une des deux
+	composantes d¬ÅÈpasse le seuil.
+	Ensuite, au final, on rajoute la ``contribution censur¬ÅÈe'' i.e. pour
 	les points tels que y1 <= thresh1 et y2 <= thresh2
 
-2006-10-02  ribatema  <ribatema@lyp1015>
+2006-10-02  author  <author@LYP1077>
 
 	* man/fitBvGPD.Rd: Delete link for std.errors function
 
@@ -300,7 +324,7 @@
 	* man/internals.Rd:
 	Rd documentation file for internal functions and methods.
 
-2006-10-01  ribatema  <ribatema@lyp1015>
+2006-10-01  author  <author@LYP1077>
 
 	* R/clust.R: Add ``package = "POT"'' in the .C call.
 	Replacing back NA values.
@@ -314,7 +338,7 @@
 	* R/fitBvGPD.R, R/internals.R, R/plotBvGPD.R, src/bvgpdlik.c:
 	Add bivariate POT model functions
 
-2006-08-10  ribatema  <ribatema@lyp1015>
+2006-08-10  author  <author@LYP1077>
 
 	* src/header.h, src/clust.c:
 	Fix an stupid error, forget to change the header file as clust C
@@ -349,13 +373,13 @@
 	  the occurence time of the latter first exceedence and t_max the time
 	  occurence of the maximum within the cluster.
 
-2006-08-08  ribatema  <ribatema@lyp1015>
+2006-08-08  author  <author@LYP1077>
 
 	* man/clust.Rd:
 	Delete the link to the ``cluster'' function of package evd as it warns
 	in package checking.
 
-2006-08-07  ribatema  <ribatema@lyp1015>
+2006-08-07  author  <author@LYP1077>
 
 	* inst/CHANGES: Update to the current stable version of the package
 
@@ -375,7 +399,7 @@
 	* R/ts2tsd.R, R/checkThresh.R:
 	``data'' object must have its columns named ``time'' and ``obs''
 
-	* man/tcplot.Rd, man/mrlplot.Rd, man/lmomplot.Rd, man/diplot.Rd:
+	* man/mrlplot.Rd, man/tcplot.Rd, man/diplot.Rd, man/lmomplot.Rd:
 	Changes the man file as tlim has been changed into u.range in function
 	tcplot, mrlplot, lmomplot and diplot.
 
@@ -394,7 +418,7 @@
 	* R/checkThresh.R: Some notation changes: tlim -->> u.range
 	Add data <- sort(data) in function tcplot
 
-2006-08-03  ribatema  <ribatema@lyp1015>
+2006-08-03  author  <author@LYP1077>
 
 	* CHANGES:
 	Rename ChangeLog to CHANGES as CVS can create a ChangeLog file.
@@ -412,7 +436,7 @@
 
 	* data/ardieres.txt: Change the data ardiere: add NA for the gap
 
-2006-07-31  ribatema  <ribatema@lyp1015>
+2006-07-31  author  <author@LYP1077>
 
 	* R/clust.R, man/clust.Rd, man/diplot.Rd, man/fisherconf.Rd, man/lmomplot.Rd, man/mrlplot.Rd, man/plotGPD.Rd, man/profconf.Rd, man/tcplot.Rd:
 	Updates for examples in the documentation
@@ -435,22 +459,22 @@
 	New function ``clust'' to indentify clusters of extreme values. Thus,
 	the demo of the package has also changed.
 
-2006-07-18  ribatema  <ribatema@lyp1015>
+2006-07-18  author  <author@LYP1077>
 
 	* R/clust.R, man/clust.Rd:
 	Ajout de la fonction clsutts dans le package POT
 
 	* man/ardieres.Rd, data/ardieres.txt:
-	la donnÈe ``ardiËres'' correspond maintenant ‡ la chronique toute
-	entiËre.
+	la donn¬ÅÈe ``ardi¬ÅËres'' correspond maintenant ¬Å‡ la chronique toute
+	enti¬ÅËre.
 	Ainsi, on peut faire une application de la nouvelle fonction ``clustts''
 
-2006-06-27  ribatema  <ribatema@lyp1015>
+2006-06-27  author  <author@LYP1077>
 
 	* R/fitGPD.R:
 	Correction d'un bug dans ``gpdmle'' : on remplace corr par corr.mat
 
-2006-06-20  ribatema  <ribatema@lyp1015>
+2006-06-20  author  <author@LYP1077>
 
 	* src/POTBeta.dll: suppression de POTBeta.dll dans la gestion de projet
 
@@ -458,12 +482,12 @@
 
 	* ChangeLog: add ``fix a bug in gpdmle ...''
 
-2006-06-19  ribatema  <ribatema@lyp1015>
+2006-06-19  author  <author@LYP1077>
 
 	* R/fitGPD.R:
 	Fix a bug in gpdmle: error while passing to obs.fish <- FALSE
 
-2006-06-12  ribatema  <ribatema@lyp1015>
+2006-06-12  author  <author@LYP1077>
 
 	* ChangeLog: Add medians estimator
 
@@ -471,7 +495,7 @@
 
 	* man/fitGPD.Rd: Update doc for method = 'med'
 
-	* DESCRIPTION: NumÈro de version
+	* DESCRIPTION: Num¬ÅÈro de version
 
 	* DESCRIPTION: *** empty log message ***
 
@@ -480,7 +504,7 @@
 	* man/profconf.Rd:
 	Update doc for gpd.pfrl: replace ``retper'' and ``mu'' by ``prob''
 
-2006-06-07  ribatema  <ribatema@lyp1015>
+2006-06-07  author  <author@LYP1077>
 
 	* man/fitGPD.Rd: Updating reference in fitGPD.Rd
 
@@ -489,22 +513,22 @@
 
 	* R/fitGPD.R: Fix an error for hybrid estimate of method ``pwmb''.
 
-	* src/POT.d, src/POTBeta_res.rc, src/Makedeps:
+	* src/Makedeps, src/POT.d, src/POTBeta_res.rc:
 	*** empty log message ***
 
 	* R/fitGPD.R:
 	In ``gpdmed'' fix an stupid error: object ``x'' was not defined as an
 	argument of the fucntion !!!
 
-2006-06-06  ribatema  <ribatema@lyp1015>
+2006-06-06  author  <author@LYP1077>
 
 	* R/gpd.obre.R:
-	1) CrÈation fonction ``score.gpd'' qui calcule le score pour la GPD
+	1) Cr¬ÅÈation fonction ``score.gpd'' qui calcule le score pour la GPD
 
-	2) CrÈation fonction ``fish.gpd'' qui calcule l'information de Fisher
+	2) Cr¬ÅÈation fonction ``fish.gpd'' qui calcule l'information de Fisher
 	   pour la GPD
 
-	3) fonction ``gpdobre'' arrÍtÈe jusqu'au point iter.obre de Juarez
+	3) fonction ``gpdobre'' arr¬ÅÍt¬ÅÈe jusqu'au point iter.obre de Juarez
 
 	* R/checkThresh.R, R/confGPD.R, R/fitGPD.R, R/gpd.obre.R, R/plotGPD.R, R/simGPD.R, R/zzz.R, demo/POT.R, man/ardieres.Rd, man/diplot.Rd, man/fisherconf.Rd, man/fitGPD.Rd, man/lmomplot.Rd, man/mrlplot.Rd, man/plotGPD.Rd, man/profconf.Rd, man/retPer.Rd, man/samlmu.Rd, man/simGPD.Rd, man/tcplot.Rd, src/Makedeps, src/POT.c, src/POT.d, src/POTBeta.dll, src/POTBeta_res.rc:
 
