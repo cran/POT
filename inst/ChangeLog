@@ -1,4 +1,20 @@
+2007-08-17  author  <author@LYP1077>
+
+	* R/checkThresh.R:
+	Fix a huge gap in the diplot function. The dispersion index statistic
+	was completely erroneous. Thanks to Kallen, Maarten-Jan
+
 2007-07-09  author  <author@LYP1077>
+
+	* man/chimeas.Rd:
+	Delete the "x11()" as requested by Kurt Hornik (R staff)
+
+	* inst/ChangeLog: Update the ChangeLog file
+
+	* inst/CHANGES, inst/ChangeLog:
+	Update ChangeLog and describe the current CHANGES
+
+	* R/fitMcGPD.R: Add a test function for the amix model
 
 	* man/chimeas.Rd: Add documentation for bootstrap confidence intervals
 

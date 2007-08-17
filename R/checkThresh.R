@@ -3,51 +3,45 @@
 ## Threshold by a GP distribution is quite good.
 
 diplot <- function(data, u.range, main, xlab, ylab,
-                   conf=0.95,...){
+                   conf=0.95, ...){
 
   if ( !any(colnames(data) == "obs") )
     stop("``data'' should have a column named ``obs''...")
 
   if ( !any(colnames(data) == "time") )
     stop("``data'' should have a column named ``time''...")
-    
+
+  data <- na.omit(data)
   date <- data[,"time"]
   samp <- data[,"obs"]
                                        
   if (length(samp)<5){
-    stop('Not enougth data for a Dispersion Index Plot')
+    stop('Not enough data for a Dispersion Index Plot')
   }
 
-  date_unique <- unique(date)
-  
-  M <- diff( range( date ) )
+  M <- diff(range(date))
 
   if (missing(u.range)) u.range <- c(min(samp),max(samp[-(1:4)]))
 
   thresh <- seq(u.range[1],u.range[2],
                 length=max(200,length(samp)))
 
-  temp <- list()
-  for ( u in date_unique){
-    temp <- c(temp , list(samp[date==u]) )
-  }
-
-  names(temp) <- date_unique
-
   DI <- NULL
-  nb_occ <- NULL
 
-  for (v in thresh){
+  date <- floor(date)
+  tim.rec <- range(date)    
+ 
+  for (u in thresh){
 
-    temp1 <- NULL
-    
-    for (u in 1:length(date_unique) ){
-      temp1 <- c( temp1 , sum(temp[[u]] > v) )
-    }
-
-    nb_occ <- c( nb_occ , mean(temp1) )
-    
-    DI <- c( DI , var(temp1)/mean(temp1) )
+    nb.occ <- NULL
+    idx.excess <- samp > u
+    lambda <- sum(idx.excess) / M
+   
+    for (year in tim.rec[1]:tim.rec[2])
+      nb.occ <- c(nb.occ, sum(idx.excess &
+                              (date == year)))
+      
+    DI <- c(DI, var(nb.occ)/lambda)
 
   }
 

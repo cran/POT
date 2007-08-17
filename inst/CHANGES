@@ -1,3 +1,7 @@
+Version 1.0-3:
+  - Fix a huge gap within the diplot function. Thanks to Kallen,
+    Maarten-Jan.
+
 Version 1.0-2:
   - Add non conditional modeling
   - Add tsdep.plot function
