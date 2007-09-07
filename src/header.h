@@ -52,6 +52,10 @@ void gpdbvamix(double *data1, double *data2, int *n, int *nn, double *lambda1,
 	       double *lambda2, double *thresh, double *scale1,
 	       double *shape1, double *scale2, double *shape2,
 	       double *alpha, double *asCoef, double *dns);
+void gpdbvamixtest(double *data1, double *data2, int *n, int *nn, double *lambda1,
+		   double *lambda2, double *thresh, double *scale1,
+		   double *shape1, double *scale2, double *shape2,
+		   double *alpha, double *asCoef, double *dns);
 
 //From simmc.c
 void rbvlog_shi(int *n, double *alpha, double *sim);

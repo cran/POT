@@ -15,14 +15,14 @@ simmcpot <- function(fitted, plot = TRUE, ...){
     param <- list(alpha = alpha)
 
   if (model %in% c("alog", "anlog"))
-    param <- list(alpha = alpha, asCoef1 = x$param["asCoef1"],
-                  asCoef2 = x$param["asCoef2"])
+    param <- list(alpha = alpha, asCoef1 = fitted$param["asCoef1"],
+                  asCoef2 = fitted$param["asCoef2"])
 
   if (model == "mix")
     param <- list(alpha = alpha, asCoef = 0)
   
   if (model == "amix")
-    param <- list(alpha = alpha, asCoef = x$param["asCoef"])
+    param <- list(alpha = alpha, asCoef = fitted$param["asCoef"])
 
   param <- c(param, list(n = n, model = model))
 

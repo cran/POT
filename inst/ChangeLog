@@ -1,3 +1,49 @@
+2007-07-09  author  <author@LYP1077>
+
+	* man/chimeas.Rd: Add documentation for bootstrap confidence intervals
+
+	* src/header.h, src/mcgpdlik.c: Add a test function for the amix model
+
+	* DESCRIPTION: Update the DESCRIPTION file
+
+	* man/tsdep.plot.Rd:
+	A new function to assess for asymptotic dependence within time series
+
+	* man/simGPD.Rd: Add ``non conditional'' modeling for the GPD
+
+	* man/internals.Rd:
+	Add the ``lme'' (likelihood moment estimator) for the GPD
+	Thus the gpdlme is an additional internal function
+
+	* man/fitGPD.Rd:
+	Add the ``lme'' (likelihood moment estimator) for the GPD
+
+	* inst/doc/guide.Rnw, inst/doc/guide.pdf:
+	Change the package vignette for more portability
+
+	* R/simmcpot.R: Fix a minor bug
+
+	* R/simGPD.R: Add ``non conditional'' modeling for the GPD
+
+	* R/plotMcGPD.R: minor changes on the exi computations
+
+	* R/fitGPD.R: Add the ``lme'' (likelihood moment estimator) for the GPD
+
+	* R/confGPD.R: Fix an error in the ``gpd.firl'' function
+
+	* R/AsympDep.R:
+	Add bootstrap confidence intervals for the ``chimeas'' function
+	Add the ``tsdep.plot'' function
+
+2007-04-18  author  <author@LYP1077>
+
+	* R/plotBvGPD.R:
+	Another mistake in the dependance function for the "amix" model
+
+	* R/plotBvGPD.R:
+	The Pickands' dependence function was wrong for the "anlog" and "amix"
+	models !!! Fix it
+
 2007-03-30  author  <author@LYP1077>
 
 	* R/clust.R: Some modification for the extremal index estimation

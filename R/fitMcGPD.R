@@ -91,7 +91,7 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha,
         dns = double(1), PACKAGE = "POT")$dns
-  }  
+  }
   if (model == "amix"){
     nlpot <- function(scale, shape, alpha, asCoef)
     -.C("gpdmcamix", data1, data2, exceed3, as.integer(n-1),
@@ -99,6 +99,15 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
         pat3, threshold, scale, shape, alpha, asCoef,
         dns = double(1), PACKAGE = "POT")$dns
     param <- c(param, "asCoef")
+  }    
+  if (model == "amixtest"){
+    nlpot <- function(scale, shape, alpha, asCoef)
+    -.C("gpdmcamixtest", data1, data2, exceed3, as.integer(n-1),
+        as.integer(nn), as.integer(n-2), as.integer(nat3),
+        pat3, threshold, scale, shape, alpha, asCoef,
+        dns = double(1), PACKAGE = "POT")$dns
+    param <- c(param, "asCoef")
+    model <- "amix"
   }    
 
   ##Creating suited starting values according to the chosen

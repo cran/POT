@@ -309,7 +309,7 @@ gpd.firl <- function(fitted, prob, conf = 0.95){
   threshold <- fitted$threshold
   rl.fit <- qgpd(prob, threshold, scale.fit, shape.fit)
   
-  varcov <- fitted$corr
+  varcov <- fitted$var.cov
   if (is.null(varcov))
     stop("The correlation matrix should be present in object `fitted'!\n
 Use `corr = TRUE' in `fitgpd' function.")
@@ -317,11 +317,11 @@ Use `corr = TRUE' in `fitgpd' function.")
   
   eps <- .Machine$double.eps^0.5
   if ( abs(shape.fit) <= eps)
-    grad.rl <- c(-log( prob ), 0)
+    grad.rl <- c(-log(1 - prob), 0)
   else
-    grad.rl <- c((prob^shape.fit - 1) / shape.fit,
-                 - log(prob) * scale.fit / ( prob^shape.fit * shape.fit)
-                 - prob^( ( 1 / shape.fit - 1 ) * scale.fit ) / shape.fit^2 )
+    grad.rl <- c(((1-prob)^(-shape.fit) - 1) / shape.fit,
+                 -log(1 - prob) * scale.fit * (1 - prob)^(-shape.fit) / shape.fit -
+                 ((1-prob)^(-shape.fit) - 1) * scale.fit / shape.fit^2 )
   
   var.rl <- t(grad.rl) %*% varcov %*% grad.rl
   

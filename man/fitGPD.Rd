@@ -3,8 +3,9 @@
 
 \title{Fitting a GPD to Peaks Over a Threshold}
 \description{Maximum Likelihood, Unbiased Probability Weighted Moments,
-  Biased Probability Weighted Moments and Moments Estimator to fit Peaks
-  Over a Threshold to a GP distribution.}
+  Biased Probability Weighted Moments, Moments, Pickands', Minimum
+  Density Power Divergence, Medians and Likelihood Moment Estimators to
+  fit Peaks Over a Threshold to a GP distribution.}
 
 \usage{fitgpd(data, threshold, method = "mle", \dots)}
 \arguments{
@@ -16,12 +17,15 @@
   \code{data}.}
   \item{method}{A string giving the names of the estimator. It can be
     \code{'mle'} (the default), \code{'moments'}, \code{'pwmu'},
-    \code{'pwmb'}, \code{'mdpd'}, \code{'med'} and \code{'pickands'} for
-    the maximum likelihood, moments, unbiased probability weighted
-    moments, biased probability weigthed moments, minimum density power
-    divergence, medians and pickands' estimators respectively.}
+    \code{'pwmb'}, \code{'mdpd'}, \code{'med'}, \code{'pickands'},
+    and \code{'lme'} for the maximum likelihood, moments, unbiased
+    probability weighted moments, biased probability weigthed moments,
+    minimum density power divergence, medians, Pickands' and likelihood
+    moment estimators respectively.} 
   \item{\dots}{Other optional arguments to be passed to the
-    \code{\link{optim}} function and allow hand fixed parameters.}
+    \code{\link{optim}} function, allow hand fixed parameters (only
+    for the \code{mle} approach) or passed several options to specific
+    estimators - see the Note section.}
 }
 \value{
   This function returns a list with  components:
@@ -51,6 +55,29 @@
 \note{The Maximum Likelihood estimator is obtained through a slightly
   modified version of Alec Stephenson's \code{fpot.norm} function in the
   \code{evd} package.
+
+  The \code{'lme'} estimator has a special parameter \code{'r'}. Zhang
+  (2007) shows that a value of -0.5 should be accurate in most of the
+  cases. However, other values such as \code{r < 0.5} can be
+  explored. In particular, if \code{r} is approximatively equal to the
+  opposite of the true shape parameter value, then the \code{lme}
+  estimate is equivalent to the \code{mle} estimate.
+
+  The \code{'pwmb'} estimator has special parameters \code{'a'} and
+  \code{'b'}. These parameters are called the "plotting-position"
+  values. Hosking and Wallis (1987) recommend the use of \code{a = 0.35}
+  and \code{b = 0} (the default). However, different values can be
+  tested.
+
+  The \code{mdpd} estimator has a special parameter \code{'a'}. This is
+  a parameter of the "density power divergence". Juarez and Schucany
+  (2004) recommend the use of \code{a = 0.1}, but any value of
+  \code{a} such as \code{a > 0} can be used (small values are recommend
+  yet).
+
+  The \code{med} estimator admits two extra arguments \code{tol} and
+  \code{maxit} to control the "stopping-rule" of the optimization
+  process.
 }
 \references{
   Coles, S. (2001) \emph{An Introduction to Statistical
@@ -70,7 +97,11 @@
     Extremal Events for Insurance and Finance.} Springers.
 
   Pickands, J. (1975) Statistical Inference Using Extreme Order
-  Statistics. Annals of Statistics. \bold{3}:119--131.  
+  Statistics. Annals of Statistics. \bold{3}:119--131.
+
+  Zhang, J. (2007) Likelihood Moment Estimation for the Generalized
+  Pareto Distribution. Australian and New Zealand Journal of
+  Statistics. \bold{49}(1):69--77.
 }
 
 \examples{
@@ -85,8 +116,9 @@ med <- fitgpd(x, 1, "med", start = mle)$param ##Sometimes the fitting algo is no
                                               ##good starting values is
                                               ##a good idea.  
 mdpd <- fitgpd(x, 1, "mdpd")$param
+lme <- fitgpd(x, 1, "lme")$param
 
-print(rbind(mle, pwmu, pwmb, pickands, med, mdpd))
+print(rbind(mle, pwmu, pwmb, pickands, med, mdpd, lme))
 }
 \author{Mathieu Ribatet}
 \keyword{htest}

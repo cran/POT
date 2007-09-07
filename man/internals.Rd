@@ -6,6 +6,7 @@
 \alias{gpdpickands}
 \alias{gpdmdpd}
 \alias{gpdmed}
+\alias{gpdlme}
 \alias{rbvlog}
 \alias{rbvalog}
 \alias{rbvnlog}

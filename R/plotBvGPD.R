@@ -144,8 +144,8 @@ pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
       if ( (w < 0) || (w > 1) )
         return(NaN)
       else
-        1 - ( ((1-w)/asCoef1)^(-alpha) +
-             (w/asCoef2)^(-alpha) )^(-1/alpha)
+        1 - ( ((1-w)*asCoef1)^(-alpha) +
+             (w*asCoef2)^(-alpha) )^(-1/alpha)
     }
   }
 
@@ -166,7 +166,7 @@ pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
       if ( (w < 0) || (w > 1) )
         return(NaN)
       else
-        1 - (alpha + asCoef) * w + alpha * w^2 +
+        1 - (alpha + 2 * asCoef) * w + (alpha + 3 * asCoef)* w^2 -
           asCoef * w^3
     }
   }

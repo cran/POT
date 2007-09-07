@@ -1,3 +1,9 @@
+Version 1.0-2:
+  - Add non conditional modeling
+  - Add tsdep.plot function
+  - Fix a bug in gpd.firl function
+  - Improve several functions
+
 Version 1.0-1:
   - Add tools to assess for asymptotic (in)dependence
 

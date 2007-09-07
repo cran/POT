@@ -7,25 +7,93 @@
 ##   5) Pickands' Estimator
 ##   6) Minimum Density Power Divergence Estimator
 ##   7) Method of Medians Estimator
+##   8) Likelihood Moment Estimator
 
 ## A generic function for estimate the GPD parameters
 fitgpd <- function(data, threshold, method = "mle", ...){
   threshold.call <- deparse(threshold)
-  fitted <- switch(method, 'moments' = gpdmoments(data, threshold, ...),
+  fitted <- switch(method, 'moments' = gpdmoments(data, threshold),
                    'pwmb' = gpdpwmb(data, threshold, ...),
-                   'pwmu' = gpdpwmu(data, threshold, ...),
+                   'pwmu' = gpdpwmu(data, threshold),
                    'mle' = gpdmle(data, threshold, ...),
-                   'pickands' = gpdpickands(data, threshold, ...),
+                   'pickands' = gpdpickands(data, threshold),
                    'mdpd' = gpdmdpd(data, threshold, ...),
-                   'med' = gpdmed(data, threshold, ...)
+                   'med' = gpdmed(data, threshold),
+                   'lme' = gpdlme(data, threshold, ...)
                    )
   fitted$threshold.call <- threshold.call
   class(fitted) <- c("uvpot","pot")
   return(fitted)
 }
 
+##Likelihood moment estimation
+gpdlme <- function(x, threshold, r = -.5){
+
+  nn <- length(x)
+  high <- (x > threshold) & !is.na(x)
+  exceed <- as.double(x[high])
+
+  nat <- length(exceed)
+  if (!nat) 
+    stop("no data above threshold")
+
+  pat <- nat/nn
+  param <- c("scale", "shape")
+
+  excess <- exceed - threshold
+  fun <- function(x){
+    p <- r / mean(log(1 - x * excess))
+    mean((1 - x * excess)^p) - 1 / (1 - r)
+  }
+
+  opt <- uniroot(fun, lower = -1e6,
+               upper = 1 / max(excess))
+
+  b <- opt$root
+  zero <- opt$f.root
+  counts <- c(opt$iter, NA)
+  names(counts) <- c("function", "gradient")
+  prec <- opt$estim.prec
+  
+  shape <- mean(log(1 - b*excess))
+  scale <- - shape / b
+
+  param <- c(scale = scale, shape = shape)
+
+  a11 <- scale^2 * (2 + ((r - shape)^2 + 2 * shape) /
+                    (1 - 2 * r))
+  a12 <- scale * (1 + (r^2 + shape^2 + shape) /
+                  (1 - 2 * r))
+  a22 <- (1 - r) * (1 + (2*shape^2 - 2 * shape + r) /
+                    (1 - 2 * r))
+
+  var.cov <- matrix(c(a11, a12, a12, a22), 2) / nat
+  colnames(var.cov) <- c("scale", "shape")
+  rownames(var.cov) <- c("scale", "shape")
+
+  std.err <- sqrt(diag(var.cov))
+
+  .mat <- diag(1/std.err, nrow = length(std.err))
+  corr <- structure(.mat %*% var.cov %*% .mat)
+  diag(corr) <- rep(1, length(std.err))
+  colnames(corr) <- c("scale", "shape")
+  rownames(corr) <- c("scale", "shape")
+
+  if (shape < -0.5) 
+        message <- "Assymptotic theory assumptions\nfor standard error may not be fullfilled !"
+    else message <- NULL
+  
+  convergence <- NA
+  var.thresh <- FALSE
+  return(list(fitted.values = param, std.err = std.err, std.err.type = "expected",
+              var.cov = var.cov, param = param, message = message,
+              threshold = threshold, corr = corr, convergence = c(zero = zero, precision = prec),
+              counts = counts, nat = nat, pat = pat, exceed = exceed, scale = scale,
+              var.thresh = var.thresh, type = "LME"))
+}
+
 ##Pickand's Estimator
-gpdpickands <- function(data, threshold, ...){
+gpdpickands <- function(data, threshold){
   
   if ( length(unique(threshold)) != 1){
     warning("Threshold must be a single numeric value for method = 'pickands'. Taking only the first value !!!")
@@ -67,7 +135,7 @@ gpdpickands <- function(data, threshold, ...){
 
 ## Moments Estimator
 
-gpdmoments <- function(data, threshold, ...){
+gpdmoments <- function(data, threshold){
   
   if ( length(unique(threshold)) != 1){
     warning("Threshold must be a single numeric value for method = 'moments'. Taking only the first value !!!")
@@ -129,7 +197,7 @@ for standard error may not be fullfilled !'
 
 ##PWMB Estimator
 
-gpdpwmb <- function(data, threshold, a=0.35, b=0, ...){
+gpdpwmb <- function(data, threshold, a=0.35, b=0){
   
   if ( length(unique(threshold)) != 1){
     warning("Threshold must be a single numeric value for method = 'pwmb'. Taking only the first value !!!")
@@ -531,7 +599,7 @@ gpdmle <- function(x, threshold, start, ...,
 }
 
 ##Medians estimation for the GPD ( Peng, L. and Welsh, A. (2002) )
-gpdmed <- function(x, threshold, start, ..., tol = 10^-3, maxit = 500,
+gpdmed <- function(x, threshold, start, tol = 10^-3, maxit = 500,
                    show.trace = FALSE){
   
   if ( length(unique(threshold)) != 1){
