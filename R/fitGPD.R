@@ -8,22 +8,409 @@
 ##   6) Minimum Density Power Divergence Estimator
 ##   7) Method of Medians Estimator
 ##   8) Likelihood Moment Estimator
+##   9) Maximum Goodness-of-Fit Estimator
 
 ## A generic function for estimate the GPD parameters
-fitgpd <- function(data, threshold, method = "mle", ...){
+fitgpd <- function(data, threshold, est = "mle", ...){
   threshold.call <- deparse(threshold)
-  fitted <- switch(method, 'moments' = gpdmoments(data, threshold),
+  fitted <- switch(est, 'moments' = gpdmoments(data, threshold),
                    'pwmb' = gpdpwmb(data, threshold, ...),
                    'pwmu' = gpdpwmu(data, threshold),
                    'mle' = gpdmle(data, threshold, ...),
                    'pickands' = gpdpickands(data, threshold),
                    'mdpd' = gpdmdpd(data, threshold, ...),
                    'med' = gpdmed(data, threshold),
-                   'lme' = gpdlme(data, threshold, ...)
+                   'lme' = gpdlme(data, threshold, ...),
+                   'mgf' = gpdmgf(data, threshold, ...),
+                   'mple' = gpdmple(data, threshold, ...)
                    )
   fitted$threshold.call <- threshold.call
   class(fitted) <- c("uvpot","pot")
   return(fitted)
+}
+
+##Maximum penalized likelihood estimator
+gpdmple <- function(x, threshold, start, ..., std.err.type =
+                    "observed", corr = FALSE, method = "BFGS",
+                    warn.inf = TRUE, alpha = 1, lambda = 1){
+
+  if (all(c("observed", "expected", "none") != std.err.type))
+    stop("``std.err.type'' must be one of 'observed', 'expected' or 'none'")
+  
+  nlpot <- function(scale, shape) { 
+    ans <- -.C("gpdlik", exceed, nat, threshold, scale,
+                shape, dns = double(1), PACKAGE = "POT")$dns
+
+    if ((shape > 0) & (shape <1))
+     ans <- lambda * ((1 / (1 - shape) - 1)^alpha) + ans
+
+    if (shape >= 1)
+      ans <- 1e6
+
+    return(ans)
+  }
+  
+  nn <- length(x)
+  
+  threshold <- rep(threshold, length.out = nn)
+  
+  high <- (x > threshold) & !is.na(x)
+  threshold <- as.double(threshold[high])
+  exceed <- as.double(x[high])
+  nat <- length(exceed)
+  
+  if(!nat) stop("no data above threshold")
+  
+  pat <- nat/nn
+  param <- c("scale", "shape")
+  
+  if(missing(start)) {
+    
+    start <- list(scale = 0, shape = 0)
+    start$scale <- mean(exceed) - min(threshold)
+    
+    start <- start[!(param %in% names(list(...)))]
+    
+  }
+  
+  if(!is.list(start)) 
+    stop("`start' must be a named list")
+  
+  if(!length(start))
+    stop("there are no parameters left to maximize over")
+  
+  nm <- names(start)
+  l <- length(nm)
+  f <- formals(nlpot)
+  names(f) <- param
+  m <- match(nm, param)
+  
+  if(any(is.na(m))) 
+    stop("`start' specifies unknown arguments")
+  
+  formals(nlpot) <- c(f[m], f[-m])
+  nllh <- function(p, ...) nlpot(p, ...)
+  
+  if(l > 1)
+    body(nllh) <- parse(text = paste("nlpot(", paste("p[",1:l,
+                          "]", collapse = ", "), ", ...)"))
+  
+  fixed.param <- list(...)[names(list(...)) %in% param]
+  
+  if(any(!(param %in% c(nm,names(fixed.param)))))
+    stop("unspecified parameters")
+  
+  start.arg <- c(list(p = unlist(start)), fixed.param)
+  if( warn.inf && do.call("nllh", start.arg) == 1e6 )
+    warning("negative log-likelihood is infinite at starting values")
+  
+  opt <- optim(start, nllh, hessian = TRUE, ..., method = method)
+  
+  if (opt$convergence != 0) {
+    warning("optimization may not have succeeded")
+    if(opt$convergence == 1) opt$convergence <- "iteration limit reached"
+  }
+  
+  else opt$convergence <- "successful"
+
+  if (std.err.type != "none"){
+    
+    tol <- .Machine$double.eps^0.5
+    
+    if(std.err.type == "observed") {
+      
+      var.cov <- qr(opt$hessian, tol = tol)
+      if(var.cov$rank != ncol(var.cov$qr)){
+        warning("observed information matrix is singular; passing std.err.type to ``expected''")
+        obs.fish <- FALSE
+        return
+      }
+      
+      if (std.err.type == "observed"){
+        var.cov <- solve(var.cov, tol = tol)
+        
+        std.err <- diag(var.cov)
+        if(any(std.err <= 0)){
+          warning("observed information matrix is singular; passing std.err.type to ``expected''")
+          std.err.type <- "expected"
+          return
+        }
+        
+        std.err <- sqrt(std.err)
+        
+        if(corr) {
+          .mat <- diag(1/std.err, nrow = length(std.err))
+          corr.mat <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
+          diag(corr.mat) <- rep(1, length(std.err))
+        }
+        else {
+          corr.mat <- NULL
+        }
+      }
+    }
+    
+    if (std.err.type == "expected"){
+      
+      shape <- opt$par[2]
+      scale <- opt$par[1]
+      a22 <- 2/((1+shape)*(1+2*shape))
+      a12 <- 1/(scale*(1+shape)*(1+2*shape))
+      a11 <- 1/((scale^2)*(1+2*shape))
+      ##Expected Matix of Information of Fisher
+      expFisher <- nat * matrix(c(a11,a12,a12,a22),nrow=2)
+
+      expFisher <- qr(expFisher, tol = tol)
+      var.cov <- solve(expFisher, tol = tol)
+      std.err <- sqrt(diag(var.cov))
+      
+      if(corr) {
+        .mat <- diag(1/std.err, nrow = length(std.err))
+        corr.mat <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
+        diag(corr.mat) <- rep(1, length(std.err))
+      }
+      else
+        corr.mat <- NULL
+    }
+
+    colnames(var.cov) <- nm
+    rownames(var.cov) <- nm
+    names(std.err) <- nm
+  }
+
+  else{
+    std.err <- std.err.type <- corr.mat <- NULL
+    var.cov <- NULL
+  }
+  
+  
+  param <- c(opt$par, unlist(fixed.param))
+  scale <- param["scale"]
+  
+  var.thresh <- !all(threshold == threshold[1])
+
+  if (!var.thresh)
+    threshold <- threshold[1]
+  
+  list(fitted.values = opt$par, std.err = std.err, std.err.type = std.err.type,
+       var.cov = var.cov, fixed = unlist(fixed.param), param = param,
+       deviance = 2*opt$value, corr = corr.mat, convergence = opt$convergence,
+       counts = opt$counts, message = opt$message, threshold = threshold,
+       nat = nat, pat = pat, data = x, exceed = exceed, scale = scale,
+       var.thresh = var.thresh, est = "MPLE", logLik = -opt$value)
+}
+
+
+## Maximum goodness-of-fit estimator
+gpdmgf <- function(x, threshold, start, stat, ...,
+                   method = "BFGS", warn.inf = TRUE){
+
+  nn <- length(x)
+  high <- (x > threshold) & !is.na(x)
+  exceed <- as.double(x[high])
+
+  nat <- length(exceed)
+  if (!nat) 
+    stop("no data above threshold")
+
+  if (!(stat %in% c("KS","CM","AD","ADR","ADL","AD2R","AD2L",
+                   "AD2")))
+    stop("`stat' must be one of 'KS','CM','AD','ADR','ADL','AD2R','AD2L', 'AD2'.")
+
+  pat <- nat/nn
+  param <- c("scale", "shape")
+
+  excess <- exceed - threshold
+
+  excess <- sort(excess)
+
+  if(missing(start)) {
+    
+    start <- list(scale = 0, shape = 0)
+    start$scale <- mean(exceed) - min(threshold)
+    
+    start <- start[!(param %in% names(list(...)))]
+    
+  }
+  
+  if(!is.list(start)) 
+    stop("`start' must be a named list")
+  
+  if(!length(start))
+    stop("there are no parameters left to maximize over")
+  
+  if (stat == "KS")
+    fun <- function(scale, shape){
+      if (scale <= 0)
+        1e6
+
+      else
+        1 / 2 / nat + max(abs(pgpd(excess, 0, scale, shape) -
+                              ppoints(nat)))
+    }
+    
+  if (stat == "CM")
+    fun <- function(scale, shape){
+      if (scale <= 0)
+        1e6
+
+      else
+        1/12/nat + sum((pgpd(excess, 0, scale, shape) -
+                        ppoints(nat))^2)
+    }
+
+  if (stat == "AD")
+    fun <- function(scale, shape){
+      if (scale <= 0)
+        1e6
+
+      else{
+
+        if (max(excess) >= -scale/shape)
+         1e6
+
+        else
+          -nat - mean((2*1:nat - 1) *
+                      (log(pgpd(excess, 0, scale, shape)) +
+                       log(1 - pgpd(rev(excess), 0, scale, shape))))
+      }
+    }
+
+  if (stat == "ADR")
+    fun <- function(scale, shape){
+      if (scale <= 0)
+        1e6
+
+      else{
+
+        if (max(excess) >= -scale/shape)
+         1e6
+
+        else
+          nat / 2 - 2 * sum(pgpd(excess, 0, scale, shape)) -
+            mean((2 * 1:nat -1)*log(1 - pgpd(rev(excess), 0, scale, shape)))
+      }
+    }
+  
+  if (stat == "ADL")
+    fun <- function(scale, shape){
+      if (scale <= 0)
+        1e6
+
+      else{
+
+        if (max(excess) >= -scale/shape)
+         1e6
+
+        else
+          - 3 * nat / 2 + 2 * sum(pgpd(excess, 0, scale, shape)) -
+            mean((2 * 1:nat -1)*log(pgpd(excess, 0, scale, shape)))
+      }
+    }
+
+  if (stat == "AD2R")
+    fun <- function(scale, shape){
+      if (scale <= 0)
+        1e6
+
+      else{
+
+        if (max(excess) >= -scale/shape)
+         1e6
+
+        else
+          2 * sum(log(1 - pgpd(excess, 0, scale, shape))) +
+            mean((2* 1:nat - 1) / (1 - pgpd(rev(excess), 0, scale, shape)))
+      }
+    }
+
+  if (stat == "AD2L")
+    fun <- function(scale, shape){
+      if (scale <= 0)
+        1e6
+
+      else{
+
+        if (max(excess) >= -scale/shape)
+         1e6
+
+        else
+          2 * sum(log(pgpd(excess, 0, scale, shape))) +
+            mean((2 * 1:nat - 1) / pgpd(excess, 0, scale, shape))
+      }
+    }
+
+  if (stat == "AD2")
+    fun <- function(scale, shape){
+      if (scale <= 0)
+        1e6
+
+      else{
+
+        if (max(excess) >= -scale/shape)
+         1e6
+
+        else
+          2 * sum(log(pgpd(excess, 0, scale, shape)) +
+                  log(1 - pgpd(excess, 0, scale, shape))) +
+                    mean((2 * 1:nat - 1) / pgpd(excess, 0, scale, shape) +
+                         (2 * 1:nat - 1) /
+                         (1 - pgpd(rev(excess), 0, scale, shape)))
+      }
+    }
+
+  nm <- names(start)
+  l <- length(nm)
+  f <- formals(fun)
+  names(f) <- param
+  m <- match(nm, param)
+  
+  if(any(is.na(m))) 
+    stop("`start' specifies unknown arguments")
+  
+  formals(fun) <- c(f[m], f[-m])
+  mgf <- function(p, ...) fun(p, ...)
+  
+  if(l > 1)
+    body(mgf) <- parse(text = paste("fun(", paste("p[",1:l,
+                          "]", collapse = ", "), ", ...)"))
+  
+  fixed.param <- list(...)[names(list(...)) %in% param]
+  
+  if(any(!(param %in% c(nm,names(fixed.param)))))
+    stop("unspecified parameters")
+  
+  start.arg <- c(list(p = unlist(start)), fixed.param)
+  if( warn.inf && do.call("mgf", start.arg) == 1e6 )
+    warning("Maximum goodness-of-fit function is infinite at starting values")
+  
+  opt <- optim(start, mgf, hessian = TRUE, ..., method = method)
+  
+  if (opt$convergence != 0) {
+    warning("optimization may not have succeeded")
+    if(opt$convergence == 1) opt$convergence <- "iteration limit reached"
+  }
+  
+  else opt$convergence <- "successful"
+
+  tol <- .Machine$double.eps^0.5
+    
+  param <- c(opt$par, unlist(fixed.param))
+  scale <- param["scale"]
+  
+  var.thresh <- !all(threshold == threshold[1])
+
+  if (!var.thresh)
+    threshold <- threshold[1]
+
+  std.err <- std.err.type <- corr.mat <- NULL
+  var.cov <- NULL
+
+  list(fitted.values = opt$par, std.err = std.err, std.err.type = std.err.type,
+       var.cov = var.cov, fixed = unlist(fixed.param), param = param,
+       corr = corr.mat, convergence = opt$convergence, counts = opt$counts,
+       message = opt$message, threshold = threshold, nat = nat, pat = pat,
+       data = x, exceed = exceed, scale = scale, var.thresh = var.thresh,
+       type = "MGF")
 }
 
 ##Likelihood moment estimation
@@ -89,14 +476,14 @@ gpdlme <- function(x, threshold, r = -.5){
               var.cov = var.cov, param = param, message = message,
               threshold = threshold, corr = corr, convergence = c(zero = zero, precision = prec),
               counts = counts, nat = nat, pat = pat, exceed = exceed, scale = scale,
-              var.thresh = var.thresh, type = "LME"))
+              var.thresh = var.thresh, est = "LME"))
 }
 
 ##Pickand's Estimator
 gpdpickands <- function(data, threshold){
   
   if ( length(unique(threshold)) != 1){
-    warning("Threshold must be a single numeric value for method = 'pickands'. Taking only the first value !!!")
+    warning("Threshold must be a single numeric value for est = 'pickands'. Taking only the first value !!!")
     threshold <- threshold[1]
   }
   
@@ -130,7 +517,7 @@ gpdpickands <- function(data, threshold){
               param = param, message = message, threshold = threshold,
               nat = nat, pat = pat, convergence = convergence,
               corr = corr, counts = counts, exceed = exceed,
-              scale = scale, var.thresh = var.thresh, type = "pickands"))
+              scale = scale, var.thresh = var.thresh, est = "pickands"))
 }
 
 ## Moments Estimator
@@ -138,7 +525,7 @@ gpdpickands <- function(data, threshold){
 gpdmoments <- function(data, threshold){
   
   if ( length(unique(threshold)) != 1){
-    warning("Threshold must be a single numeric value for method = 'moments'. Taking only the first value !!!")
+    warning("Threshold must be a single numeric value for est = 'moments'. Taking only the first value !!!")
     threshold <- threshold[1]
   }
   
@@ -192,7 +579,7 @@ for standard error may not be fullfilled !'
               param = param, message = message, threshold = threshold,
               nat = nat, pat = pat, convergence = convergence,
               corr= corr, counts = counts, exceed = exceed,
-              scale=scale, var.thresh = var.thresh, type = "moments"))
+              scale=scale, var.thresh = var.thresh, est = "moments"))
 }
 
 ##PWMB Estimator
@@ -200,7 +587,7 @@ for standard error may not be fullfilled !'
 gpdpwmb <- function(data, threshold, a=0.35, b=0){
   
   if ( length(unique(threshold)) != 1){
-    warning("Threshold must be a single numeric value for method = 'pwmb'. Taking only the first value !!!")
+    warning("Threshold must be a single numeric value for est = 'pwmb'. Taking only the first value !!!")
     threshold <- threshold[1]
   }
   
@@ -225,15 +612,15 @@ gpdpwmb <- function(data, threshold, a=0.35, b=0){
   
   shape <- - m / (m- 2*t ) + 2
   scale <- 2 * m * t / (m - 2*t )
-  type <- 'PWMB'
+  est <- 'PWMB'
   
-  if ( max(excess) <= (-scale / shape) ){
+  if ( max(excess) >= (-scale / shape) ){
     shape <- -scale / max(excess)
-    type <- 'PWMB Hybrid'
+    est <- 'PWMB Hybrid'
   }
   
   estim <- c(scale  = scale, shape = shape)
-  param <-  c(scale = scale, shape =shape)
+  param <-  c(scale = scale, shape = shape)
   convergence <- NA
   counts <- NA
   
@@ -261,10 +648,10 @@ gpdpwmb <- function(data, threshold, a=0.35, b=0){
   var.thresh <- FALSE
   
   return(list(fitted.values = estim, std.err = std.err, var.cov = var.cov,
-              param = param, message = type, threshold = threshold,
+              param = param, message = est, threshold = threshold,
               corr = corr, convergence = convergence, counts = counts,
               nat = nat, pat = pat, exceed = exceed,
-              scale=scale, var.thresh = var.thresh, type = type))
+              scale=scale, var.thresh = var.thresh, est = est))
 }
 
 
@@ -294,7 +681,7 @@ samlmu <- function (x, nmom = 4, sort.data = TRUE)
 gpdpwmu <- function(data,threshold){
   
   if ( length(unique(threshold)) != 1){
-    warning("Threshold must be a single numeric value for method = 'pwmu'. Taking only the first value !!!")
+    warning("Threshold must be a single numeric value for est = 'pwmu'. Taking only the first value !!!")
     threshold <- threshold[1]
   }
   
@@ -344,7 +731,7 @@ for standard error may not be fullfilled !"
               param = param, message = message, threshold = threshold,
               corr = corr, convergence = convergence, counts = counts,
               nat = nat, pat = pat, exceed = exceed,
-              scale=scale, var.thresh = var.thresh, type = "PWMU"))
+              scale=scale, var.thresh = var.thresh, est = "PWMU"))
 }
 
 ##MDPD estimators for the GPD.
@@ -352,7 +739,7 @@ gpdmdpd <- function(x, threshold, a, start, ...,
                     method = "BFGS", warn.inf = TRUE){
   
   if ( length(unique(threshold)) != 1){
-    warning("Threshold must be a single numeric value for method = 'mdpd'. Taking only the first value !!!")
+    warning("Threshold must be a single numeric value for est = 'mdpd'. Taking only the first value !!!")
     threshold <- threshold[1]
   }
   
@@ -428,7 +815,7 @@ gpdmdpd <- function(x, threshold, a, start, ...,
        deviance = NULL, corr = corr, convergence = opt$convergence,
        counts = opt$counts, message = opt$message, threshold = threshold,
        nat = nat, pat = pat, data = x, exceed = exceed,
-       scale = scale, var.thresh = var.thresh, type = "MDPD")
+       scale = scale, var.thresh = var.thresh, est = "MDPD")
 }
 
 
@@ -558,7 +945,8 @@ gpdmle <- function(x, threshold, start, ...,
       a11 <- 1/((scale^2)*(1+2*shape))
       ##Expected Matix of Information of Fisher
       expFisher <- nat * matrix(c(a11,a12,a12,a22),nrow=2)
-      
+
+      expFisher <- qr(expFisher, tol = tol)
       var.cov <- solve(expFisher, tol = tol)
       std.err <- sqrt(diag(var.cov))
       
@@ -595,7 +983,7 @@ gpdmle <- function(x, threshold, start, ...,
        deviance = 2*opt$value, corr = corr.mat, convergence = opt$convergence,
        counts = opt$counts, message = opt$message, threshold = threshold,
        nat = nat, pat = pat, data = x, exceed = exceed, scale = scale,
-       var.thresh = var.thresh, type = "MLE", logLik = -opt$value)
+       var.thresh = var.thresh, est = "MLE", logLik = -opt$value)
 }
 
 ##Medians estimation for the GPD ( Peng, L. and Welsh, A. (2002) )
@@ -603,7 +991,7 @@ gpdmed <- function(x, threshold, start, tol = 10^-3, maxit = 500,
                    show.trace = FALSE){
   
   if ( length(unique(threshold)) != 1){
-    warning("Threshold must be a single numeric value for method = 'med'. Taking only the first value !!!")
+    warning("Threshold must be a single numeric value for est = 'med'. Taking only the first value !!!")
     threshold <- threshold[1]
   }
   
@@ -699,7 +1087,7 @@ gpdmed <- function(x, threshold, start, tol = 10^-3, maxit = 500,
        deviance = NULL, corr = corr, convergence = opt$convergence,
        counts = opt$counts, message = opt$message, threshold = threshold,
        nat = nat, pat = pat, data = x, exceed = exceed,
-       scale = scale, var.thresh = var.thresh, type = "MEDIANS")
+       scale = scale, var.thresh = var.thresh, est = "MEDIANS")
   
 }
 

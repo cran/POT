@@ -105,20 +105,22 @@ pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
   if (model == "log"){
     ##Logistic case :
     A <- function(w){
-      if ( (w < 0) || (w > 1) )
-        return(NaN)
-      else
-        ((1-w)^(1/alpha) + w^(1/alpha))^alpha
+      ans <- rep(NA, length(w))
+      idx <- which((w <= 0) | (w > 1))
+      w <- w[-idx]
+      ans[-idx] <- ((1-w)^(1/alpha) + w^(1/alpha))^alpha
+      return(ans)
     }
   }
   
   if (model == "nlog"){
     ##Negative logistic case:
     A <- function(w){
-      if ( (w < 0) || (w > 1) )
-        return(NaN)
-      else
-        1 - ((1-w)^(-alpha) + w^(-alpha))^(-1/alpha)
+      ans <- rep(NA, length(w))
+      idx <- which((w <= 0) | (w > 1))
+      w <- w[-idx]
+      ans[-idx] <- 1 - ((1-w)^(-alpha) + w^(-alpha))^(-1/alpha)
+      return(ans)
     }
   }
 
@@ -127,12 +129,12 @@ pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
     asCoef1 <- fitted$param["asCoef1"]
     asCoef2 <- fitted$param["asCoef2"]
     A <- function(w){
-      if ( (w < 0) || (w > 1) )
-        return(NaN)
-      else
-        (1 - asCoef1)*(1-w) + (1 - asCoef2) * w +
-          ( (asCoef1 * (1-w))^(1/alpha) +
-           (asCoef2 * w)^(1/alpha) )^alpha
+      ans <- rep(NA, length(w))
+      idx <- which((w <= 0) | (w > 1))
+      w <- w[-idx]
+      ans[-idx] <- (1 - asCoef1)*(1-w) + (1 - asCoef2) * w +
+        ( (asCoef1 * (1-w))^(1/alpha) + (asCoef2 * w)^(1/alpha) )^alpha
+      return(ans)
     }
   }
 
@@ -141,21 +143,23 @@ pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
     asCoef1 <- fitted$param["asCoef1"]
     asCoef2 <- fitted$param["asCoef2"]
     A <- function(w){
-      if ( (w < 0) || (w > 1) )
-        return(NaN)
-      else
-        1 - ( ((1-w)*asCoef1)^(-alpha) +
-             (w*asCoef2)^(-alpha) )^(-1/alpha)
+      ans <- rep(NA, length(w))
+      idx <- which((w <= 0) | (w > 1))
+      w <- w[-idx]
+      ans[-idx] <- 1 - ( ((1-w)*asCoef1)^(-alpha) +
+                        (w*asCoef2)^(-alpha) )^(-1/alpha)
+      return(ans)
     }
   }
 
   if (model == "mix"){
     ##Mixed model:
     A <- function(w){
-      if ( (w < 0) || (w > 1) )
-        return(NaN)
-      else
-        1 - w * (1-w) * alpha
+      ans <- rep(NA, length(w))
+      idx <- which((w <= 0) | (w > 1))
+      w <- w[-idx]
+      ans[-idx] <- 1 - w * (1-w) * alpha
+      return(ans)
     }
   }
 
@@ -163,11 +167,12 @@ pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
     ##Asymetric Mixed model:
      asCoef <- fitted$param["asCoef"]
     A <- function(w){
-      if ( (w < 0) || (w > 1) )
-        return(NaN)
-      else
-        1 - (alpha + 2 * asCoef) * w + (alpha + 3 * asCoef)* w^2 -
-          asCoef * w^3
+      ans <- rep(NA, length(w))
+      idx <- which((w <= 0) | (w > 1))
+      w <- w[-idx]
+      ans[-idx] <- 1 - (alpha + 2 * asCoef) * w +
+        (alpha + 3 * asCoef)* w^2 - asCoef * w^3
+      return(ans)
     }
   }
 
@@ -175,7 +180,8 @@ pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
     if (missing(main))
         main <- "Pickands' Dependence Function"
     
-    plot(A, ylim = c(0.5, 1), main = main, type = "n")
+    plot(A, ylim = c(0.5, 1), xlim = c(0,1), main = main,
+         type = "n")
     
     if (bound){
       lines(x= c(0,1), y = c(1,1), col = "grey", ...)

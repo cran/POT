@@ -1,3 +1,8 @@
+Version 1.0-4:
+  - Add lors of new estimators for the univariate GPD
+  - Fix typo and update R vignette
+  - Convert R object to double before calling C code as it may fail 
+
 Version 1.0-3:
   - Fix a huge gap within the diplot function. Thanks to Kallen,
     Maarten-Jan.

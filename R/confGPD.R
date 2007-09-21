@@ -333,3 +333,36 @@ Use `corr = TRUE' in `fitgpd' function.")
   return(int.conf)
 }
 
+confint.uvpot <- function(object, parm, level = 0.95, ...,
+                          range, prob, prof = TRUE){
+
+  if (missing(parm)) 
+    parm <- "quant"
+  
+  if (!(parm %in% c("quant","scale","shape")))
+    stop("``parm'' must specify one of ``quant'', ``scale'' or ``shape''.")
+
+  if ((parm == "quant") && missing(prob))
+    stop("``prob'' must be specified when ``parm = 'quant'''.")
+  
+  if (prof){
+    if (missing(range)){
+      tmp <- confint(object, prof = FALSE, level = level,
+                     parm = parm, prob = prob)
+      range <- c(tmp[1] * 0.9, tmp[2] * 1.1)
+    }
+      
+    ci <- switch(parm, "scale" = gpd.pfscale(object, range,
+                        conf = level, ...), "shape" =
+                 gpd.pfshape(object, range, conf = level, ...),
+                 "quant" = gpd.pfrl(object, prob, range,
+                   conf = level, ...))
+  }
+
+  else
+    ci <- switch(parm, "scale" = gpd.fiscale(object, conf = level),
+                 "shape" = gpd.fishape(object, conf = level),
+                 "quant" = gpd.firl(object, prob, conf = level))
+
+  return(ci)
+}

@@ -1,603 +1,1076 @@
-2007-08-17  author  <author@LYP1077>
+------------------------------------------------------------------------
+r347 | ribatet | 2007-09-21 14:32:14 +0200 (ven, 21 sep 2007) | 2 lines
 
-	* R/checkThresh.R:
-	Fix a huge gap in the diplot function. The dispersion index statistic
-	was completely erroneous. Thanks to Kallen, Maarten-Jan
+Delete the Rplots.ps and guide.tex files
 
-2007-07-09  author  <author@LYP1077>
+------------------------------------------------------------------------
+r346 | ribatet | 2007-09-21 14:29:23 +0200 (ven, 21 sep 2007) | 2 lines
 
-	* man/chimeas.Rd:
-	Delete the "x11()" as requested by Kurt Hornik (R staff)
+Use svn keyword substitution for Date
 
-	* inst/ChangeLog: Update the ChangeLog file
+------------------------------------------------------------------------
+r345 | ribatet | 2007-09-21 13:04:26 +0200 (ven, 21 sep 2007) | 3 lines
 
-	* inst/CHANGES, inst/ChangeLog:
-	Update ChangeLog and describe the current CHANGES
+Change 'method = "mle"' for 'est = "mle"' as method is devoted to the
+optimization option in the optim function.
 
-	* R/fitMcGPD.R: Add a test function for the amix model
+------------------------------------------------------------------------
+r344 | ribatet | 2007-09-21 11:35:22 +0200 (ven, 21 sep 2007) | 2 lines
 
-	* man/chimeas.Rd: Add documentation for bootstrap confidence intervals
+Remove some printing information in the C code
 
-	* src/header.h, src/mcgpdlik.c: Add a test function for the amix model
+------------------------------------------------------------------------
+r343 | ribatet | 2007-09-21 11:34:43 +0200 (ven, 21 sep 2007) | 2 lines
 
-	* DESCRIPTION: Update the DESCRIPTION file
+Change quote types as it fails to compile with newer R versions
 
-	* man/tsdep.plot.Rd:
-	A new function to assess for asymptotic dependence within time series
+------------------------------------------------------------------------
+r342 | ribatet | 2007-09-21 11:34:23 +0200 (ven, 21 sep 2007) | 2 lines
 
-	* man/simGPD.Rd: Add ``non conditional'' modeling for the GPD
+Change quote types as it fails to compile with newer R versions
 
-	* man/internals.Rd:
-	Add the ``lme'' (likelihood moment estimator) for the GPD
-	Thus the gpdlme is an additional internal function
+------------------------------------------------------------------------
+r341 | ribatet | 2007-09-21 11:33:17 +0200 (ven, 21 sep 2007) | 2 lines
 
-	* man/fitGPD.Rd:
-	Add the ``lme'' (likelihood moment estimator) for the GPD
+Add links to other function in the man pages
 
-	* inst/doc/guide.Rnw, inst/doc/guide.pdf:
-	Change the package vignette for more portability
+------------------------------------------------------------------------
+r340 | ribatet | 2007-09-21 11:32:53 +0200 (ven, 21 sep 2007) | 2 lines
 
-	* R/simmcpot.R: Fix a minor bug
+Changes to take into account for the mple estimator
 
-	* R/simGPD.R: Add ``non conditional'' modeling for the GPD
+------------------------------------------------------------------------
+r339 | ribatet | 2007-09-21 11:32:39 +0200 (ven, 21 sep 2007) | 2 lines
 
-	* R/plotMcGPD.R: minor changes on the exi computations
+Changes to take into account for the mple estimator
 
-	* R/fitGPD.R: Add the ``lme'' (likelihood moment estimator) for the GPD
+------------------------------------------------------------------------
+r338 | ribatet | 2007-09-21 11:31:56 +0200 (ven, 21 sep 2007) | 2 lines
 
-	* R/confGPD.R: Fix an error in the ``gpd.firl'' function
+Changes in the man pages as the confint function was created
 
-	* R/AsympDep.R:
-	Add bootstrap confidence intervals for the ``chimeas'' function
-	Add the ``tsdep.plot'' function
+------------------------------------------------------------------------
+r337 | ribatet | 2007-09-21 11:30:27 +0200 (ven, 21 sep 2007) | 2 lines
 
-2007-04-18  author  <author@LYP1077>
+Changes in the print.uvpot function to account for mple estimator
 
-	* R/plotBvGPD.R:
-	Another mistake in the dependance function for the "amix" model
+------------------------------------------------------------------------
+r336 | ribatet | 2007-09-21 11:28:23 +0200 (ven, 21 sep 2007) | 3 lines
 
-	* R/plotBvGPD.R:
-	The Pickands' dependence function was wrong for the "anlog" and "amix"
-	models !!! Fix it
+Convert R objects to double before calling C code as it may 
+cause segmentation fault
 
-2007-03-30  author  <author@LYP1077>
+------------------------------------------------------------------------
+r335 | ribatet | 2007-09-21 11:24:05 +0200 (ven, 21 sep 2007) | 3 lines
 
-	* R/clust.R: Some modification for the extremal index estimation
+Add a function confint which calls all other existing functions 
+(profile) confidence intervals
 
-	* R/fitMcGPD.R:
-	Add the ``plot'' option to indicate if the density of the extremal
-	index must be plotted.
+------------------------------------------------------------------------
+r334 | ribatet | 2007-09-20 17:19:35 +0200 (jeu, 20 sep 2007) | 2 lines
 
-	* R/fitGPD.R: Fix a bug in gpdmdpd
+Documentation for the new function confint
 
-	* man/dexi.Rd:
-	Add the ``plot'' option to indicate if the density of the extremal
-	index must be plotted.
+------------------------------------------------------------------------
+r333 | ribatet | 2007-08-17 16:40:30 +0200 (ven, 17 aoû 2007) | 2 lines
 
-	* R/AsympDep.R, man/chimeas.Rd, man/tailind.test.Rd:
-	Add function to assess for the asymptotic (in)dependence
+Add a new estimator for the fitgpd function. See method ``mgf''
 
-2007-02-21  author  <author@LYP1077>
+------------------------------------------------------------------------
+r332 | ribatet | 2007-08-17 16:39:40 +0200 (ven, 17 aoû 2007) | 2 lines
 
-	* R/plotBvGPD.R:
-	Fix a minor bug in function "pickdep" (graphic display bug)
+Add a new estimator for the fitgpd function. See method ``mgf''
 
-2007-01-26  author  <author@LYP1077>
+------------------------------------------------------------------------
+r330 | ribatet | 2007-08-17 10:49:11 +0200 (ven, 17 aoû 2007) | 2 lines
 
-	* inst/CHANGES, inst/ChangeLog: Update the ChangeLog and CHANGES files
+Update the DESCRIPTION and ChangeLog files.
 
-	* src/mcgpdlik.c: Fix bugs in the likelihood computation
+------------------------------------------------------------------------
+r329 | ribatet | 2007-08-17 10:36:56 +0200 (ven, 17 aoû 2007) | 3 lines
 
-	* man/fitMcGPD.Rd, man/fitexi.Rd, man/plot.mcpot.Rd, man/retlev.mcpot.Rd:
-	Minor changes in the documentation
+Fix a huge gap in the diplot function. The dispersion index statistic
+was completely erroneous. Thanks to Kallen, Maarten-Jan
 
-	* man/dexi.Rd: Doc file for the dexi function
+------------------------------------------------------------------------
+r322 | ribatet | 2007-07-09 14:46:10 +0200 (lun, 09 jui 2007) | 2 lines
 
-	* R/simmcpot.R:
-	simmcpot function now simulate Markov chains for all dependence models
+Delete the "x11()" as requested by Kurt Hornik (R staff)
 
-	* R/simmc.R: Use the mcmix C code instead of mcamix
+------------------------------------------------------------------------
+r321 | ribatet | 2007-07-09 12:14:47 +0200 (lun, 09 jui 2007) | 2 lines
 
-	* R/plotMcGPD.R: Some corrections in the retlev.mcpot function
+Update the ChangeLog file
 
-	* R/fitMcGPD.R:
-	Add the function dexi to compute the density of the extremal index
-	Fix minor bugs in the fitmcgpd function
+------------------------------------------------------------------------
+r320 | ribatet | 2007-07-09 12:14:08 +0200 (lun, 09 jui 2007) | 2 lines
 
-	* DESCRIPTION: Update version number and date
+Update ChangeLog and describe the current CHANGES
 
-2007-01-19  author  <author@LYP1077>
+------------------------------------------------------------------------
+r319 | ribatet | 2007-07-09 12:13:36 +0200 (lun, 09 jui 2007) | 2 lines
 
-	* src/mcgpdlik.c:
-	Fix a major bug: variable lambda was multiply defined !!!
-	Add also practical test to avoid numerical troubles
+Add a test function for the amix model
 
-	* man/retlev.mcpot.Rd, man/plot.mcpot.Rd:
-	Add  a  force.gpd  option  to   "force"  the  distribution  to  be  GP
-	distributed. thus, documentation has changed.
+------------------------------------------------------------------------
+r318 | ribatet | 2007-07-09 12:12:05 +0200 (lun, 09 jui 2007) | 2 lines
 
-	Add a reference
+Add documentation for bootstrap confidence intervals
 
-	* R/plotMcGPD.R:
-	Add  a  force.gpd  option  to   "force"  the  distribution  to  be  GP
-	distributed.
+------------------------------------------------------------------------
+r317 | ribatet | 2007-07-09 12:10:33 +0200 (lun, 09 jui 2007) | 2 lines
 
-	* R/fitMcGPD.R, R/fitBvGPD.R:
-	Starting  values are fitted  using pwu  estimates to  avoid degenerate
-	standard errors.
+Update the DESCRIPTION file
 
-2006-11-17  author  <author@LYP1077>
+------------------------------------------------------------------------
+r316 | ribatet | 2007-07-09 11:59:32 +0200 (lun, 09 jui 2007) | 2 lines
 
-	* R/plotBvGPD.R: Fix a bug in the spectral density for model "nlog"
+A new function to assess for asymptotic dependence within time series
 
-2006-11-08  author  <author@LYP1077>
+------------------------------------------------------------------------
+r315 | ribatet | 2007-07-09 11:58:29 +0200 (lun, 09 jui 2007) | 2 lines
 
-	* inst/doc/Rplots.ps, inst/doc/guide.pdf: Update vignette related files
+Add ``non conditional'' modeling for the GPD
 
-	* inst/doc/Rplots.ps: Plots for the R vignette
+------------------------------------------------------------------------
+r314 | ribatet | 2007-07-09 11:58:07 +0200 (lun, 09 jui 2007) | 3 lines
 
-	* inst/doc/guide.Rnw: Change the vignette to reduce computational time
+Add the ``lme'' (likelihood moment estimator) for the GPD
+Thus the gpdlme is an additional internal function
 
-	* inst/ChangeLog: Update the ChangeLog file
+------------------------------------------------------------------------
+r313 | ribatet | 2007-07-09 11:57:42 +0200 (lun, 09 jui 2007) | 2 lines
 
-	* inst/CHANGES: Update the CHANGES file
+Add the ``lme'' (likelihood moment estimator) for the GPD
 
-	* inst/doc/guide.pdf, inst/doc/guide.Rnw:
-	Change the vingnette to be computed more quickly. Thus the pdf has
-	also change
+------------------------------------------------------------------------
+r312 | ribatet | 2007-07-09 11:56:58 +0200 (lun, 09 jui 2007) | 2 lines
 
-	* man/plot.mcpot.Rd, man/retlev.mcpot.Rd:
-	Update the documentation files
+Change the package vignette for more portability
 
-	* inst/doc/guide.Rnw, inst/doc/guide.pdf:
-	Change the vingnette to be computed more quickly. Thus the pdf has
-	also change
+------------------------------------------------------------------------
+r311 | ribatet | 2007-07-09 11:56:01 +0200 (lun, 09 jui 2007) | 2 lines
 
-	* R/fitMcGPD.R:
-	Change the definition of the likelihood function -->> use directly a C
-	code for first order Markov chains
+Fix a minor bug
 
-	* DESCRIPTION: Update the version and description part
+------------------------------------------------------------------------
+r310 | ribatet | 2007-07-09 11:54:57 +0200 (lun, 09 jui 2007) | 2 lines
 
-2006-11-06  author  <author@LYP1077>
+minor changes on the exi computations
 
-	* src/header.h: Add entry from mcgpdlik.c file
+------------------------------------------------------------------------
+r309 | ribatet | 2007-07-09 11:51:58 +0200 (lun, 09 jui 2007) | 2 lines
 
-	* src/mcgpdlik.c: likelihood function for mcpot objects
+Fix an error in the ``gpd.firl'' function
 
-	* man/diplot.Rd: specify the date is in a numeric format.
+------------------------------------------------------------------------
+r308 | ribatet | 2007-07-09 11:51:26 +0200 (lun, 09 jui 2007) | 3 lines
 
-	* R/plotMcGPD.R:
-	Modify the return level plot for object of class ``mcpot''
+Add bootstrap confidence intervals for the ``chimeas'' function
+Add the ``tsdep.plot'' function
 
-	* demo/00Index: Add the entry for the second demo
+------------------------------------------------------------------------
+r294 | ribatet | 2007-04-18 13:50:53 +0200 (mer, 18 avr 2007) | 2 lines
 
-2006-11-03  author  <author@LYP1077>
+Another mistake in the dependance function for the "amix" model
 
-	* R/simmcpot.R: Simulation of a markov chain from a fitted mcpot object
+------------------------------------------------------------------------
+r293 | ribatet | 2007-04-18 12:04:17 +0200 (mer, 18 avr 2007) | 3 lines
 
-	* R/plotMcGPD.R: Add a method to plot return level for mcpot objects
+The Pickands' dependence function was wrong for the "anlog" and "amix"
+models !!! Fix it
 
-	* R/plotGPD.R:
-	Now the function returns invisibly the return level function
+------------------------------------------------------------------------
+r292 | ribatet | 2007-03-30 10:54:43 +0200 (ven, 30 mar 2007) | 2 lines
 
-	* R/internals.R:
-	Change the way as the threshold is print in the printing method of
-	objects of class uvpot, bvpot and mcpot
+Some modification for the extremal index estimation
 
-	* man/simmcpot.Rd:
-	Simulation of a markov chain from a fitted mcpot object
+------------------------------------------------------------------------
+r291 | ribatet | 2007-03-30 10:52:21 +0200 (ven, 30 mar 2007) | 3 lines
 
-	* man/retlev.uvpot.Rd:
-	Now the function returns invisibly the return level function
+Add the ``plot'' option to indicate if the density of the extremal
+index must be plotted.
 
-	* man/retlev.mcpot.Rd:
-	Add method to plot return level plots for mcpot objects
+------------------------------------------------------------------------
+r290 | ribatet | 2007-03-30 10:51:57 +0200 (ven, 30 mar 2007) | 2 lines
 
-	* inst/doc/guide.Rnw, inst/doc/guide.pdf:
-	The Sweave user's guide and the related pdf
+Fix a bug in gpdmdpd
 
-	* R/fitBvGPD.R, R/fitGPD.R, R/fitMcGPD.R, man/fitBvGPD.Rd, man/fitMcGPD.Rd:
-	Changing the way users ask for standard errors
+------------------------------------------------------------------------
+r289 | ribatet | 2007-03-30 10:48:39 +0200 (ven, 30 mar 2007) | 2 lines
 
-	* R/clust.R:
-	Change the computation of the extremal index. There was a bug !!!
+Add function to assess for the asymptotic (in)dependence
 
-2006-10-24  author  <author@LYP1077>
+------------------------------------------------------------------------
+r288 | ribatet | 2007-02-21 10:45:51 +0100 (mer, 21 fév 2007) | 2 lines
 
-	* R/plotMcGPD.R: Add a method to plot ``mcpot'' objects
+Fix a minor bug in function "pickdep" (graphic display bug)
 
-	* R/bvGPD.R:
-	Functions for bivariate GPD distribution function and simulation
+------------------------------------------------------------------------
+r286 | ribatet | 2007-01-26 17:16:22 +0100 (ven, 26 jan 2007) | 2 lines
 
-	* man/plot.mcpot.Rd: Add a method to plot ``mcpot'' objects
+Update the ChangeLog and CHANGES files
 
-	* man/rbvgpd.Rd:
-	Add doc file for bivariate distribution function and simulation
+------------------------------------------------------------------------
+r285 | ribatet | 2007-01-26 16:54:34 +0100 (ven, 26 jan 2007) | 2 lines
 
-	* demo/bvPOT.R: Add another demo file for Bivariate POT models
+Fix bugs in the likelihood computation
 
-	* R/simmc.R: fix a mistake: replace is.missing by missing
+------------------------------------------------------------------------
+r284 | ribatet | 2007-01-26 16:54:03 +0100 (ven, 26 jan 2007) | 2 lines
 
-	* R/plotBvGPD.R:
-	Change the eps value in the specdens function for the log case as it
-	produces poor graphics
+Minor changes in the documentation
 
-	* R/anova.R: Exchange the order of the models in the data.frame output
+------------------------------------------------------------------------
+r283 | ribatet | 2007-01-26 16:53:27 +0100 (ven, 26 jan 2007) | 2 lines
 
-	* src/simmc.c: *** empty log message ***
+Doc file for the dexi function
 
-	* src/simmc.c: Add C code ccbvmix, rbvlog_shi
+------------------------------------------------------------------------
+r282 | ribatet | 2007-01-26 16:52:26 +0100 (ven, 26 jan 2007) | 2 lines
 
-	* src/header.h:
-	Add C code ccbvmix, rbvlog_shi, rbvalog_shi in the header file
+simmcpot function now simulate Markov chains for all dependence models
 
-	* src/ccop.c: Add C code ccbvmix
+------------------------------------------------------------------------
+r281 | ribatet | 2007-01-26 16:51:55 +0100 (ven, 26 jan 2007) | 2 lines
 
-	* man/internals.Rd:
-	Add distribution functions and random generation for the bivariate
-	log, alog, nlog, anlog, mix and amix models.
+Use the mcmix C code instead of mcamix
 
-	* man/gpd2frech.Rd: Add function frech2gpd to the Rd file
+------------------------------------------------------------------------
+r280 | ribatet | 2007-01-26 16:51:09 +0100 (ven, 26 jan 2007) | 2 lines
 
-	* man/fisherconf.Rd, man/profconf.Rd, man/bvretlev.Rd, man/anova.bvpot.Rd, man/anova.uvpot.Rd, man/clust.Rd, man/dens.uvpot.Rd, man/diplot.Rd, man/evmc.Rd, man/fitBvGPD.Rd, man/fitGPD.Rd, man/fitMcGPD.Rd, man/lmomplot.Rd, man/mrlplot.Rd, man/pickDep.Rd, man/plot.bvpot.Rd, man/plotGPD.Rd, man/pp.uvpot.Rd, man/retPer.Rd, man/retlev.uvpot.Rd, man/samlmu.Rd, man/specdens.Rd, man/tcplot.Rd, man/ts2tsd.Rd:
-	Spell checking Rd files and format then to be cleaner (examples,
-	sections...)
+Some corrections in the retlev.mcpot function
 
-	* R/utils.R: Add function frech2gpd
+------------------------------------------------------------------------
+r279 | ribatet | 2007-01-26 16:50:42 +0100 (ven, 26 jan 2007) | 3 lines
 
-	* R/plotGPD.R:
-	Replace the ``exceedance'' component of a ``uvpot'' object by
-	``exceed'' to be consistent with ``bvpot'' and ``mcpot'' objects
-	
-	Moreover, a little mistake for the point-wise confidence
-	intervals. Fixing it.
+Add the function dexi to compute the density of the extremal index
+Fix minor bugs in the fitmcgpd function
 
-	* R/plotBvGPD.R: No changes
+------------------------------------------------------------------------
+r278 | ribatet | 2007-01-26 16:22:55 +0100 (ven, 26 jan 2007) | 2 lines
 
-	* R/confGPD.R, R/fitGPD.R:
-	Replace the ``exceedance'' component of a ``uvpot'' object by
-	``exceed'' to be consistent with ``bvpot'' and ``mcpot'' objects
+Update version number and date
 
-2006-10-23  author  <author@LYP1077>
+------------------------------------------------------------------------
+r277 | ribatet | 2007-01-19 15:47:42 +0100 (ven, 19 jan 2007) | 3 lines
 
-	* man/plot.bvpot.Rd: Change the doc as methods were implemented
+Fix a major bug: variable lambda was multiply defined !!!
+Add also practical test to avoid numerical troubles
 
-	* man/internals.Rd: Delete function as they were documented
+------------------------------------------------------------------------
+r276 | ribatet | 2007-01-19 15:46:19 +0100 (ven, 19 jan 2007) | 5 lines
 
-	* man/bvretlev.Rd: Change the doc as methods were implemented
+Add  a  force.gpd  option  to   "force"  the  distribution  to  be  GP
+distributed. thus, documentation has changed.
 
-	* inst/doc/guide.tex:
-	Changes the user's guide as methods were implemented
+Add a reference
 
-	* R/plotGPD.R: Convert existing functions for method compatibility
-	If npy is missing in ``retlev'' then setting it to 1
+------------------------------------------------------------------------
+r275 | ribatet | 2007-01-19 15:44:55 +0100 (ven, 19 jan 2007) | 3 lines
 
-	* R/plotBvGPD.R:
-	Add spectral density plot and a method for bivariate return level plot
+Add  a  force.gpd  option  to   "force"  the  distribution  to  be  GP
+distributed.
 
-	* R/anova.R, R/methods.R, R/utils.R, man/anova.bvpot.Rd, man/anova.uvpot.Rd, man/dens.Rd, man/dens.uvpot.Rd, man/gpd2frech.Rd, man/logLik.pot.Rd, man/pp.Rd, man/pp.uvpot.Rd, man/print.bvpot.Rd, man/print.mcpot.Rd, man/print.uvpot.Rd, man/qq.Rd, man/qq.uvpot.Rd, man/retlev.Rd, man/retlev.uvpot.Rd, man/specdens.Rd:
-	Add documentation files .Rd
-	Add method for printing, plotting object of class ``uvpot'', ``bvpot''
-	and ``mcpot''
-	Add anova function to compare nested models
-	Add spectral density plot
+------------------------------------------------------------------------
+r274 | ribatet | 2007-01-19 15:43:15 +0100 (ven, 19 jan 2007) | 3 lines
 
-2006-10-20  author  <author@LYP1077>
+Starting  values are fitted  using pwu  estimates to  avoid degenerate
+standard errors.
 
-	* inst/doc/guide.pdf, inst/doc/guide.tex: Update version number
+------------------------------------------------------------------------
+r272 | ribatema | 2006-11-17 15:12:04 +0100 (ven, 17 nov 2006) | 2 lines
 
-	* man/profconf.Rd: Renames the fitted object i.e. fitted -->> MLE
+Fix a bug in the spectral density for model "nlog"
 
-	* demo/POT.R: replace plotgpd by plot as we implement methods
+------------------------------------------------------------------------
+r255 | ribatema | 2006-11-08 17:45:39 +0100 (mer, 08 nov 2006) | 2 lines
 
-	* R/plotBvGPD.R: Graphic title correction
+Update vignette related files
 
-	* R/confGPD.R, R/fitGPD.R:
-	Some modifications related to varying threshold
+------------------------------------------------------------------------
+r254 | ribatema | 2006-11-08 17:41:06 +0100 (mer, 08 nov 2006) | 2 lines
 
-2006-10-19  author  <author@LYP1077>
+Plots for the R vignette
 
-	* R/clust.R: add as.integer for compatibility with the .C call
+------------------------------------------------------------------------
+r253 | ribatema | 2006-11-08 17:40:30 +0100 (mer, 08 nov 2006) | 2 lines
 
-	* src/clust.c:
-	Fix a bug in ``clust.c''. add condition to break the while loop.
-	if (idx >= *n){
-	  idx--;
-	  break;
-	}
+Change the vignette to reduce computational time
 
-2006-10-18  author  <author@LYP1077>
+------------------------------------------------------------------------
+r252 | ribatema | 2006-11-08 17:28:49 +0100 (mer, 08 nov 2006) | 2 lines
 
-	* man/fitBvGPD.Rd:
-	Modification du fichier pour correspondre avec son code R dans \usage{...}
+Update the ChangeLog file
 
-	* inst/ChangeLog: update ChangeLog
+------------------------------------------------------------------------
+r251 | ribatema | 2006-11-08 17:27:50 +0100 (mer, 08 nov 2006) | 2 lines
 
-	* inst/CHANGES: Update this file for the new version
+Update the CHANGES file
 
-	* DESCRIPTION: Modification du fichier DESCRIPTION
+------------------------------------------------------------------------
+r250 | ribatema | 2006-11-08 17:20:36 +0100 (mer, 08 nov 2006) | 3 lines
 
-	* man/ardieres.Rd, man/bvretlev.Rd, man/clust.Rd, man/diplot.Rd, man/fitGPD.Rd, man/internals.Rd, man/lmomplot.Rd, man/mrlplot.Rd, man/plotGPD.Rd, man/retPer.Rd, man/samlmu.Rd, man/tcplot.Rd, man/ts2tsd.Rd:
-	Modification des fichiers de documentation Rd
+Change the vingnette to be computed more quickly. Thus the pdf has
+also change
 
-	* inst/doc/guide.pdf, inst/doc/guide.tex:
-	Modification du guide de l'utilisateur
+------------------------------------------------------------------------
+r249 | ribatema | 2006-11-08 17:15:26 +0100 (mer, 08 nov 2006) | 3 lines
 
-	* src/ccop.c, src/cgpdlik.c:
-	Sources C pour l'ajustement censur� et les copules
+Change the vingnette to be computed more quickly. Thus the pdf has
+also change
 
-	* man/fitexi.Rd, man/plot.bvpot.Rd:
-	Ajout de la doc Rd pour l'estimation de l'indice extremal selon Ferro
-	and Segers et de la repr�sention graphique pour la classe ``bvpot''
+------------------------------------------------------------------------
+r248 | ribatema | 2006-11-08 17:01:58 +0100 (mer, 08 nov 2006) | 2 lines
 
-	* R/checkThresh.R, R/clust.R, R/confGPD.R, R/fitGPD.R, R/internals.R, R/plotGPD.R, demo/POT.R:
-	Modification des sources R du � l'impl�mentation des m�thodes
+Update the documentation files
 
-	* src/header.h: Modification du fichier d'en-t�te
+------------------------------------------------------------------------
+r247 | ribatema | 2006-11-08 16:58:39 +0100 (mer, 08 nov 2006) | 3 lines
 
-	* R/fitBvGPD.R, R/plotBvGPD.R, man/fitBvGPD.Rd, man/pickDep.Rd, src/bvgpdlik.c:
-	Fichiers reli�s � l'ajustement bivari� d'une GPD
+Change the vingnette to be computed more quickly. Thus the pdf has
+also change
 
-	* R/fitMcGPD.R, R/simmc.R, man/evmc.Rd, man/fitMcGPD.Rd, src/simmc.c:
-	Fichiers reli�s aux cha�nes de Markov
+------------------------------------------------------------------------
+r246 | ribatema | 2006-11-08 16:57:20 +0100 (mer, 08 nov 2006) | 3 lines
 
-2006-10-03  author  <author@LYP1077>
+Change the definition of the likelihood function -->> use directly a C
+code for first order Markov chains
 
-	* R/fitBvGPD.R, R/fitGPD.R, R/internals.R, R/plotBvGPD.R, man/fitBvGPD.Rd, man/fitGPD.Rd, man/internals.Rd, man/pickDep.Rd, man/ts2tsd.Rd, src/bvgpdlik.c, src/header.h:
-	Modifications suite � une nouvelle approche. On ne calcule la
-	logvraisemblance que pour les observations (y1, y2) o� l'une des deux
-	composantes d�passe le seuil.
-	Ensuite, au final, on rajoute la ``contribution censur�e'' i.e. pour
-	les points tels que y1 <= thresh1 et y2 <= thresh2
+------------------------------------------------------------------------
+r245 | ribatema | 2006-11-08 16:56:07 +0100 (mer, 08 nov 2006) | 2 lines
 
-2006-10-02  author  <author@LYP1077>
+Update the version and description part
 
-	* man/fitBvGPD.Rd: Delete link for std.errors function
+------------------------------------------------------------------------
+r244 | ribatema | 2006-11-06 20:21:58 +0100 (lun, 06 nov 2006) | 2 lines
 
-	* man/pickDep.Rd: The Rd documentation file for pickdep function
+Add entry from mcgpdlik.c file
 
-	* man/fitBvGPD.Rd:
-	Fix error in the documentation. chi is not an argument but a return
-	component of the function.
+------------------------------------------------------------------------
+r243 | ribatema | 2006-11-06 20:21:44 +0100 (lun, 06 nov 2006) | 2 lines
 
-	Fix an error in the example section
+likelihood function for mcpot objects
 
-	* src/bvgpdlik.c: Change to LF endings line
+------------------------------------------------------------------------
+r242 | ribatema | 2006-11-06 20:20:27 +0100 (lun, 06 nov 2006) | 2 lines
 
-	* man/fitBvGPD.Rd: change \link{\code{ into \code{\link
+specify the date is in a numeric format.
 
-	* R/fitBvGPD.R: Add PACKAGE = "POT" because one was omitted
+------------------------------------------------------------------------
+r241 | ribatema | 2006-11-06 20:14:27 +0100 (lun, 06 nov 2006) | 2 lines
 
-	* R/internals.R:
-	pass ``...'' in logLik.pot function for method consistency
+Modify the return level plot for object of class ``mcpot''
 
-	* man/internals.Rd: Titles must be in plain text
+------------------------------------------------------------------------
+r240 | ribatema | 2006-11-06 20:13:23 +0100 (lun, 06 nov 2006) | 2 lines
 
-	* man/fitBvGPD.Rd: The Rd documentation file for the fitbvgpd function
+Add the entry for the second demo
 
-	* src/bvgpdlik.c: Add #include header.h
+------------------------------------------------------------------------
+r239 | ribatema | 2006-11-03 18:04:39 +0100 (ven, 03 nov 2006) | 2 lines
 
-	* R/fitBvGPD.R: add PACKAGE = "POT" in .C call.
+Simulation of a markov chain from a fitted mcpot object
 
-	* R/fitBvGPD.R:
-	Delete useless stuffs for the bivariate case. That is, std.err.type.
+------------------------------------------------------------------------
+r238 | ribatema | 2006-11-03 18:03:55 +0100 (ven, 03 nov 2006) | 2 lines
 
-	* man/internals.Rd:
-	Rd documentation file for internal functions and methods.
+Add a method to plot return level for mcpot objects
 
-2006-10-01  author  <author@LYP1077>
+------------------------------------------------------------------------
+r237 | ribatema | 2006-11-03 18:02:19 +0100 (ven, 03 nov 2006) | 2 lines
 
-	* R/clust.R: Add ``package = "POT"'' in the .C call.
-	Replacing back NA values.
+Now the function returns invisibly the return level function
 
-	* R/checkThresh.R: Change line type in mrlplot function
+------------------------------------------------------------------------
+r236 | ribatema | 2006-11-03 18:01:54 +0100 (ven, 03 nov 2006) | 3 lines
 
-	* src/header.h: Add an header entry for Bivariate POT models
+Change the way as the threshold is print in the printing method of
+objects of class uvpot, bvpot and mcpot
 
-	* man/profconf.Rd: Change the demo
+------------------------------------------------------------------------
+r235 | ribatema | 2006-11-03 17:59:29 +0100 (ven, 03 nov 2006) | 2 lines
 
-	* R/fitBvGPD.R, R/internals.R, R/plotBvGPD.R, src/bvgpdlik.c:
-	Add bivariate POT model functions
+Add method to plot return level plots for mcpot objects
 
-2006-08-10  author  <author@LYP1077>
+------------------------------------------------------------------------
+r234 | ribatema | 2006-11-03 17:58:26 +0100 (ven, 03 nov 2006) | 2 lines
 
-	* src/header.h, src/clust.c:
-	Fix an stupid error, forget to change the header file as clust C
-	function has changed.
+The Sweave user's guide and the related pdf
 
-	* R/clust.R:
-	Change in clust.c. The function clust has changed. A cluster is now
-	defined by:
-	  1) ``open'' the cluster: first exceedence over the threshold
-	  2) ``end'' the current cluster: the first exceedence over the
-	  threshold which satisfies t_end - t_max > tim.cond, where t_end is
-	  the occurence time of the latter first exceedence and t_max the time
-	  occurence of the maximum within the cluster.
+------------------------------------------------------------------------
+r233 | ribatema | 2006-11-03 17:57:20 +0100 (ven, 03 nov 2006) | 2 lines
 
-	* src/clust.c:
-	Change in clust.c. The function clust has changed. A cluster is now
-	defined by:
-	  1) ``open'' the cluster: first exceedence over the threshold
-	  2) ``end'' the current cluster: the first exceedence over the
-	  threshold which satisfies t_end - t_max > tim.cond, where t_end is
-	  the occurence time of the latter first exceedence and t_max the time
-	  occurence of the maximum within the cluster.
+Changing the way users ask for standard errors
 
-	A little error: clust --> clust+1
+------------------------------------------------------------------------
+r232 | ribatema | 2006-11-03 17:53:48 +0100 (ven, 03 nov 2006) | 2 lines
 
-	* src/clust.c:
-	Change in clust.c. The function clust has changed. A cluster is now
-	defined by:
-	  1) ``open'' the cluster: first exceedence over the threshold
-	  2) ``end'' the current cluster: the first exceedence over the
-	  threshold which satisfies t_end - t_max > tim.cond, where t_end is
-	  the occurence time of the latter first exceedence and t_max the time
-	  occurence of the maximum within the cluster.
+Change the computation of the extremal index. There was a bug !!!
 
-2006-08-08  author  <author@LYP1077>
+------------------------------------------------------------------------
+r213 | ribatema | 2006-10-24 22:21:00 +0200 (mar, 24 oct 2006) | 2 lines
 
-	* man/clust.Rd:
-	Delete the link to the ``cluster'' function of package evd as it warns
-	in package checking.
+Add a method to plot ``mcpot'' objects
 
-2006-08-07  author  <author@LYP1077>
+------------------------------------------------------------------------
+r212 | ribatema | 2006-10-24 22:20:30 +0200 (mar, 24 oct 2006) | 2 lines
 
-	* inst/CHANGES: Update to the current stable version of the package
+Functions for bivariate GPD distribution function and simulation
 
-	* inst/ChangeLog, CHANGES, ChangeLog: *** empty log message ***
+------------------------------------------------------------------------
+r211 | ribatema | 2006-10-24 22:17:04 +0200 (mar, 24 oct 2006) | 2 lines
 
-	* DESCRIPTION: Update the version and date of the package
+Add doc file for bivariate distribution function and simulation
 
-	* inst/doc/guide.tex: The user's guide in LaTeX
+------------------------------------------------------------------------
+r210 | ribatema | 2006-10-24 22:15:45 +0200 (mar, 24 oct 2006) | 2 lines
 
-	* inst/doc/guide.pdf: The user's guide in pdf
+Add another demo file for Bivariate POT models
 
-	* inst/CHANGES: Move file CHANGES in the inst/ directory
+------------------------------------------------------------------------
+r209 | ribatema | 2006-10-24 22:15:20 +0200 (mar, 24 oct 2006) | 2 lines
 
-	* R/ts2tsd.R:
-	Fix a stupid bug. Replace data by ts !!! in any(colnames(data) == "obs"...
+fix a mistake: replace is.missing by missing
 
-	* R/ts2tsd.R, R/checkThresh.R:
-	``data'' object must have its columns named ``time'' and ``obs''
+------------------------------------------------------------------------
+r208 | ribatema | 2006-10-24 22:14:32 +0200 (mar, 24 oct 2006) | 3 lines
 
-	* man/mrlplot.Rd, man/tcplot.Rd, man/diplot.Rd, man/lmomplot.Rd:
-	Changes the man file as tlim has been changed into u.range in function
-	tcplot, mrlplot, lmomplot and diplot.
+Change the eps value in the specdens function for the log case as it
+produces poor graphics
 
-	* man/clust.Rd: Some spelling corrections
+------------------------------------------------------------------------
+r207 | ribatema | 2006-10-24 22:13:38 +0200 (mar, 24 oct 2006) | 2 lines
 
-	* demo/POT.R:
-	Changes the demo as tlim has been changed into u.range in function
-	tcplot, mrlplot, lmomplot and diplot.
+Exchange the order of the models in the data.frame output
 
-	* R/plotGPD.R:
-	Change the non parametic estimation of the density in ``dens.gpd'' function
+------------------------------------------------------------------------
+r206 | ribatema | 2006-10-24 20:59:12 +0200 (mar, 24 oct 2006) | 2 lines
 
-	* R/clust.R: Add an ``idx'' column in the response of function clust.
-	Graphic rectangles are now better defined
+*** empty log message ***
 
-	* R/checkThresh.R: Some notation changes: tlim -->> u.range
-	Add data <- sort(data) in function tcplot
+------------------------------------------------------------------------
+r205 | ribatema | 2006-10-24 20:57:14 +0200 (mar, 24 oct 2006) | 2 lines
 
-2006-08-03  author  <author@LYP1077>
+Add C code ccbvmix, rbvlog_shi
 
-	* CHANGES:
-	Rename ChangeLog to CHANGES as CVS can create a ChangeLog file.
+------------------------------------------------------------------------
+r204 | ribatema | 2006-10-24 20:56:33 +0200 (mar, 24 oct 2006) | 2 lines
 
-	* man/ts2tsd.Rd: The man file for function ts2tsd
+Add C code ccbvmix, rbvlog_shi, rbvalog_shi in the header file
 
-	* R/ts2tsd.R: Add function ts2tsd in package POT
+------------------------------------------------------------------------
+r203 | ribatema | 2006-10-24 20:55:54 +0200 (mar, 24 oct 2006) | 2 lines
 
-	* src/ts2tsd.c: The C code for the function ts2tsd
+Add C code ccbvmix
 
-	* src/header.h, src/clust.c, src/POT.c:
-	Now we use a header file ``header.h''
+------------------------------------------------------------------------
+r202 | ribatema | 2006-10-24 20:55:24 +0200 (mar, 24 oct 2006) | 3 lines
 
-	* man/ardieres.Rd: Change the example: pass option type = "l" in plot.
+Add distribution functions and random generation for the bivariate
+log, alog, nlog, anlog, mix and amix models.
 
-	* data/ardieres.txt: Change the data ardiere: add NA for the gap
+------------------------------------------------------------------------
+r201 | ribatema | 2006-10-24 20:54:32 +0200 (mar, 24 oct 2006) | 2 lines
 
-2006-07-31  author  <author@LYP1077>
+Add function frech2gpd to the Rd file
 
-	* R/clust.R, man/clust.Rd, man/diplot.Rd, man/fisherconf.Rd, man/lmomplot.Rd, man/mrlplot.Rd, man/plotGPD.Rd, man/profconf.Rd, man/tcplot.Rd:
-	Updates for examples in the documentation
+------------------------------------------------------------------------
+r200 | ribatema | 2006-10-24 20:53:20 +0200 (mar, 24 oct 2006) | 3 lines
 
-	* src/clust.c: C code for the clust function
+Spell checking Rd files and format then to be cleaner (examples,
+sections...)
 
-	* R/clust.R, demo/POT.R:
-	Some changes for compatibility for the new dataset ardieres. And
-	changes for the clust function.
+------------------------------------------------------------------------
+r199 | ribatema | 2006-10-24 20:45:48 +0200 (mar, 24 oct 2006) | 2 lines
 
-	* demo/POT.R:
-	Correct a bug in the demo file as the the data ``ardieres'' has
-	changed.
+Add function frech2gpd
 
-	* man/clust.Rd: Correct a bug in the documentation file clust.Rd
+------------------------------------------------------------------------
+r198 | ribatema | 2006-10-24 20:45:19 +0200 (mar, 24 oct 2006) | 6 lines
 
-	* man/exiplot.Rd: Documentation of the exiplot function
+Replace the ``exceedance'' component of a ``uvpot'' object by
+``exceed'' to be consistent with ``bvpot'' and ``mcpot'' objects
 
-	* R/clust.R, demo/POT.R:
-	New function ``clust'' to indentify clusters of extreme values. Thus,
-	the demo of the package has also changed.
+Moreover, a little mistake for the point-wise confidence
+intervals. Fixing it.
 
-2006-07-18  author  <author@LYP1077>
+------------------------------------------------------------------------
+r197 | ribatema | 2006-10-24 20:44:38 +0200 (mar, 24 oct 2006) | 2 lines
 
-	* R/clust.R, man/clust.Rd:
-	Ajout de la fonction clsutts dans le package POT
+No changes
 
-	* man/ardieres.Rd, data/ardieres.txt:
-	la donn�e ``ardi�res'' correspond maintenant � la chronique toute
-	enti�re.
-	Ainsi, on peut faire une application de la nouvelle fonction ``clustts''
+------------------------------------------------------------------------
+r196 | ribatema | 2006-10-24 20:44:06 +0200 (mar, 24 oct 2006) | 3 lines
 
-2006-06-27  author  <author@LYP1077>
+Replace the ``exceedance'' component of a ``uvpot'' object by
+``exceed'' to be consistent with ``bvpot'' and ``mcpot'' objects
 
-	* R/fitGPD.R:
-	Correction d'un bug dans ``gpdmle'' : on remplace corr par corr.mat
+------------------------------------------------------------------------
+r195 | ribatema | 2006-10-23 17:44:33 +0200 (lun, 23 oct 2006) | 2 lines
 
-2006-06-20  author  <author@LYP1077>
+Change the doc as methods were implemented
 
-	* src/POTBeta.dll: suppression de POTBeta.dll dans la gestion de projet
+------------------------------------------------------------------------
+r194 | ribatema | 2006-10-23 17:44:15 +0200 (lun, 23 oct 2006) | 2 lines
 
-	* R/gpd.obre.R: Suppression de gpd.obre.R dans le projet
+Delete function as they were documented
 
-	* ChangeLog: add ``fix a bug in gpdmle ...''
+------------------------------------------------------------------------
+r193 | ribatema | 2006-10-23 17:43:00 +0200 (lun, 23 oct 2006) | 2 lines
 
-2006-06-19  author  <author@LYP1077>
+Changes the user's guide as methods were implemented
 
-	* R/fitGPD.R:
-	Fix a bug in gpdmle: error while passing to obs.fish <- FALSE
+------------------------------------------------------------------------
+r192 | ribatema | 2006-10-23 17:42:07 +0200 (lun, 23 oct 2006) | 3 lines
 
-2006-06-12  author  <author@LYP1077>
+Convert existing functions for method compatibility
+If npy is missing in ``retlev'' then setting it to 1
 
-	* ChangeLog: Add medians estimator
+------------------------------------------------------------------------
+r191 | ribatema | 2006-10-23 17:40:56 +0200 (lun, 23 oct 2006) | 2 lines
 
-	* R/zzz.R: POTBeta -> POT
+Add spectral density plot and a method for bivariate return level plot
 
-	* man/fitGPD.Rd: Update doc for method = 'med'
+------------------------------------------------------------------------
+r190 | ribatema | 2006-10-23 17:39:40 +0200 (lun, 23 oct 2006) | 6 lines
 
-	* DESCRIPTION: Num�ro de version
+Add documentation files .Rd
+Add method for printing, plotting object of class ``uvpot'', ``bvpot''
+and ``mcpot''
+Add anova function to compare nested models
+Add spectral density plot
 
-	* DESCRIPTION: *** empty log message ***
+------------------------------------------------------------------------
+r179 | ribatema | 2006-10-20 20:47:52 +0200 (ven, 20 oct 2006) | 2 lines
 
-	* R/fitGPD.R, R/confGPD.R: POTBeta -> POT
+Update version number
 
-	* man/profconf.Rd:
-	Update doc for gpd.pfrl: replace ``retper'' and ``mu'' by ``prob''
+------------------------------------------------------------------------
+r178 | ribatema | 2006-10-20 20:41:07 +0200 (ven, 20 oct 2006) | 2 lines
 
-2006-06-07  author  <author@LYP1077>
+Renames the fitted object i.e. fitted -->> MLE
 
-	* man/fitGPD.Rd: Updating reference in fitGPD.Rd
+------------------------------------------------------------------------
+r177 | ribatema | 2006-10-20 20:40:36 +0200 (ven, 20 oct 2006) | 2 lines
 
-	* man/fitGPD.Rd:
-	Update fitGPD.Rd for method 'med', changing also example.
+replace plotgpd by plot as we implement methods
 
-	* R/fitGPD.R: Fix an error for hybrid estimate of method ``pwmb''.
+------------------------------------------------------------------------
+r176 | ribatema | 2006-10-20 20:40:17 +0200 (ven, 20 oct 2006) | 2 lines
 
-	* src/Makedeps, src/POT.d, src/POTBeta_res.rc:
-	*** empty log message ***
+Graphic title correction
 
-	* R/fitGPD.R:
-	In ``gpdmed'' fix an stupid error: object ``x'' was not defined as an
-	argument of the fucntion !!!
+------------------------------------------------------------------------
+r175 | ribatema | 2006-10-20 20:39:23 +0200 (ven, 20 oct 2006) | 2 lines
 
-2006-06-06  author  <author@LYP1077>
+Some modifications related to varying threshold
 
-	* R/gpd.obre.R:
-	1) Cr�ation fonction ``score.gpd'' qui calcule le score pour la GPD
+------------------------------------------------------------------------
+r174 | ribatema | 2006-10-19 20:22:12 +0200 (jeu, 19 oct 2006) | 2 lines
 
-	2) Cr�ation fonction ``fish.gpd'' qui calcule l'information de Fisher
-	   pour la GPD
+add as.integer for compatibility with the .C call
 
-	3) fonction ``gpdobre'' arr�t�e jusqu'au point iter.obre de Juarez
+------------------------------------------------------------------------
+r173 | ribatema | 2006-10-19 20:21:27 +0200 (jeu, 19 oct 2006) | 6 lines
 
-	* R/checkThresh.R, R/confGPD.R, R/fitGPD.R, R/gpd.obre.R, R/plotGPD.R, R/simGPD.R, R/zzz.R, demo/POT.R, man/ardieres.Rd, man/diplot.Rd, man/fisherconf.Rd, man/fitGPD.Rd, man/lmomplot.Rd, man/mrlplot.Rd, man/plotGPD.Rd, man/profconf.Rd, man/retPer.Rd, man/samlmu.Rd, man/simGPD.Rd, man/tcplot.Rd, src/Makedeps, src/POT.c, src/POT.d, src/POTBeta.dll, src/POTBeta_res.rc:
+Fix a bug in ``clust.c''. add condition to break the while loop.
+if (idx >= *n){
+  idx--;
+  break;
+}
 
-	* R/checkThresh.R, R/confGPD.R, R/fitGPD.R, R/gpd.obre.R, R/plotGPD.R, R/simGPD.R, R/zzz.R, demo/POT.R, man/ardieres.Rd, man/diplot.Rd, man/fisherconf.Rd, man/fitGPD.Rd, man/lmomplot.Rd, man/mrlplot.Rd, man/plotGPD.Rd, man/profconf.Rd, man/retPer.Rd, man/samlmu.Rd, man/simGPD.Rd, man/tcplot.Rd, src/Makedeps, src/POT.c, src/POT.d, src/POTBeta.dll, src/POTBeta_res.rc:
-	New file.
+------------------------------------------------------------------------
+r166 | ribatema | 2006-10-18 21:53:03 +0200 (mer, 18 oct 2006) | 2 lines
 
-	* ChangeLog, DESCRIPTION, data/ardieres.txt, demo/00Index:
+Modification du fichier pour correspondre avec son code R dans \usage{...}
 
-	* ChangeLog, DESCRIPTION, data/ardieres.txt, demo/00Index: New file.
+------------------------------------------------------------------------
+r165 | ribatema | 2006-10-18 21:41:00 +0200 (mer, 18 oct 2006) | 2 lines
 
+update ChangeLog
+
+------------------------------------------------------------------------
+r164 | ribatema | 2006-10-18 21:39:13 +0200 (mer, 18 oct 2006) | 2 lines
+
+Update this file for the new version
+
+------------------------------------------------------------------------
+r163 | ribatema | 2006-10-18 21:34:06 +0200 (mer, 18 oct 2006) | 2 lines
+
+Modification du fichier DESCRIPTION
+
+------------------------------------------------------------------------
+r162 | ribatema | 2006-10-18 21:32:43 +0200 (mer, 18 oct 2006) | 2 lines
+
+Modification des fichiers de documentation Rd
+
+------------------------------------------------------------------------
+r161 | ribatema | 2006-10-18 21:31:57 +0200 (mer, 18 oct 2006) | 2 lines
+
+Modification du guide de l'utilisateur
+
+------------------------------------------------------------------------
+r160 | ribatema | 2006-10-18 21:31:26 +0200 (mer, 18 oct 2006) | 2 lines
+
+Sources C pour l'ajustement censur�� et les copules
+
+------------------------------------------------------------------------
+r159 | ribatema | 2006-10-18 21:29:47 +0200 (mer, 18 oct 2006) | 3 lines
+
+Ajout de la doc Rd pour l'estimation de l'indice extremal selon Ferro
+and Segers et de la repr��sention graphique pour la classe ``bvpot''
+
+------------------------------------------------------------------------
+r158 | ribatema | 2006-10-18 21:27:23 +0200 (mer, 18 oct 2006) | 2 lines
+
+Modification des sources R du �� l'impl��mentation des m��thodes
+
+------------------------------------------------------------------------
+r157 | ribatema | 2006-10-18 21:24:50 +0200 (mer, 18 oct 2006) | 2 lines
+
+Modification du fichier d'en-t��te
+
+------------------------------------------------------------------------
+r156 | ribatema | 2006-10-18 21:24:17 +0200 (mer, 18 oct 2006) | 2 lines
+
+Fichiers reli��s �� l'ajustement bivari�� d'une GPD
+
+------------------------------------------------------------------------
+r155 | ribatema | 2006-10-18 21:22:47 +0200 (mer, 18 oct 2006) | 2 lines
+
+Fichiers reli��s aux cha��nes de Markov
+
+------------------------------------------------------------------------
+r142 | ribatema | 2006-10-03 21:04:24 +0200 (mar, 03 oct 2006) | 6 lines
+
+Modifications suite �� une nouvelle approche. On ne calcule la
+logvraisemblance que pour les observations (y1, y2) o�� l'une des deux
+composantes d��passe le seuil.
+Ensuite, au final, on rajoute la ``contribution censur��e'' i.e. pour
+les points tels que y1 <= thresh1 et y2 <= thresh2
+
+------------------------------------------------------------------------
+r138 | ribatema | 2006-10-02 19:16:59 +0200 (lun, 02 oct 2006) | 2 lines
+
+Delete link for std.errors function
+
+------------------------------------------------------------------------
+r137 | ribatema | 2006-10-02 19:14:27 +0200 (lun, 02 oct 2006) | 2 lines
+
+The Rd documentation file for pickdep function
+
+------------------------------------------------------------------------
+r136 | ribatema | 2006-10-02 19:12:51 +0200 (lun, 02 oct 2006) | 5 lines
+
+Fix error in the documentation. chi is not an argument but a return
+component of the function.
+
+Fix an error in the example section
+
+------------------------------------------------------------------------
+r135 | ribatema | 2006-10-02 19:11:46 +0200 (lun, 02 oct 2006) | 2 lines
+
+Change to LF endings line
+
+------------------------------------------------------------------------
+r134 | ribatema | 2006-10-02 18:20:39 +0200 (lun, 02 oct 2006) | 2 lines
+
+change \link{\code{ into \code{\link
+
+------------------------------------------------------------------------
+r133 | ribatema | 2006-10-02 18:17:39 +0200 (lun, 02 oct 2006) | 2 lines
+
+change \link{\code{ into \code{\link
+
+------------------------------------------------------------------------
+r132 | ribatema | 2006-10-02 18:10:46 +0200 (lun, 02 oct 2006) | 2 lines
+
+Add PACKAGE = "POT" because one was omitted
+
+------------------------------------------------------------------------
+r131 | ribatema | 2006-10-02 18:10:09 +0200 (lun, 02 oct 2006) | 2 lines
+
+pass ``...'' in logLik.pot function for method consistency
+
+------------------------------------------------------------------------
+r130 | ribatema | 2006-10-02 18:09:17 +0200 (lun, 02 oct 2006) | 2 lines
+
+Titles must be in plain text
+
+------------------------------------------------------------------------
+r129 | ribatema | 2006-10-02 18:08:45 +0200 (lun, 02 oct 2006) | 2 lines
+
+The Rd documentation file for the fitbvgpd function
+
+------------------------------------------------------------------------
+r128 | ribatema | 2006-10-02 18:07:34 +0200 (lun, 02 oct 2006) | 2 lines
+
+Add #include header.h
+
+------------------------------------------------------------------------
+r127 | ribatema | 2006-10-02 17:01:07 +0200 (lun, 02 oct 2006) | 2 lines
+
+add PACKAGE = "POT" in .C call.
+
+------------------------------------------------------------------------
+r126 | ribatema | 2006-10-02 16:55:40 +0200 (lun, 02 oct 2006) | 2 lines
+
+Delete useless stuffs for the bivariate case. That is, std.err.type.
+
+------------------------------------------------------------------------
+r125 | ribatema | 2006-10-02 16:54:17 +0200 (lun, 02 oct 2006) | 2 lines
+
+Rd documentation file for internal functions and methods.
+
+------------------------------------------------------------------------
+r124 | ribatema | 2006-10-02 00:40:49 +0200 (lun, 02 oct 2006) | 3 lines
+
+Add ``package = "POT"'' in the .C call.
+Replacing back NA values.
+
+------------------------------------------------------------------------
+r123 | ribatema | 2006-10-02 00:38:17 +0200 (lun, 02 oct 2006) | 2 lines
+
+Change line type in mrlplot function
+
+------------------------------------------------------------------------
+r122 | ribatema | 2006-10-02 00:37:08 +0200 (lun, 02 oct 2006) | 2 lines
+
+Add an header entry for Bivariate POT models
+
+------------------------------------------------------------------------
+r121 | ribatema | 2006-10-02 00:36:39 +0200 (lun, 02 oct 2006) | 2 lines
+
+Change the demo
+
+------------------------------------------------------------------------
+r120 | ribatema | 2006-10-02 00:35:36 +0200 (lun, 02 oct 2006) | 2 lines
+
+Add bivariate POT model functions
+
+------------------------------------------------------------------------
+r92 | ribatema | 2006-08-10 16:54:11 +0200 (jeu, 10 aoû 2006) | 3 lines
+
+Fix an stupid error, forget to change the header file as clust C
+function has changed.
+
+------------------------------------------------------------------------
+r91 | ribatema | 2006-08-10 16:49:39 +0200 (jeu, 10 aoû 2006) | 8 lines
+
+Change in clust.c. The function clust has changed. A cluster is now
+defined by:
+  1) ``open'' the cluster: first exceedence over the threshold
+  2) ``end'' the current cluster: the first exceedence over the
+  threshold which satisfies t_end - t_max > tim.cond, where t_end is
+  the occurence time of the latter first exceedence and t_max the time
+  occurence of the maximum within the cluster.
+
+------------------------------------------------------------------------
+r90 | ribatema | 2006-08-10 16:49:09 +0200 (jeu, 10 aoû 2006) | 10 lines
+
+Change in clust.c. The function clust has changed. A cluster is now
+defined by:
+  1) ``open'' the cluster: first exceedence over the threshold
+  2) ``end'' the current cluster: the first exceedence over the
+  threshold which satisfies t_end - t_max > tim.cond, where t_end is
+  the occurence time of the latter first exceedence and t_max the time
+  occurence of the maximum within the cluster.
+
+A little error: clust --> clust+1
+
+------------------------------------------------------------------------
+r89 | ribatema | 2006-08-10 16:47:22 +0200 (jeu, 10 aoû 2006) | 8 lines
+
+Change in clust.c. The function clust has changed. A cluster is now
+defined by:
+  1) ``open'' the cluster: first exceedence over the threshold
+  2) ``end'' the current cluster: the first exceedence over the
+  threshold which satisfies t_end - t_max > tim.cond, where t_end is
+  the occurence time of the latter first exceedence and t_max the time
+  occurence of the maximum within the cluster.
+
+------------------------------------------------------------------------
+r87 | ribatema | 2006-08-08 21:29:01 +0200 (mar, 08 aoû 2006) | 3 lines
+
+Delete the link to the ``cluster'' function of package evd as it warns
+in package checking.
+
+------------------------------------------------------------------------
+r86 | ribatema | 2006-08-08 21:20:49 +0200 (mar, 08 aoû 2006) | 3 lines
+
+Delete the link to the ``cluster'' function of package evd as it warns
+in package checking.
+
+------------------------------------------------------------------------
+r84 | ribatema | 2006-08-07 22:18:01 +0200 (lun, 07 aoû 2006) | 2 lines
+
+Update to the current stable version of the package
+
+------------------------------------------------------------------------
+r83 | ribatema | 2006-08-07 22:11:16 +0200 (lun, 07 aoû 2006) | 2 lines
+
+*** empty log message ***
+
+------------------------------------------------------------------------
+r82 | ribatema | 2006-08-07 22:06:22 +0200 (lun, 07 aoû 2006) | 2 lines
+
+Update the version and date of the package
+
+------------------------------------------------------------------------
+r81 | ribatema | 2006-08-07 22:05:44 +0200 (lun, 07 aoû 2006) | 2 lines
+
+The user's guide in LaTeX
+
+------------------------------------------------------------------------
+r80 | ribatema | 2006-08-07 22:05:33 +0200 (lun, 07 aoû 2006) | 2 lines
+
+The user's guide in pdf
+
+------------------------------------------------------------------------
+r79 | ribatema | 2006-08-07 22:04:55 +0200 (lun, 07 aoû 2006) | 2 lines
+
+Move file CHANGES in the inst/ directory
+
+------------------------------------------------------------------------
+r78 | ribatema | 2006-08-07 21:48:45 +0200 (lun, 07 aoû 2006) | 2 lines
+
+Fix a stupid bug. Replace data by ts !!! in any(colnames(data) == "obs"...
+
+------------------------------------------------------------------------
+r77 | ribatema | 2006-08-07 21:44:17 +0200 (lun, 07 aoû 2006) | 2 lines
+
+``data'' object must have its columns named ``time'' and ``obs''
+
+------------------------------------------------------------------------
+r76 | ribatema | 2006-08-07 21:14:03 +0200 (lun, 07 aoû 2006) | 2 lines
+
+``data'' object must have its columns named ``time'' and ``obs''
+
+------------------------------------------------------------------------
+r75 | ribatema | 2006-08-07 21:11:04 +0200 (lun, 07 aoû 2006) | 3 lines
+
+Changes the man file as tlim has been changed into u.range in function
+tcplot, mrlplot, lmomplot and diplot.
+
+------------------------------------------------------------------------
+r74 | ribatema | 2006-08-07 21:10:13 +0200 (lun, 07 aoû 2006) | 2 lines
+
+Some spelling corrections
+
+------------------------------------------------------------------------
+r73 | ribatema | 2006-08-07 21:08:22 +0200 (lun, 07 aoû 2006) | 3 lines
+
+Changes the demo as tlim has been changed into u.range in function
+tcplot, mrlplot, lmomplot and diplot.
+
+------------------------------------------------------------------------
+r72 | ribatema | 2006-08-07 21:07:18 +0200 (lun, 07 aoû 2006) | 2 lines
+
+Change the non parametic estimation of the density in ``dens.gpd'' function
+
+------------------------------------------------------------------------
+r71 | ribatema | 2006-08-07 21:05:57 +0200 (lun, 07 aoû 2006) | 3 lines
+
+Add an ``idx'' column in the response of function clust.
+Graphic rectangles are now better defined
+
+------------------------------------------------------------------------
+r70 | ribatema | 2006-08-07 21:01:26 +0200 (lun, 07 aoû 2006) | 3 lines
+
+Some notation changes: tlim -->> u.range
+Add data <- sort(data) in function tcplot
+
+------------------------------------------------------------------------
+r69 | ribatema | 2006-08-03 22:25:38 +0200 (jeu, 03 aoû 2006) | 2 lines
+
+Rename ChangeLog to CHANGES as CVS can create a ChangeLog file.
+
+------------------------------------------------------------------------
+r68 | ribatema | 2006-08-03 22:21:30 +0200 (jeu, 03 aoû 2006) | 2 lines
+
+The man file for function ts2tsd
+
+------------------------------------------------------------------------
+r67 | ribatema | 2006-08-03 22:21:14 +0200 (jeu, 03 aoû 2006) | 2 lines
+
+Add function ts2tsd in package POT
+
+------------------------------------------------------------------------
+r66 | ribatema | 2006-08-03 22:20:19 +0200 (jeu, 03 aoû 2006) | 2 lines
+
+The C code for the function ts2tsd
+
+------------------------------------------------------------------------
+r65 | ribatema | 2006-08-03 22:19:42 +0200 (jeu, 03 aoû 2006) | 2 lines
+
+Now we use a header file ``header.h''
+
+------------------------------------------------------------------------
+r64 | ribatema | 2006-08-03 22:18:12 +0200 (jeu, 03 aoû 2006) | 2 lines
+
+Change the example: pass option type = "l" in plot.
+
+------------------------------------------------------------------------
+r63 | ribatema | 2006-08-03 22:17:11 +0200 (jeu, 03 aoû 2006) | 2 lines
+
+Change the data ardiere: add NA for the gap
+
+------------------------------------------------------------------------
+r62 | ribatema | 2006-07-31 22:44:19 +0200 (lun, 31 jui 2006) | 2 lines
+
+Updates for examples in the documentation
+
+------------------------------------------------------------------------
+r61 | ribatema | 2006-07-31 22:18:24 +0200 (lun, 31 jui 2006) | 2 lines
+
+C code for the clust function
+
+------------------------------------------------------------------------
+r60 | ribatema | 2006-07-31 22:16:50 +0200 (lun, 31 jui 2006) | 3 lines
+
+Some changes for compatibility for the new dataset ardieres. And
+changes for the clust function.
+
+------------------------------------------------------------------------
+r59 | ribatema | 2006-07-31 21:49:40 +0200 (lun, 31 jui 2006) | 3 lines
+
+Correct a bug in the demo file as the the data ``ardieres'' has
+changed.
+
+------------------------------------------------------------------------
+r58 | ribatema | 2006-07-31 21:44:27 +0200 (lun, 31 jui 2006) | 2 lines
+
+Correct a bug in the documentation file clust.Rd
+
+------------------------------------------------------------------------
+r57 | ribatema | 2006-07-31 21:43:53 +0200 (lun, 31 jui 2006) | 2 lines
+
+Documentation of the exiplot function
+
+------------------------------------------------------------------------
+r56 | ribatema | 2006-07-31 21:43:06 +0200 (lun, 31 jui 2006) | 3 lines
+
+New function ``clust'' to indentify clusters of extreme values. Thus,
+the demo of the package has also changed.
+
+------------------------------------------------------------------------
+r55 | ribatema | 2006-07-31 21:11:32 +0200 (lun, 31 jui 2006) | 3 lines
+
+New function ``clust'' to indentify clusters of extreme values. Thus,
+the demo of the package has also changed.
+
+------------------------------------------------------------------------
+r51 | ribatema | 2006-07-18 22:01:33 +0200 (mar, 18 jui 2006) | 2 lines
+
+Ajout de la fonction clsutts dans le package POT
+
+------------------------------------------------------------------------
+r50 | ribatema | 2006-07-18 22:00:24 +0200 (mar, 18 jui 2006) | 4 lines
+
+la donn��e ``ardi��res'' correspond maintenant �� la chronique toute
+enti��re.
+Ainsi, on peut faire une application de la nouvelle fonction ``clustts''
+
+------------------------------------------------------------------------
+r49 | ribatema | 2006-06-27 16:26:21 +0200 (mar, 27 jun 2006) | 2 lines
+
+Correction d'un bug dans ``gpdmle'' : on remplace corr par corr.mat
+
+------------------------------------------------------------------------
+r46 | ribatema | 2006-06-20 15:31:53 +0200 (mar, 20 jun 2006) | 2 lines
+
+suppression de POTBeta.dll dans la gestion de projet
+
+------------------------------------------------------------------------
+r45 | ribatema | 2006-06-20 15:31:29 +0200 (mar, 20 jun 2006) | 2 lines
+
+Suppression de gpd.obre.R dans le projet
+
+------------------------------------------------------------------------
+r43 | ribatema | 2006-06-20 15:18:48 +0200 (mar, 20 jun 2006) | 2 lines
+
+add ``fix a bug in gpdmle ...''
+
+------------------------------------------------------------------------
+r41 | ribatema | 2006-06-19 16:09:04 +0200 (lun, 19 jun 2006) | 2 lines
+
+Fix a bug in gpdmle: error while passing to obs.fish <- FALSE
+
+------------------------------------------------------------------------
+r33 | ribatema | 2006-06-12 17:35:00 +0200 (lun, 12 jun 2006) | 2 lines
+
+Add medians estimator
+
+------------------------------------------------------------------------
+r32 | ribatema | 2006-06-12 17:33:41 +0200 (lun, 12 jun 2006) | 2 lines
+
+POTBeta -> POT
+
+------------------------------------------------------------------------
+r31 | ribatema | 2006-06-12 17:31:19 +0200 (lun, 12 jun 2006) | 2 lines
+
+Update doc for method = 'med'
+
+------------------------------------------------------------------------
+r30 | ribatema | 2006-06-12 17:27:39 +0200 (lun, 12 jun 2006) | 2 lines
+
+Num��ro de version
+
+------------------------------------------------------------------------
+r29 | ribatema | 2006-06-12 17:26:49 +0200 (lun, 12 jun 2006) | 2 lines
+
+*** empty log message ***
+
+------------------------------------------------------------------------
+r28 | ribatema | 2006-06-12 17:25:12 +0200 (lun, 12 jun 2006) | 2 lines
+
+POTBeta -> POT
+
+------------------------------------------------------------------------
+r27 | ribatema | 2006-06-12 17:20:47 +0200 (lun, 12 jun 2006) | 2 lines
+
+Update doc for gpd.pfrl: replace ``retper'' and ``mu'' by ``prob''
+
+------------------------------------------------------------------------
+r12 | ribatema | 2006-06-07 19:25:17 +0200 (mer, 07 jun 2006) | 2 lines
+
+Updating reference in fitGPD.Rd
+
+------------------------------------------------------------------------
+r11 | ribatema | 2006-06-07 19:02:44 +0200 (mer, 07 jun 2006) | 2 lines
+
+Update fitGPD.Rd for method 'med', changing also example.
+
+------------------------------------------------------------------------
+r10 | ribatema | 2006-06-07 19:01:14 +0200 (mer, 07 jun 2006) | 2 lines
+
+Fix an error for hybrid estimate of method ``pwmb''.
+
+------------------------------------------------------------------------
+r9 | ribatema | 2006-06-07 18:12:23 +0200 (mer, 07 jun 2006) | 2 lines
+
+*** empty log message ***
+
+------------------------------------------------------------------------
+r8 | ribatema | 2006-06-07 17:10:17 +0200 (mer, 07 jun 2006) | 3 lines
+
+In ``gpdmed'' fix an stupid error: object ``x'' was not defined as an
+argument of the fucntion !!!
+
+------------------------------------------------------------------------
+r7 | ribatema | 2006-06-06 21:58:52 +0200 (mar, 06 jun 2006) | 7 lines
+
+1) Cr��ation fonction ``score.gpd'' qui calcule le score pour la GPD
+
+2) Cr��ation fonction ``fish.gpd'' qui calcule l'information de Fisher
+   pour la GPD
+
+3) fonction ``gpdobre'' arr��t��e jusqu'au point iter.obre de Juarez
+
+------------------------------------------------------------------------
+r2 | ribatema | 2006-06-06 18:15:59 +0200 (mar, 06 jun 2006) | 2 lines
+
+Initial revision
+
+------------------------------------------------------------------------

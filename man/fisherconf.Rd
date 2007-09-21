@@ -24,7 +24,11 @@ gpd.firl(fitted, prob, conf = 0.95)
   Returns a vector of the lower and upper bound for the confidence
   interval.
 }
-\seealso{\code{\link{rp2prob}} and \code{\link{prob2rp}}.}
+\seealso{\code{\link{rp2prob}}, \code{\link{prob2rp}},
+  \code{link{gpd.pfscale}},
+  \code{link{gpd.pfshape}}, \code{link{gpd.pfrl}} and
+  \code{link{confint}}
+}
 \author{Mathieu Ribatet}
 \examples{
 data(ardieres)

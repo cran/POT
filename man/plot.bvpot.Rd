@@ -29,9 +29,8 @@
   \code{\link{fitbvgpd}}
 }
 \examples{
-x <- rgpd(1000, 0, 1, 0.25)
-y <- 3 + x + rnorm(1000)
-Mlog <- fitbvgpd(cbind(x, y), c(0, 1), "log")
+x <- rbvgpd(1000, alpha = 0.55, mar1 = c(0,1,0.25), mar2 = c(2,0.5,0.1))
+Mlog <- fitbvgpd(x, c(0, 2), "log")
 layout(matrix(c(1,1,2,2,0,3,3,0), 2, byrow = TRUE))
 plot(Mlog)
 }

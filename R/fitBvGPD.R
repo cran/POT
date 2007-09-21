@@ -5,9 +5,10 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
 
   if (all(c("observed", "none") != std.err.type))
     stop("``std.err.type'' must be one of ``observed'' or ``none''")
-  
-  data1 <- data[,1]
-  data2 <- data[,2]
+
+  threshold <- as.double(threshold)
+  data1 <- as.double(data[,1])
+  data2 <- as.double(data[,2])
   call <- match.call()
   
   n1 <- length(data1)
@@ -66,11 +67,11 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
   ##model (if needed) that is MLE estimates on marginal data
   if (missing(start)){
     start <- list(scale1 = 0, shape1 = 0)
-    temp <- fitgpd(data1, threshold[1], method = "pwmu")$param
+    temp <- fitgpd(data1, threshold[1], est = "pwmu")$param
     start$scale1 <- temp[1]
     start$shape1 <- temp[2]
 
-    temp <- fitgpd(data2, threshold[2], method = "pwmu")$param
+    temp <- fitgpd(data2, threshold[2], est = "pwmu")$param
     if (!cscale)
       start$scale2 <- temp[1]
 
@@ -258,7 +259,7 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
                  corr = corr.mat, convergence = opt$convergence, counts = opt$counts,
                  message = opt$message, threshold = threshold, nat = nat, pat = pat,
                  data = data, exceed1 = exceed1, exceed2 = exceed2, call = call,
-                 type = "MLE", model = model, logLik = -opt$value)
+                 est = "MLE", model = model, logLik = -opt$value)
 
   chi <- 2 * (1 - pickdep(fitted, plot = FALSE)(0.5))
   fitted <- c(fitted, list(chi = chi))

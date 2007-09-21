@@ -221,17 +221,19 @@ pbvgpd <- function(q, alpha, model = "log", asCoef, asCoef1,
 
   switch(model,
          log = pbvlog(q = q, alpha = alpha, mar1 = mar1,
-           mar2 = mar2),
+           mar2 = mar2, lower.tail = lower.tail),
          alog = pbvalog(q = q, alpha = alpha, asCoef1 = asCoef1,
-           asCoef2 = asCoef2, mar1 = mar1, mar2 = mar2),
+           asCoef2 = asCoef2, mar1 = mar1, mar2 = mar2,
+           lower.tail = lower.tail),
          nlog = pbvnlog(q = q, alpha = alpha, mar1 = mar1,
-           mar2 = mar2),
+           mar2 = mar2, lower.tail = lower.tail),
          anlog = pbvanlog(q = q, alpha = alpha, asCoef1 = asCoef1,
-           asCoef2 = asCoef2, mar1 = mar1, mar2 = mar2),
+           asCoef2 = asCoef2, mar1 = mar1, mar2 = mar2,
+           lower.tail = lower.tail),
          mix = pbvmix(q = q, alpha = alpha, mar1 = mar1,
-           mar2 = mar2),
+           mar2 = mar2, lower.tail = lower.tail),
          amix = pbvamix(q = q, alpha = alpha, asCoef = asCoef,
-           mar1 = mar1, mar2 = mar2)
+           mar1 = mar1, mar2 = mar2, lower.tail = lower.tail)
          )
 }
 
@@ -289,7 +291,8 @@ pbvalog <- function(q, alpha, asCoef1, asCoef2, mar1 = c(0,1,0),
 }
 
 
-pbvnlog <- function(n, alpha, mar1 = c(0,1,0), mar2 = mar1){
+pbvnlog <- function(n, alpha, mar1 = c(0,1,0), mar2 = mar1,
+                    lower.tail = TRUE){
   if(length(alpha) != 1 || mode(alpha) != "numeric" || alpha <= 0)
     stop("invalid argument for `alpha'")
   

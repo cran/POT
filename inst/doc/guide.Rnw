@@ -33,7 +33,7 @@
 
 \begin{center}
   \LARGE 
-  A User's Guide to the POT Package (Version 1.1) \\
+  A User's Guide to the POT Package (Version 1.4) \\
   \Large
   \vspace{0.2cm}
   Mathieu Ribatet \\
@@ -47,7 +47,7 @@
   09 France\\ 
   \vspace{0.2cm}
   E-mail: \email{ribatet@hotmail.com} \\
-  17th October 2006
+  $Date: 2007-09-21 14:29:23 +0200 (ven, 21 sep 2007) $
 \end{center}
 
 \section{Introduction}
@@ -121,7 +121,7 @@ The GNU General Public License can be obtained from
 writing to the Free Software Foundation, Inc., 59 Temple Place --
 Suite 330, Boston, MA 02111-1307, USA.
 
-\section{An Introduction the EVT}
+\section{An Introduction to the EVT}
 \label{sec:introEVT}
 
 \subsection{The univariate case}
@@ -597,12 +597,17 @@ be reasonable.
 \subsubsection{The univariate case}
 
 The main function to fit the GPD is called \textbf{fitgpd}. This is a
-generic function which can fit the GPD according several
-estimators. There are currently 7 estimators available: method of
-moments \verb|moments|, maximum likelihood \verb|mle|, biased and
-unbiased probability weighted moments \verb|pwmb, pwmu|, mean power
-density divergence \verb|mdpd|, median \verb|med| and pickands'
-\verb|pickands| estimators. Details for these estimators can be found
+generic function which can fit the GPD according several estimators.
+There are currently 17 estimators available: method of moments
+\verb|moments|, maximum likelihood \verb|mle|, biased and unbiased
+probability weighted moments \verb|pwmb, pwmu|, mean power density
+divergence \verb|mdpd|, median \verb|med|, pickands' \verb|pickands|,
+maximum penalized likelihood \verb|mple| and maximum goodness-of-fit
+\verb|mgf| estimators. For the \verb|mgf| estimator, the user has to
+select which goodness-of-fit statistics must be used. These statistics
+are the Kolmogorov-Smirnov, Cramer von Mises, Anderson Darling and
+modified Anderson Darling. See the html help page of the \verb|fitgpd|
+function to see all of them. Details for these estimators can be found
 in~\citep{Coles2001}, \citep{Hosking1987}, \citep{Juarez2004},
 \citep{Peng2001} and \citep{Pickands1975}.
 
@@ -624,25 +629,27 @@ pwmu <- fitgpd(x, 1, "pwmu")$param
 pwmb <- fitgpd(x, 1, "pwmb")$param                     
 pickands <- fitgpd(x, 1, "pickands")$param             
 med <- fitgpd(x, 1, "med", start = mle)$param          
-mdpd <- fitgpd(x, 1, "mdpd")$param                     
-print(rbind(mom, mle, pwmu, pwmb, pickands, med, mdpd))
+mdpd <- fitgpd(x, 1, "mdpd")$param    
+mple <- fitgpd(x, 1, "mple")$param
+ad2r <- fitgpd(x, 1, "mgf", stat = "AD2R")$param                
+print(rbind(mom, mle, pwmu, pwmb, pickands, med, mdpd, mple, ad2r))
 @ 
 
-The MLE method allows to fix either the scale or the shape
-parameter. For example, if we want to fit a Exponential distribution,
-just do (with eventually a fixed scale parameter):
+The MLE, MPLE and MGF estimators allow to fix either the scale or the shape parameter. For
+example, if we want to fit a Exponential distribution, just do (with
+eventually a fixed scale parameter):
 
 <<>>=
 x <- rgpd(100, 1, 2, 0)
-fitgpd(x, thresh = 1, shape = 0, method = "mle")
-fitgpd(x, thresh = 1, scale = 2, method = "mle")
+fitgpd(x, thresh = 1, shape = 0, est = "mle")
+fitgpd(x, thresh = 1, scale = 2, est = "mle")
 @ 
 
 If now, we want to fit a GPD with a varying threshold, just do:
 
 <<>>=
 x <- rgpd(500, 1:2, 0.3, 0.01)
-fitgpd(x, 1:2, method = "mle")
+fitgpd(x, 1:2, est = "mle")
 @ 
 
 Note that the varying threshold is repeated cyclically until it
@@ -650,11 +657,11 @@ matches the length of object \verb|x|.
 
 \subsubsection{The bivariate case}
 
-The generic function to fit bivariate POTs is \textbf{fitbvgpd}. There
-is currently 6 models for the bivariate GPD -- see
+The generic function to fit bivariate POT is \textbf{fitbvgpd}. There
+is currently 6 models for the bivariate GPD - see
 Annexe~\ref{sec:copula}. All of these models are fitted using maximum
 likelihood estimator. Moreover, the approach uses \emph{censored}
-likelihood -- see \citep{Smith1997}.
+likelihood - see \citep{Smith1997}.
 
 <<>>=
 x <- rgpd(500, 0, 1, 0.25)
@@ -752,10 +759,10 @@ intervals are available.
 If we want confidence intervals for the scale parameters:
 <<>>=
 x <- rgpd(200, 1, 2, 0.25)
-mle <- fitgpd(x, 1, method = "mle")
-mom <- fitgpd(x, 1, method = "moments")
-pwmb <- fitgpd(x, 1, method = "pwmb")
-pwmu <- fitgpd(x, 1, method = "pwmu")
+mle <- fitgpd(x, 1, est = "mle")
+mom <- fitgpd(x, 1, est = "moments")
+pwmb <- fitgpd(x, 1, est = "pwmb")
+pwmu <- fitgpd(x, 1, est = "pwmu")
 gpd.fiscale(mle, conf = 0.9)
 gpd.fiscale(mom, conf = 0.9)
 gpd.fiscale(pwmu, conf = 0.9)
@@ -827,7 +834,7 @@ x <- rgpd(200, 10, 0.5, -0.2)
 @ 
 
 <<plot=FALSE,echo=TRUE,label=plotgpd>>=
-fitted <- fitgpd(x, 10, method = "mle")
+fitted <- fitgpd(x, 10, est = "mle")
 par(mfrow=c(2,2))
 plot(fitted, npy = 1)
 @
@@ -1028,7 +1035,7 @@ attributes(events1)$exi
 
 Let's fit the GPD.
 <<label=checkArdieres,plot=FALSE,echo=TRUE>>=
-mle <- fitgpd(events1[,"obs"], thresh = 6, method = "mle")
+mle <- fitgpd(events1[,"obs"], thresh = 6, est = "mle")
 par(mfrow=c(2,2))
 plot(mle, npy = npy)
 @ 

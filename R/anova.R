@@ -3,9 +3,9 @@
 anova.uvpot <- function(object, object2, ...){
   
   ##Check if object and object2 are fitted by MLE
-  if (object$type != "MLE")
+  if (object$est != "MLE")
     stop("``object'' is not a MLE.")
-  if (object2$type != "MLE")
+  if (object2$est != "MLE")
     stop("``object2'' is not a MLE.")
 
   ##Check if object and object2 are nested

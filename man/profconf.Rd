@@ -53,5 +53,9 @@ gpd.pfshape(MLE, c(0, 0.8))
 rp2prob(10, 2)
 gpd.pfrl(MLE, 0.95, c(12, 25))
 }
+\seealso{
+  \code{link{gpd.fiscale}}, \code{link{gpd.fishape}},
+  \code{link{gpd.firl}} and \code{link{confint}}
+}
 \author{Mathieu Ribatet}
 \keyword{htest}

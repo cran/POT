@@ -1543,10 +1543,6 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
 
       dvecj[i] = log(nv2) + nK2 - v;
       
-      if (!R_FINITE(dvecj[i]))
-	printf("Case 2: log(nv2) = %f, nK2 = %f, v = %f\n",
-	       log(nv2), nK2, v);
-      
     }
   
     if ((data1[i] > *thresh) && (data2[i] <= *thresh)){
@@ -1573,10 +1569,6 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
       else
 	dvecj[i] = log(abs(nv1)) + nK1 - v;
 
-      if (!R_FINITE(dvecj[i]))
-	printf("Case 3: log(nv1) = %f, nK1 = %f, v = %f\n",
-	       log(nv1), nK1, v);
-      
     }
     
     if ((data1[i] > *thresh) && (data2[i] > *thresh)){
@@ -1617,16 +1609,11 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
 
       dvecj[i] = nK1 + nK2 + log(nv1 * nv2 - v12)
 	- v;
-      if (!R_FINITE(dvecj[i]))
-	printf("Case 4: log(nv1 * nv2 - v12) = %f, nK1 = %f, nK2 = %f, v = %f\n",
-	       log(nv1 * nv2 - v12), nK1, nK2, v);
     }
   }
   
   for (i=0;i<*nnj;i++)
     *dns = *dns + dvecj[i];
-  
-  printf("Joint part before censoring: dns = %f\n", *dns);
   
   //Now add the censored contribution to loglikelihood
   if (*nnj != *nj){
@@ -1637,8 +1624,7 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
     censCont = censCont - 2 / lambda2;
     *dns = *dns + (*nj - *nnj) * censCont;
   }
-  printf("Joint part: dns = %f\n", *dns);
-
+  
   //The marginal part:
   for(i=0;i<*nnm;i++)  {
     data3[i] = (data3[i] - *thresh) / *scale;
@@ -1659,10 +1645,7 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
   for(i=0;i<*nnm;i++)
     *dns = *dns - dvecm[i];
   
-  printf("Marginal part before censoring: dns = %f\n", *dns);
-
   //Now add the censored contribution to loglikelihood
   if (*nm != *nnm)
     *dns = *dns - (*nm - *nnm) * log(1 - *lambda);
-  printf("Marginal part: dns = %f\n", *dns);
 }

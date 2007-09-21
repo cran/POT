@@ -53,9 +53,10 @@ pickdep(fitted, main, bound = TRUE, plot = TRUE, \dots)
   \emph{Proceedings 43rd Session International Statistical Institute}
 }
 \examples{
-x <- rgpd(1000, 0, 1, 0.25)
-dep <- fitbvgpd(cbind(x, x + 3), c(0,3), "mix")
-pickdep(dep)
+x <- rbvgpd(1000, alpha = 0.9, model = "mix", mar1 = c(0,1,0.25),
+ mar2 = c(2,0.5,0.1))
+Mmix <- fitbvgpd(x, c(0,2), "mix")
+pickdep(Mmix)
 }
 \author{Mathieu Ribatet}
 \keyword{models}

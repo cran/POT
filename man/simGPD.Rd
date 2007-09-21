@@ -26,7 +26,7 @@ dgpd(x, loc = 0, scale = 1, shape = 0, log = FALSE)
   \item{lower.tail}{logical; if TRUE (default), probabilities are \eqn{\Pr[ X
       \le x]}{Pr[ X <= x]}, otherwise, \eqn{\Pr[X > x]}{Pr[X > x]}.}
   \item{log}{logical; if TRUE, probabilities p are given as log(p).}
-  \item{lambda}{a single probability - see the ``value'' section.}
+  \item{lambda}{a single probability - see the "value" section.}
 }
 \value{
   If 'loc', 'scale' and 'shape' are not specified they assume the default
@@ -48,11 +48,11 @@ dgpd(x, loc = 0, scale = 1, shape = 0, log = FALSE)
   threshold. In particular, the \eqn{G}{G} function is a suited
   candidate to model
 
-  \deqn{\Pr\left[ X \geq x | X > u \right] = 1 - G(x)}{Pr[ X >= x | X >
+  \deqn{\Pr\left[ X \geq x | X > u \right] = 1 - G(x)}{Pr[ X >= x | X >
     u ] = 1 - G(x)}
   for \eqn{u}{u} large enough.
 
-  However, it may be usefull to model the ``non conditional'' quantiles,
+  However, it may be usefull to model the "non conditional" quantiles,
   that is the ones related to \eqn{\Pr[ X \leq x]}{Pr[X <= x]}. Using
   the conditional probability definition, one have :
 
@@ -61,8 +61,8 @@ dgpd(x, loc = 0, scale = 1, shape = 0, log = FALSE)
     u) /sigma)_+^(-1/xi)}
   where \eqn{\lambda = \Pr[ X \leq u]}{lambda = Pr[X <= u]}.
 
-  When \eqn{\lambda = 0}{lambda = 0}, the ``conditional'' distribution
-  is equivalent to the ``non conditional'' distribution. 
+  When \eqn{\lambda = 0}{lambda = 0}, the "conditional" distribution
+  is equivalent to the "non conditional" distribution. 
 }
 \examples{
 dgpd(0.1)
