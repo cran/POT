@@ -86,6 +86,11 @@
   and \code{b = 0} (the default). However, different values can be
   tested.
 
+  For the \code{'pwmu'} and \code{'pwmb'} approaches, one can pass the
+  option \code{'hybrid = TRUE'} to use hybrid estimators as proposed by
+  Dupuis and Tsao (1998). Hybrid estimators avoid to have no feasible
+  points.
+
   The \code{mdpd} estimator has a special parameter \code{'a'}. This is
   a parameter of the "density power divergence". Juarez and Schucany
   (2004) recommend the use of \code{a = 0.1}, but any value of
@@ -110,7 +115,11 @@
     Modelling of Extreme Values}. Springer Series in Statistics. London.
 
   Coles, S. and Dixon, M. (1999) Likelihood-Based Inference for Extreme
-  Value Models. \emph{Extremes} \bold{2}(1):5--23.
+  Value Models. Extremes \bold{2}(1):5--23.
+
+  Dupuis, D. and Tsao (1998) M. A hybrid estimator for generalized
+  Pareto and extreme-value distributions. Communications in
+  Statistics-Theory and Methods \bold{27}:925--941.
 
   Hosking, J. and Wallis, J. (1987) Parameters and Quantile Estimation
   for the Generalized Pareto Distribution. Technometrics
@@ -144,8 +153,8 @@ pwmu <- fitgpd(x, 1, "pwmu")$param
 pwmb <- fitgpd(x, 1, "pwmb")$param
 pickands <- fitgpd(x, 1, "pickands")$param    ##Check if Pickands estimates
                                               ##are valid or not !!!
-med <- fitgpd(x, 1, "med", start = mle)$param ##Sometimes the fitting algo is not
-                                              ##accurate. So specify
+med <- fitgpd(x, 1, "med",                    ##Sometimes the fitting algo is not
+start = list(scale = 2, shape = 0.25))$param  ##accurate. So specify
                                               ##good starting values is
                                               ##a good idea.  
 mdpd <- fitgpd(x, 1, "mdpd")$param
@@ -155,6 +164,9 @@ ad2r <- fitgpd(x, 1, "mgf", stat = "AD2R")$param
 
 print(rbind(mle, pwmu, pwmb, pickands, med, mdpd, lme,
  mple, ad2r))
+
+##Use PWM hybrid estimators
+fitgpd(x, 1, "pwmu", hybrid = FALSE)
 
 ##Now fix one of the GPD parameters
 ##Only the MLE, MPLE and MGF estimators are allowed !

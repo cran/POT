@@ -6,7 +6,8 @@
 }
 \usage{
 \method{dens}{uvpot}(fitted, main, xlab, ylab, dens.adj = 1,
-kern.lty = 2, rug = TRUE, \dots)
+kern.lty = 2, rug = TRUE, plot.kernel = TRUE, plot.hist = TRUE,
+hist.col = NULL, \dots)
 }
 \arguments{
   \item{fitted}{A object of class \code{``uvpot''}. Most often, the
@@ -22,6 +23,10 @@ kern.lty = 2, rug = TRUE, \dots)
     functions. The default is 2.}
   \item{rug}{Logical. Should we call the \code{\link{rug}} function?
     Default is \code{TRUE}.}
+  \item{plot.kernel}{Logical. Should the kernel density estimate be
+    plotted?}
+  \item{plot.hist}{Logical. Should the histogram be plotted?}
+  \item{hist.col}{The color to fill the histogram.}
   \item{\dots}{Other arguments to be passed to the \code{\link{plot}}
     function.}
 }

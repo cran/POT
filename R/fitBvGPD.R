@@ -3,7 +3,7 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
                       std.err.type = "observed", corr = FALSE,
                       warn.inf = TRUE, method = "BFGS"){
 
-  if (all(c("observed", "none") != std.err.type))
+  if (!(std.err.type %in% c("observed", "none")))
     stop("``std.err.type'' must be one of ``observed'' or ``none''")
 
   threshold <- as.double(threshold)
@@ -200,7 +200,7 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
 
   opt <- optim(start, nllh, hessian = TRUE, ..., method = method)
 
-  if (opt$convergence != 0) {
+  if ((opt$convergence != 0) || (opt$value == 1e+06)) {
     warning("optimization may not have succeeded")
 
     if (opt$convergence == 1) 
@@ -247,10 +247,11 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
         names(std.err) <- nm
       }
     }
-
-    if(std.err.type == "none")
-      std.err <- corr.mat <- var.cov <- NULL
   }
+
+  if(std.err.type == "none")
+    std.err <- corr.mat <- var.cov <- NULL
+
   
   param <- c(opt$par, unlist(fixed.param))
   

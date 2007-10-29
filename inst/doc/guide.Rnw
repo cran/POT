@@ -47,7 +47,7 @@
   09 France\\ 
   \vspace{0.2cm}
   E-mail: \email{ribatet@hotmail.com} \\
-  $Date: 2007-09-21 14:29:23 +0200 (ven, 21 sep 2007) $
+  $Date: 2007-10-29 14:08:30 +0100 (lun, 29 oct 2007) $
 \end{center}
 
 \section{Introduction}
@@ -628,7 +628,7 @@ mle <- fitgpd(x, 1, "mle")$param
 pwmu <- fitgpd(x, 1, "pwmu")$param                     
 pwmb <- fitgpd(x, 1, "pwmb")$param                     
 pickands <- fitgpd(x, 1, "pickands")$param             
-med <- fitgpd(x, 1, "med", start = mle)$param          
+med <- fitgpd(x, 1, "med", start = list(scale = 2, shape = 0.25))$param          
 mdpd <- fitgpd(x, 1, "mdpd")$param    
 mple <- fitgpd(x, 1, "mple")$param
 ad2r <- fitgpd(x, 1, "mgf", stat = "AD2R")$param                

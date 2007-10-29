@@ -134,7 +134,9 @@ pp.uvpot <- function(fitted, main, xlab,
 
 dens.uvpot <- function(fitted, main, xlab, ylab,
                        dens.adj = 1, kern.lty = 2,
-                       rug = TRUE, ...){
+                       rug = TRUE, plot.kernel = TRUE,
+                       plot.hist = TRUE, hist.col = NULL,
+                       ...){
 
   if (fitted$var.thresh)
     stop("Return Level plot is available only for constant threshold !")
@@ -157,16 +159,25 @@ dens.uvpot <- function(fitted, main, xlab, ylab,
   if ( missing(ylab) ) ylab <- 'Density'
   
   plot(dens, from = loc + eps, to = 1.25 * max(data), main = main,
-       xlab = xlab, ylab = ylab, ...)
+       xlab = xlab, ylab = ylab, ..., type = "n")
 
-  ##A non parametric estimate of the density from Alec Stephenson's code
-  flipexceed <- c(data, 2*loc - data)
-  flip.density <- density(flipexceed, adj=dens.adj, from = loc + eps,
-                to = 1.25 * max(data))
-  flip.density$y <- 2 * flip.density$y
-  lines(flip.density, lty = kern.lty)
+  if (plot.hist)
+    hist(data, add = TRUE, freq = FALSE, col = hist.col)
+
+  if (plot.kernel){
+    ##A non parametric estimate of the density from Alec Stephenson's code
+    flipexceed <- c(data, 2*loc - data)
+    flip.density <- density(flipexceed, adj=dens.adj, from = loc + eps,
+                            to = 1.25 * max(data))
+    flip.density$y <- 2 * flip.density$y
+    lines(flip.density, lty = kern.lty)
+  }
 
   if (rug) rug(data)
+
+  plot(dens, from = loc + eps, to = 1.25 * max(data),
+       add = TRUE)
+
 }
 
 plot.uvpot <- function(x, npy, main, which = 1:4,
