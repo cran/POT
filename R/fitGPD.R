@@ -436,6 +436,8 @@ gpdlme <- function(x, threshold, r = -.5, start, ...,
   
   excess <- exceed - threshold
   fun <- function(x){
+    if (x >= 1/max(excess))
+      return(1e6)
     p <- r / mean(log(1 - x * excess))
     abs(mean((1 - x * excess)^p) - 1 / (1 - r))
   }
@@ -443,7 +445,7 @@ gpdlme <- function(x, threshold, r = -.5, start, ...,
    if (missing(start))
     start <- list(x = -1)
    
-  opt <- optim(start, fun, hessian = FALSE, ..., method = method)
+  opt <- optim(start, fun, hessian = TRUE, ..., method = method)
 
   if (opt$convergence != 0){
     warning("optimization may not have succeeded")
@@ -1056,7 +1058,7 @@ gpdmed <- function(x, threshold, start, tol = 10^-3, maxit = 500,
   while (iter < maxit){
     ##If we have a non feasible point, we move back to feasible region
     if ( (start[2] < 0) & (max(excess) >= (-start[1] / start[2])))
-      start[2] <- start[1] / max(excess) + .1
+      start[2] <- -start[1] / max(excess) + .1
     
     r1 <- start[2] * median(excess) / (2^start[2] - 1) - start[1]
     

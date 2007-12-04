@@ -1,3 +1,7 @@
+Version 1.0-6:
+  - Improve the package homepage
+  - Fix a bug in the pickdep function
+
 Version 1.0-5:
   - Add a ``convassess'' function to assess for convergence of the
     fitted uvpot and bvpot objects.

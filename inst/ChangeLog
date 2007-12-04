@@ -1,4 +1,503 @@
 ------------------------------------------------------------------------
+r434 | mathieu_ribatet | 2007-12-04 13:56:39 +0100 (mar, 04 déc 2007) | 2 lines
+Changed paths:
+   M /pkg/R/plotBvGPD.R
+
+Fix a stupid bug i.e. "O" instead of "0"!
+
+------------------------------------------------------------------------
+r433 | mathieu_ribatet | 2007-12-02 19:36:08 +0100 (dim, 02 déc 2007) | 3 lines
+Changed paths:
+   M /www/images/RForgeLogo.png
+   M /www/images/subtitle.png
+   M /www/images/title.png
+
+Add a background color to the png files. Avoid hacking for IE < 7; not
+perfect though...
+
+------------------------------------------------------------------------
+r432 | mathieu_ribatet | 2007-12-02 19:35:04 +0100 (dim, 02 déc 2007) | 2 lines
+Changed paths:
+   A /pkg/inst/doc/POT.Rnw (from /pkg/inst/doc/guide.Rnw:430)
+   D /pkg/inst/doc/guide.Rnw
+
+Rename package vignette to the package name
+
+------------------------------------------------------------------------
+r431 | mathieu_ribatet | 2007-11-30 00:45:56 +0100 (ven, 30 nov 2007) | 2 lines
+Changed paths:
+   A /www/css/iepngfix.htc
+   M /www/css/mystyle.css
+
+png tranparency with IE again and again and...
+
+------------------------------------------------------------------------
+r430 | mathieu_ribatet | 2007-11-26 17:34:41 +0100 (lun, 26 nov 2007) | 2 lines
+Changed paths:
+   M /www/css/mystyle.css
+   M /www/images/background.png
+
+Use a refined background
+
+------------------------------------------------------------------------
+r429 | mathieu_ribatet | 2007-11-25 15:36:56 +0100 (dim, 25 nov 2007) | 2 lines
+Changed paths:
+   D /www/javascript
+
+cannot hack png transparency for IE
+
+------------------------------------------------------------------------
+r428 | mathieu_ribatet | 2007-11-25 15:36:35 +0100 (dim, 25 nov 2007) | 2 lines
+Changed paths:
+   D /www/javascript/sleight.js
+
+cannot hack png transparency for IE
+
+------------------------------------------------------------------------
+r427 | mathieu_ribatet | 2007-11-25 15:34:26 +0100 (dim, 25 nov 2007) | 2 lines
+Changed paths:
+   M /www/index.php
+
+cannot hack png transparency bug with IE :-(
+
+------------------------------------------------------------------------
+r426 | mathieu_ribatet | 2007-11-24 15:20:42 +0100 (sam, 24 nov 2007) | 1 line
+Changed paths:
+   M /www/phpPages/screen_shots.php
+
+
+------------------------------------------------------------------------
+r425 | mathieu_ribatet | 2007-11-24 14:03:14 +0100 (sam, 24 nov 2007) | 2 lines
+Changed paths:
+   M /www/index.php
+   M /www/phpPages/screen_shots.php
+
+PNG transparency with IE < 7 again
+
+------------------------------------------------------------------------
+r424 | mathieu_ribatet | 2007-11-18 00:57:17 +0100 (dim, 18 nov 2007) | 1 line
+Changed paths:
+   M /www/index.php
+
+*** empty log message ***
+------------------------------------------------------------------------
+r423 | mathieu_ribatet | 2007-11-18 00:22:35 +0100 (dim, 18 nov 2007) | 2 lines
+Changed paths:
+   M /www/index.php
+   A /www/javascript
+   A /www/javascript/sleight.js
+
+Fix a bug with IE <= 6 withpng transparency
+
+------------------------------------------------------------------------
+r422 | mathieu_ribatet | 2007-11-18 00:15:07 +0100 (dim, 18 nov 2007) | 1 line
+Changed paths:
+   M /www/css/mystyle.css
+
+*** empty log message ***
+------------------------------------------------------------------------
+r421 | mathieu_ribatet | 2007-11-18 00:13:21 +0100 (dim, 18 nov 2007) | 1 line
+Changed paths:
+   M /www/index.php
+
+
+------------------------------------------------------------------------
+r420 | mathieu_ribatet | 2007-11-17 23:27:19 +0100 (sam, 17 nov 2007) | 2 lines
+Changed paths:
+   M /www/css/mystyle.css
+   M /www/index.php
+
+Header changes
+
+------------------------------------------------------------------------
+r419 | mathieu_ribatet | 2007-11-17 21:52:29 +0100 (sam, 17 nov 2007) | 2 lines
+Changed paths:
+   M /www/css/mystyle.css
+   M /www/images/densmle.png
+   M /www/images/proflik2.png
+   M /www/images/screenshot.png
+   A /www/images/subtitle.png
+   A /www/images/title.png
+   M /www/index.php
+
+Improve web design
+
+------------------------------------------------------------------------
+r418 | mathieu_ribatet | 2007-11-17 20:49:19 +0100 (sam, 17 nov 2007) | 1 line
+Changed paths:
+   D /www/images/Rlogo.png
+
+
+------------------------------------------------------------------------
+r417 | mathieu_ribatet | 2007-11-17 20:48:58 +0100 (sam, 17 nov 2007) | 2 lines
+Changed paths:
+   A /www/images/favicon.png
+   M /www/index.php
+   M /www/phpPages/menu.php
+
+Changes to make a beautiful webpage - hoping...
+
+------------------------------------------------------------------------
+r416 | mathieu_ribatet | 2007-11-17 19:14:36 +0100 (sam, 17 nov 2007) | 2 lines
+Changed paths:
+   M /www/index.php
+
+Favicon for IE
+
+------------------------------------------------------------------------
+r415 | mathieu_ribatet | 2007-11-17 19:03:07 +0100 (sam, 17 nov 2007) | 2 lines
+Changed paths:
+   M /www/css/mystyle.css
+   A /www/images/RForgeLogo.png
+   A /www/images/background.png
+   M /www/images/screenshot.png
+   M /www/index.php
+   M /www/phpPages/menu.php
+
+Changes to make a beautiful webpage - hoping...
+
+------------------------------------------------------------------------
+r414 | mathieu_ribatet | 2007-11-17 17:24:57 +0100 (sam, 17 nov 2007) | 2 lines
+Changed paths:
+   A /www/images/Rlogo.png
+   M /www/index.php
+
+Add a suited RLogo as the former was too large
+
+------------------------------------------------------------------------
+r413 | mathieu_ribatet | 2007-11-17 15:37:01 +0100 (sam, 17 nov 2007) | 2 lines
+Changed paths:
+   M /www/index.php
+
+update the r-forge link
+
+------------------------------------------------------------------------
+r412 | mathieu_ribatet | 2007-11-17 13:41:40 +0100 (sam, 17 nov 2007) | 2 lines
+Changed paths:
+   M /www/css/mystyle.css
+
+remove background color
+
+------------------------------------------------------------------------
+r411 | mathieu_ribatet | 2007-11-17 12:35:10 +0100 (sam, 17 nov 2007) | 2 lines
+Changed paths:
+   M /www/css/mystyle.css
+   M /www/index.php
+
+Add minor changes: W3C certification and menu hover highlighting
+
+------------------------------------------------------------------------
+r410 | mathieu_ribatet | 2007-11-14 22:40:52 +0100 (mer, 14 nov 2007) | 2 lines
+Changed paths:
+   M /www/phpPages/menu.php
+
+Remove duplicate entry
+
+------------------------------------------------------------------------
+r409 | mathieu_ribatet | 2007-11-07 14:21:59 +0100 (mer, 07 nov 2007) | 2 lines
+Changed paths:
+   M /www/phpPages/pot_few_lines.php
+
+Fix a typo for a "div" class
+
+------------------------------------------------------------------------
+r408 | mathieu_ribatet | 2007-11-07 12:29:15 +0100 (mer, 07 nov 2007) | 2 lines
+Changed paths:
+   M /www/phpPages/pot_few_lines.php
+
+info text was not displayed in IE browser. Fixed!
+
+------------------------------------------------------------------------
+r407 | mathieu_ribatet | 2007-11-07 11:57:46 +0100 (mer, 07 nov 2007) | 3 lines
+Changed paths:
+   A /www/docs/guide.pdf
+
+add the vignette in the www/docs directory as read permission is not
+guarantee in ../pkg/inst/docs/
+
+------------------------------------------------------------------------
+r406 | mathieu_ribatet | 2007-11-07 11:56:13 +0100 (mer, 07 nov 2007) | 3 lines
+Changed paths:
+   M /www/css/mystyle.css
+   M /www/index.php
+
+Still changes to improve the webpages - becomes better little by
+little better for I.E.
+
+------------------------------------------------------------------------
+r405 | mathieu_ribatet | 2007-11-07 11:55:23 +0100 (mer, 07 nov 2007) | 3 lines
+Changed paths:
+   D /www/docs/guide.pdf
+
+remove the link because of non-read access to pkg/inst/doc from the
+web
+
+------------------------------------------------------------------------
+r404 | mathieu_ribatet | 2007-11-06 21:43:00 +0100 (mar, 06 nov 2007) | 2 lines
+Changed paths:
+   D /www/css/styleExtens.css
+
+remove old css style
+
+------------------------------------------------------------------------
+r403 | mathieu_ribatet | 2007-11-06 21:41:52 +0100 (mar, 06 nov 2007) | 2 lines
+Changed paths:
+   A /www/css/mystyle.css
+   M /www/index.php
+   M /www/phpPages/menu.php
+
+use alsa css standard to avoid trouble with IE
+
+------------------------------------------------------------------------
+r402 | mathieu_ribatet | 2007-11-06 20:29:04 +0100 (mar, 06 nov 2007) | 2 lines
+Changed paths:
+   D /www/css/style.css
+
+remove old css file
+
+------------------------------------------------------------------------
+r401 | mathieu_ribatet | 2007-11-05 22:19:55 +0100 (lun, 05 nov 2007) | 2 lines
+Changed paths:
+   M /www/css/styleExtens.css
+   M /www/index.php
+
+improve homepage
+
+------------------------------------------------------------------------
+r400 | mathieu_ribatet | 2007-11-05 20:59:54 +0100 (lun, 05 nov 2007) | 2 lines
+Changed paths:
+   M /www/Routs/bvlog.out
+   M /www/index.php
+
+still improve in the homepage (standards and so on)
+
+------------------------------------------------------------------------
+r399 | mathieu_ribatet | 2007-11-05 19:30:39 +0100 (lun, 05 nov 2007) | 2 lines
+Changed paths:
+   M /www/Routs/adr.out
+   M /www/Routs/bvlog.out
+   M /www/index.php
+   M /www/phpPages/pot_few_lines.php
+
+improvements for IE compatibility
+
+------------------------------------------------------------------------
+r398 | mathieu_ribatet | 2007-11-05 16:36:01 +0100 (lun, 05 nov 2007) | 2 lines
+Changed paths:
+   M /www/Routs/bvlog.out
+   M /www/index.php
+   M /www/phpPages/pot_few_lines.php
+
+still improvements in the webpage
+
+------------------------------------------------------------------------
+r397 | mathieu_ribatet | 2007-11-05 16:22:47 +0100 (lun, 05 nov 2007) | 2 lines
+Changed paths:
+   M /www/css/styleExtens.css
+   M /www/index.php
+   M /www/phpPages/menu.php
+
+still improvements in the webpage
+
+------------------------------------------------------------------------
+r396 | mathieu_ribatet | 2007-11-04 20:37:17 +0100 (dim, 04 nov 2007) | 2 lines
+Changed paths:
+   D /www/counts.dat
+   D /www/phpPages/counter.php
+
+Remove counts files
+
+------------------------------------------------------------------------
+r395 | mathieu_ribatet | 2007-11-04 20:36:44 +0100 (dim, 04 nov 2007) | 2 lines
+Changed paths:
+   M /www/index.php
+
+Error in php code - permission file trouble.
+
+------------------------------------------------------------------------
+r394 | mathieu_ribatet | 2007-11-04 20:10:06 +0100 (dim, 04 nov 2007) | 3 lines
+Changed paths:
+   M /www/css/styleExtens.css
+   M /www/index.php
+   M /www/phpPages/counter.php
+   M /www/phpPages/manuals.php
+
+Minor changes for the html page. Current page have strange behaviour
+with Microsoft IE
+
+------------------------------------------------------------------------
+r393 | mathieu_ribatet | 2007-11-04 17:28:07 +0100 (dim, 04 nov 2007) | 2 lines
+Changed paths:
+   A /www/css/styleExtens.css
+   M /www/index.php
+
+Add a css to have an extensible website
+
+------------------------------------------------------------------------
+r392 | mathieu_ribatet | 2007-11-04 16:29:21 +0100 (dim, 04 nov 2007) | 2 lines
+Changed paths:
+   M /www/Routs/mle.out
+   A /www/Routs/rbvgpd.out
+   D /www/counter.php
+   A /www/css
+   A /www/css/style.css (from /www/style.css:391)
+   A /www/docs/guide.pdf
+   D /www/features.php
+   A /www/images/proflik.png
+   A /www/images/proflik2.png
+   M /www/index.php
+   D /www/manuals.php
+   A /www/phpPages
+   A /www/phpPages/counter.php (from /www/counter.php:391)
+   A /www/phpPages/features.php (from /www/features.php:391)
+   A /www/phpPages/manuals.php (from /www/manuals.php:391)
+   A /www/phpPages/menu.php
+   A /www/phpPages/pot_few_lines.php (from /www/pot_few_lines.php:391)
+   A /www/phpPages/screen_shots.php (from /www/screen_shots.php:391)
+   A /www/phpPages/welcome.php (from /www/welcome.php:391)
+   D /www/pot_few_lines.php
+   D /www/screen_shots.php
+   D /www/style.css
+   D /www/welcome.php
+
+Project homepage improvements
+
+------------------------------------------------------------------------
+r391 | mathieu_ribatet | 2007-11-02 17:56:10 +0100 (ven, 02 nov 2007) | 3 lines
+Changed paths:
+   A /www/Routs/adr.out
+   A /www/Routs/bvlog.out
+   A /www/Routs/mdpd.out
+   A /www/Routs/mle.out
+   A /www/Routs/mple.out
+   A /www/Routs/pwu.out
+
+Changes related to the POT homepage on R-forge
+(add R ouput popups)
+
+------------------------------------------------------------------------
+r390 | mathieu_ribatet | 2007-11-02 17:55:25 +0100 (ven, 02 nov 2007) | 2 lines
+Changed paths:
+   A /www/Routs
+   M /www/counts.dat
+   A /www/features.php
+   A /www/images/densmle.png
+   A /www/images/pickdep.png
+   A /www/images/plotbvlog.png
+   A /www/images/plotmle.png
+   A /www/images/ppqqmle.png
+   A /www/images/retlevbvlog.png
+   A /www/images/retlevmle.png
+   A /www/images/specdens.png
+   M /www/index.php
+   A /www/manuals.php
+   A /www/pot_few_lines.php
+   A /www/screen_shots.php
+   A /www/style.css
+   A /www/welcome.php
+
+Changes related to the POT homepage on R-forge
+
+------------------------------------------------------------------------
+r389 | mathieu_ribatet | 2007-11-02 17:53:58 +0100 (ven, 02 nov 2007) | 3 lines
+Changed paths:
+   M /pkg/R/plotBvGPD.R
+
+Fix a small bug in the Pickands' dependance function as it returned
+absurd NA values
+
+------------------------------------------------------------------------
+r388 | mathieu_ribatet | 2007-11-02 01:02:12 +0100 (ven, 02 nov 2007) | 2 lines
+Changed paths:
+   M /www
+
+Add a counter
+
+------------------------------------------------------------------------
+r387 | mathieu_ribatet | 2007-11-02 01:01:59 +0100 (ven, 02 nov 2007) | 2 lines
+Changed paths:
+   A /www/counts.dat
+
+Add a counter
+
+------------------------------------------------------------------------
+r386 | mathieu_ribatet | 2007-11-02 01:01:53 +0100 (ven, 02 nov 2007) | 2 lines
+Changed paths:
+   A /www/counter.php
+   M /www/index.php
+
+Add a counter
+
+------------------------------------------------------------------------
+r385 | mathieu_ribatet | 2007-11-02 00:25:21 +0100 (ven, 02 nov 2007) | 2 lines
+Changed paths:
+   A /www/docs
+   A /www/docs/Rnews_2007-1.pdf
+   A /www/images
+   A /www/images/screenshot.png
+   M /www/index.php
+
+Initial change for a ``real'' project homepage
+
+------------------------------------------------------------------------
+r384 | mathieu_ribatet | 2007-11-01 20:12:45 +0100 (jeu, 01 nov 2007) | 2 lines
+Changed paths:
+   M /www/index.php
+
+Update the r-forge homepage: fix the php code.
+
+------------------------------------------------------------------------
+r383 | mathieu_ribatet | 2007-11-01 10:29:42 +0100 (jeu, 01 nov 2007) | 2 lines
+Changed paths:
+   D /www/main.html
+
+Remove main.html doesn't work
+
+------------------------------------------------------------------------
+r382 | mathieu_ribatet | 2007-10-31 14:55:36 +0100 (mer, 31 oct 2007) | 2 lines
+Changed paths:
+   A /www/index.php
+
+Add the php file for the r-forge homepage of the POT package
+
+------------------------------------------------------------------------
+r381 | mathieu_ribatet | 2007-10-30 15:07:22 +0100 (mar, 30 oct 2007) | 2 lines
+Changed paths:
+   M /pkg/R/fitGPD.R
+
+Fix a bug in gpdmed: the move to the feasible region was buggy
+
+------------------------------------------------------------------------
+r380 | mathieu_ribatet | 2007-10-30 10:32:15 +0100 (mar, 30 oct 2007) | 3 lines
+Changed paths:
+   M /pkg/R/fitGPD.R
+
+Add a numerical constraint for the objective function to avoid NA
+values in the optimization procedure.
+
+------------------------------------------------------------------------
+r379 | mathieu_ribatet | 2007-10-29 21:38:10 +0100 (lun, 29 oct 2007) | 2 lines
+Changed paths:
+   M /pkg/DESCRIPTION
+   M /pkg/inst/CHANGES
+   M /pkg/inst/ChangeLog
+
+Update because of a new release
+
+------------------------------------------------------------------------
+r378 | mathieu_ribatet | 2007-10-29 21:37:11 +0100 (lun, 29 oct 2007) | 1 line
+Changed paths:
+   A /tags/version1.0-5 (from /pkg:377)
+   M /tags/version1.0-5/DESCRIPTION
+   M /tags/version1.0-5/inst/CHANGES
+   M /tags/version1.0-5/inst/ChangeLog
+   A /tags/version1.0-5/pkg (from /pkg:377)
+   M /tags/version1.0-5/pkg/DESCRIPTION
+   M /tags/version1.0-5/pkg/inst/CHANGES
+   M /tags/version1.0-5/pkg/inst/ChangeLog
+
+Tagged version for POT-1.0-5
+------------------------------------------------------------------------
 r377 | mathieu_ribatet | 2007-10-29 20:59:23 +0100 (lun, 29 oct 2007) | 2 lines
 Changed paths:
    A /www/main.html
