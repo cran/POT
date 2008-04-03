@@ -3,7 +3,8 @@
 ## Threshold by a GP distribution is quite good.
 
 diplot <- function(data, u.range, main, xlab, ylab,
-                   conf=0.95, ...){
+                   nt = max(200,nrow(data)), conf=0.95,
+                   ...){
 
   if ( !any(colnames(data) == "obs") )
     stop("``data'' should have a column named ``obs''...")
@@ -23,8 +24,7 @@ diplot <- function(data, u.range, main, xlab, ylab,
 
   if (missing(u.range)) u.range <- c(min(samp),max(samp[-(1:4)]))
 
-  thresh <- seq(u.range[1],u.range[2],
-                length=max(200,length(samp)))
+  thresh <- seq(u.range[1],u.range[2], length = nt)
 
   DI <- NULL
 
@@ -190,7 +190,8 @@ tcplot <- function (data, u.range, cmax = FALSE, r = 1,
 }
 
 
-lmomplot <- function(data, u.range, identify = TRUE, ...){
+lmomplot <- function(data, u.range, nt = max(50, length(data)),
+                     identify = TRUE, ...){
 
   data <- sort(as.numeric(data))
 
@@ -214,7 +215,7 @@ lmomplot <- function(data, u.range, identify = TRUE, ...){
     stop("upper limit for threshold is too high")
   
   thresh <- seq(u.range[1],u.range[2],
-                length=max(50,length(data)))
+                length= nt)
 
   point <- NULL
   for ( u in thresh){

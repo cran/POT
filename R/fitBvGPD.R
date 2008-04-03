@@ -260,7 +260,7 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
                  corr = corr.mat, convergence = opt$convergence, counts = opt$counts,
                  message = opt$message, threshold = threshold, nat = nat, pat = pat,
                  data = data, exceed1 = exceed1, exceed2 = exceed2, call = call,
-                 est = "MLE", model = model, logLik = -opt$value)
+                 est = "MLE", model = model, logLik = -opt$value, opt.value = -opt$value)
 
   chi <- 2 * (1 - pickdep(fitted, plot = FALSE)(0.5))
   fitted <- c(fitted, list(chi = chi))

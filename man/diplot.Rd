@@ -4,7 +4,8 @@
 \title{Threshold Selection: The Dispersion Index Plot}
 \description{The Dispersion Index Plot}
 \usage{
-diplot(data, u.range, main, xlab, ylab, conf=0.95, \dots)
+diplot(data, u.range, main, xlab, ylab, nt = max(200, nrow(data)),
+conf=0.95, \dots)
 }
 \arguments{
   \item{data}{A matrix with two column. The first one represents the
@@ -14,6 +15,8 @@ diplot(data, u.range, main, xlab, ylab, conf=0.95, \dots)
     threshold analyzed. If missing, default values are taken.}
   \item{main}{The title of the plot.}
   \item{xlab,ylab}{Labels for the x and y axis.}
+  \item{nt}{The number of thresholds at which the dispersion index plot
+    is evaluated.}
   \item{conf}{The confident coefficient for the plotted confidence intervals.}
   \item{...}{Other arguments to be passed to the \code{plot} function.}
 }

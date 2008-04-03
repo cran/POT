@@ -4,10 +4,9 @@ void gpdlik(double *data, int *n, double *loc, double *scale,
 	    double *shape, double *dns)
 {
   int i;
-  double *dvec, eps;
+  double *dvec;
   
   dvec = (double *)R_alloc(*n, sizeof(double));
-  eps = R_pow(DOUBLE_EPS, 0.3);
 
   if(*scale <= 0) {
      *dns = -1e6;
@@ -20,10 +19,64 @@ void gpdlik(double *data, int *n, double *loc, double *scale,
       *dns = -1e6;
       return;
     }
-    if(fabs(*shape) <= eps) 
-      dvec[i] = log(1 / *scale) - data[i];
+    if(*shape == 0) 
+      dvec[i] = -log(*scale) - data[i];
     else {
       data[i] = 1 + *shape * data[i];
+      if(data[i] <= 0) {
+	*dns = -1e6;
+	return;
+      }
+      dvec[i] = -log(*scale) - (1 / *shape + 1) * log(data[i]);
+    }
+  }
+  
+  for(i=0;i<*n;i++) 
+    *dns = *dns + dvec[i];
+}
+
+void pplik(double *data, int *n, double *loc, double *scale,
+	   double *shape, double *thresh, double *noy, double *dns)
+{
+  int i;
+  double *dvec, preg;
+  
+  dvec = (double *)R_alloc(*n, sizeof(double));
+  
+  if(*scale <= 0) {
+     *dns = -1e6;
+     return;
+  }
+
+  preg = (*thresh - *loc) / *scale;
+
+  if (*shape == 0)
+    preg = - *noy * exp(-preg);
+
+  else {
+
+    preg = 1 + *shape * preg;
+
+    if ((preg <= 0) && (*shape > 0)){
+      *dns = -1e6;
+      return;
+    }
+
+    else {
+      preg = fmax2(preg, 0);
+      preg = - *noy * R_pow(preg, -1 / *shape);
+    }
+  }
+
+  for(i=0;i<*n;i++)  {
+    data[i] = (data[i] - *loc) / *scale;
+    
+    if(*shape == 0)
+      dvec[i] = log(1 / *scale) - data[i];
+      
+    else {
+      data[i] = 1 + *shape * data[i];
+      
       if(data[i] <= 0) {
 	*dns = -1e6;
 	return;
@@ -34,8 +87,11 @@ void gpdlik(double *data, int *n, double *loc, double *scale,
   
   for(i=0;i<*n;i++) 
     *dns = *dns + dvec[i];
-}
 
+  
+  *dns = *dns + preg; 
+
+}
 
 void samlmu(double *x, int *nmom, int *n, double *lmom){
 

@@ -2,6 +2,7 @@
 \alias{convassess}
 \alias{convassess.uvpot}
 \alias{convassess.bvpot}
+\alias{convassess.mcpot}
 \title{Convergence Assessment for Fitted Objects}
 \description{
   This function uses several starting values to assess if the fitted
@@ -9,12 +10,13 @@
 }
 \usage{
 \method{convassess}{uvpot}(fitted, n = 50)
+\method{convassess}{mcpot}(fitted, n = 50)
 \method{convassess}{bvpot}(fitted, n = 50)
 }
 \arguments{
-  \item{fitted}{A fitted object of class \code{'uvpot'} or
-    \code{'bvpot'}. Generally, an object return by \code{fitgpd} or
-    \code{fitbvgpd}.}
+  \item{fitted}{A fitted object of class \code{'uvpot'}, \code{'mcpot'}
+    or \code{'bvpot'}. Generally, an object return by \code{fitgpd},
+    \code{fitmcgpd} or \code{fitbvgpd}.}
   \item{n}{The number of starting values to be tested.}
 }
 \value{
@@ -27,7 +29,7 @@
   weighted moments fitted on \code{n} bootstrap samples. 
 }
 \seealso{
-  \code{\link{fitgpd}}, \code{\link{convassess.bvpot}}
+  \code{\link{fitgpd}}, \code{\link{fitmcgpd}}, \code{\link{fitbvgpd}}
 }
 \examples{
 ##Univariate Case

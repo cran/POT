@@ -6,12 +6,15 @@
   thresholds for peaks over threshold modelling, using the Generalized
   Pareto parametrization.}
 \usage{
-lmomplot(data, u.range, identify = TRUE, \dots)
+lmomplot(data, u.range, nt = max(50, length(data)), identify = TRUE,
+\dots)
 }
 \arguments{
   \item{data}{A numeric vector.}
   \item{u.range}{A numeric vector of length two, giving the limits for
     the thresholds at which the model is fitted.}
+  \item{nt}{The number of thresholds at which the sample L-moments are
+    evaluated.}
   \item{identify}{Logical. If \code{TRUE}, points on the plot are
     identify using \code{\link{identify}} function.}
   \item{\dots}{Other arguments to be passed to the model fit

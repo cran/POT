@@ -5,7 +5,7 @@ retlev.uvpot <- function(fitted, npy, main, xlab,
                          ...){
   ## Plot the return level plot of a POT model fitted
   ## Input : ``fitted'' is a POT fitted model, result of function
-  ##         ``fitgpd''
+  ##         ``fitgpd'' or ``fitpp''
   ##         npy is the mean number of events per block -generally
   ##         per year- or equivalently the mean -intensity- of the
   ##         Poisson processus.
@@ -15,7 +15,7 @@ retlev.uvpot <- function(fitted, npy, main, xlab,
   
   data <- fitted$exceed
   loc <- fitted$threshold[1]
-  scale <- fitted$param["scale"]
+  scale <- fitted$scale
   shape <- fitted$param["shape"]
   
   n <- fitted$nat
@@ -27,10 +27,14 @@ retlev.uvpot <- function(fitted, npy, main, xlab,
 
   eps <- 10^(-3)
 
-  if (missing(npy)){
-    warning("Argument ``npy'' is missing. Setting it to 1.")
-    npy <- 1
-  }
+  if (!is.null(fitted$noy))
+    npy <- n / fitted$noy
+
+  else
+    if (missing(npy)){
+      warning("Argument ``npy'' is missing. Setting it to 1.")
+      npy <- 1
+    }
   if (missing(main)) main <- 'Return Level Plot'
   if (missing(xlab)) xlab <- 'Return Period (Years)'
   if (missing(ylab)) ylab <- 'Return Level'
@@ -68,7 +72,7 @@ qq.uvpot <- function(fitted, main, xlab,
   
   data <- fitted$exceed
   loc <- fitted$threshold[1]
-  scale <- fitted$param["scale"]
+  scale <- fitted$scale
   shape <- fitted$param["shape"]
   n <- fitted$nat
 
@@ -104,7 +108,7 @@ pp.uvpot <- function(fitted, main, xlab,
   
   data <- fitted$exceed
   loc <- fitted$threshold[1]
-  scale <- fitted$param["scale"]
+  scale <- fitted$scale
   shape <- fitted$param["shape"]
   n <- fitted$nat
 
@@ -147,7 +151,7 @@ dens.uvpot <- function(fitted, main, xlab, ylab,
   if (length(unique(loc)) != 1)
       stop("Density plot not avalaible for varying threshold...")
 
-  scale <- fitted$param["scale"]
+  scale <- fitted$scale
   shape <- fitted$param["shape"]
   n <- fitted$nat
 
@@ -185,11 +189,7 @@ plot.uvpot <- function(x, npy, main, which = 1:4,
                        dev.interactive(),ci = TRUE, ...){
   if (!is.numeric(which) || any(which < 1) || any(which > 4)) 
         stop("`which' must be in 1:4")
-  if (any(which == 4) & missing(npy)){
-    warning("Argument ``npy'' should be specified !!! Setting it to 1.")
-    npy <- 1
-  }
-  
+    
   show <- rep(FALSE, 4)
   show[which] <- TRUE
   nb.fig <- prod(par("mfcol"))

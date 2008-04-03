@@ -237,7 +237,8 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
                  corr = corr.mat, convergence = opt$convergence, counts = opt$counts,
                  message = opt$message, threshold = threshold, nat = nat3, pat = pat3,
                  data = data, exceed = exceed3, call = call, est = "MLE",
-                 model = model, logLik = -opt$value, var.thresh = FALSE)
+                 model = model, logLik = -opt$value, var.thresh = FALSE,
+                 opt.value = -opt$value)
 
   chi <- 2 * (1 - pickdep(fitted, plot = FALSE)(0.5))
   fitted <- c(fitted, list(chi = chi))
