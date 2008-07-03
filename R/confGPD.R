@@ -8,7 +8,7 @@ rp2prob <- function(retper, npy){
   ##retper   : the return period
   ##npy : the mean Number of events Per Year
   
-  if (any(npy) <=0)
+  if (any(npy <=0))
     stop("``npy'' must be positive !!!")
   if (any(retper < 1/npy))
     stop("return period incompatible with ``npy'' !!!")
@@ -22,7 +22,7 @@ prob2rp <- function(prob, npy){
   ##prob   : the probability of non exceedance
   ##npy    : the mean (N)umber of events (P)er (Y)ear
   
-  if (any(npy) <=0)
+  if (any(npy <=0))
     stop("``npy'' must be positive !!!")
   if (any(prob <0) | any(prob >= 1) )
     stop("``prob'' must be in [0,1) !!!")
