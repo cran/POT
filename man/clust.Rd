@@ -36,12 +36,13 @@ only.excess = TRUE, \dots)
 }
 \details{
   The clusters of exceedances are defined as follows:
-  \item The first exceedance initiates the first cluster;
-  \item The first observation under the threshold \code{u} ``ends'' the
-  current cluster unless \code{tim.cond} does not hold;
-  \item The next exceedance initiates a new cluster;
-  \item The process is iterated as needed.
-
+  \itemize{
+    \item The first exceedance initiates the first cluster;
+    \item The first observation under the threshold \code{u} ``ends'' the
+    current cluster unless \code{tim.cond} does not hold;
+    \item The next exceedance initiates a new cluster;
+    \item The process is iterated as needed.
+  }
   
   This function differs from the function \code{clusters} of \code{evd}
   Package as independence condition i.e. \code{tim.cond} could be a

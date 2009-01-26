@@ -44,7 +44,7 @@ anova.uvpot <- function(object, object2, ...){
                       c(NA, pvalue))
 
   dimnames(table) <- list(models, c("MDf", "Deviance", "Df",
-                                    "Chisq", "Pr[>Chisq]"))
+                                    "Chisq", "Pr(>Chisq)"))
 
   structure(table, heading = "Analysis of Variance Table\n",
             class = c("anova", "data.frame"))

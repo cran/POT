@@ -19,8 +19,10 @@ void gpdlik(double *data, int *n, double *loc, double *scale,
       *dns = -1e6;
       return;
     }
-    if(*shape == 0) 
+    if(fabs(*shape) <= 1e-6){
+      *shape = 0;
       dvec[i] = -log(*scale) - data[i];
+    }
     else {
       data[i] = 1 + *shape * data[i];
       if(data[i] <= 0) {

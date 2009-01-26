@@ -917,7 +917,7 @@ gpdmle <- function(x, threshold, start, ...,
     warning("negative log-likelihood is infinite at starting values")
   
   opt <- optim(start, nllh, hessian = TRUE, ..., method = method)
-  
+    
   if ((opt$convergence != 0) || (opt$value == 1e6)) {
     warning("optimization may not have succeeded")
     if(opt$convergence == 1) opt$convergence <- "iteration limit reached"
@@ -939,24 +939,32 @@ gpdmle <- function(x, threshold, start, ...,
       }
       
       if (std.err.type == "observed"){
-        var.cov <- solve(var.cov, tol = tol)
-        
-        std.err <- diag(var.cov)
-        if(any(std.err <= 0)){
-          warning("observed information matrix is singular; passing std.err.type to ``expected''")
+        var.cov <- try(solve(var.cov, tol = tol), silent = TRUE)
+
+        if(!is.matrix(var.cov)){
+          warning("observed information matrix is singular; passing std.err.type to ''none''")
           std.err.type <- "expected"
           return
         }
+
+        else{
+          std.err <- diag(var.cov)
+          if(any(std.err <= 0)){
+            warning("observed information matrix is singular; passing std.err.type to ``expected''")
+            std.err.type <- "expected"
+            return
+          }
+          
+          std.err <- sqrt(std.err)
         
-        std.err <- sqrt(std.err)
-        
-        if(corr) {
-          .mat <- diag(1/std.err, nrow = length(std.err))
-          corr.mat <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
-          diag(corr.mat) <- rep(1, length(std.err))
-        }
-        else {
-          corr.mat <- NULL
+          if(corr) {
+            .mat <- diag(1/std.err, nrow = length(std.err))
+            corr.mat <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
+            diag(corr.mat) <- rep(1, length(std.err))
+          }
+          else {
+            corr.mat <- NULL
+          }
         }
       }
     }
@@ -1009,7 +1017,7 @@ gpdmle <- function(x, threshold, start, ...,
        counts = opt$counts, message = opt$message, threshold = threshold,
        nat = nat, pat = pat, data = x, exceed = exceed, scale = scale,
        var.thresh = var.thresh, est = "MLE", logLik = -opt$value,
-       opt.value = opt$value)
+       opt.value = opt$value, hessian = opt$hessian)
 }
 
 ##Medians estimation for the GPD ( Peng, L. and Welsh, A. (2002) )
