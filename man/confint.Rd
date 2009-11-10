@@ -31,14 +31,14 @@
 \details{
   Additional options can be passed using "\dots" in the function
   call. Possibilites are related to the specific functions:
-  \code{link{gpd.fiscale}}, \code{link{gpd.fishape}},
-  \code{link{gpd.firl}}, \code{link{gpd.pfscale}},
-  \code{link{gpd.pfshape}}, \code{link{gpd.pfrl}}.
+  \code{\link{gpd.fiscale}}, \code{\link{gpd.fishape}},
+  \code{\link{gpd.firl}}, \code{\link{gpd.pfscale}},
+  \code{\link{gpd.pfshape}}, \code{\link{gpd.pfrl}}.
 }
 \seealso{
-  \code{link{gpd.fiscale}}, \code{link{gpd.fishape}},
-  \code{link{gpd.firl}}, \code{link{gpd.pfscale}},
-  \code{link{gpd.pfshape}} and \code{link{gpd.pfrl}}
+  \code{\link{gpd.fiscale}}, \code{\link{gpd.fishape}},
+  \code{\link{gpd.firl}}, \code{\link{gpd.pfscale}},
+  \code{\link{gpd.pfshape}} and \code{\link{gpd.pfrl}}
 }
 \examples{
 x <- rgpd(100, 0, 1, 0.25)

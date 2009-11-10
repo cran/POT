@@ -1,4 +1,4 @@
-\name{Threshold Selection}
+\name{diplot}
 \alias{diplot}
 
 \title{Threshold Selection: The Dispersion Index Plot}

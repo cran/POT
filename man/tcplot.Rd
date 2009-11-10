@@ -1,4 +1,4 @@
-\name{Threshold Selection}
+\name{tcplot}
 \alias{tcplot}
 \title{Threshold Selection: The Threshold Choice Plot}
 \description{

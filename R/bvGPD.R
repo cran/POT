@@ -291,7 +291,7 @@ pbvalog <- function(q, alpha, asCoef1, asCoef2, mar1 = c(0,1,0),
 }
 
 
-pbvnlog <- function(n, alpha, mar1 = c(0,1,0), mar2 = mar1,
+pbvnlog <- function(q, alpha, mar1 = c(0,1,0), mar2 = mar1,
                     lower.tail = TRUE){
   if(length(alpha) != 1 || mode(alpha) != "numeric" || alpha <= 0)
     stop("invalid argument for `alpha'")

@@ -62,12 +62,14 @@
   For the \code{'mple'} estimator, the likelihood function is penalized
   using the following function :
 
-  \deqn{P(\xi) = \begin{cases}
+  \deqn{P(\xi) = \left\{
+    \begin{array}{ll}
     1, & \xi \leq 0\\
     \exp\left[-\lambda \left(\frac{1}{1-\xi} - 1\right)^\alpha \right], &
     0 < \xi <1\\
     0, & \xi \geq 1
-    \end{cases}}{P(xi)=1 if xi \le 0, exp[-lambda(1/(1-xi) -
+    \end{array}
+  \right.}{P(xi)=1 if xi \le 0, exp[-lambda(1/(1-xi) -
     1)^alpha], if 0 < xi < 1, 0 if xi \ge 1}
   where \eqn{\alpha}{alpha} and \eqn{\lambda}{lambda} are the penalizing
   constants. Coles and Dixon (1999) suggest the use of

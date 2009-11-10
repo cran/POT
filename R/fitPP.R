@@ -11,11 +11,11 @@ fitpp <- function(data, threshold, noy = length(data) / 365.25, start, ...,
   }
 
   noy <- as.double(noy)
-  nn <- length(x)
+  nn <- length(data)
   
-  high <- (x > threshold) & !is.na(x)
+  high <- (data > threshold) & !is.na(data)
   threshold <- as.double(threshold)
-  exceed <- as.double(x[high])
+  exceed <- as.double(data[high])
   nat <- as.integer(length(exceed))
 
   if(!nat)
@@ -161,7 +161,7 @@ fitpp <- function(data, threshold, noy = length(data) / 365.25, start, ...,
                  var.cov = var.cov, fixed = unlist(fixed.param), param = param,
                  deviance = 2*opt$value, corr = corr.mat, convergence = opt$convergence,
                  counts = opt$counts, message = opt$message, threshold = threshold,
-                 nat = nat, pat = pat, data = x, exceed = exceed, scale = scale,
+                 nat = nat, pat = pat, data = data, exceed = exceed, scale = scale,
                  var.thresh = var.thresh, est = "MLE", logLik = -opt$value,
                  opt.value = opt$value)
 
