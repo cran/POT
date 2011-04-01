@@ -1,5 +1,6 @@
 \documentclass[a4paper]{article}
 
+\usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
@@ -38,16 +39,12 @@
   \vspace{0.2cm}
   Mathieu Ribatet \\
   \normalsize
-  Copyright \copyright 2006 \\
+  Copyright \copyright 2011 \\
   \vspace{0.2cm}
-  Department of Hydrological Statistic, INRS,\\
-  University of Qu\'ebec, 490 de la Couronne, G1K 9A9 Canada\\
+  Department of Mathematics\\
+  University of Montpellier II, France
   \vspace{0.2cm}
-  Cemagref UR HH, 3bis quai Chauveau\\ 69336 Lyon Cedex
-  09 France\\ 
-  \vspace{0.2cm}
-  E-mail: \email{ribatet@hotmail.com} \\
-  $Date: 2007-12-02 19:35:04 +0100 (dim, 02 déc 2007) $
+  E-mail: \email{mathieu.ribatet@math.univ-montp2.fr}
 \end{center}
 
 \section{Introduction}
