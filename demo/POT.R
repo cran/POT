@@ -50,7 +50,7 @@ gpd.pfrl(fitted, 0.95, range=c(14, 35),
 cat("We can produce several graphics really usefull for diagnostic of our model
 of Peaks over threshold...")
 plot(ardieres, ylab = expression(paste("Flood Discharge  ",m^3/s, sep="")),
-     xlab = "Years", main = "River Ardières at Beaujeu")
+     xlab = "Years", main = "River Ardieres at Beaujeu")
 abline( h = 6, lty = 2)
 par(mfrow=c(2,2))
 plot(fitted, mu)
