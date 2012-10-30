@@ -36,12 +36,12 @@ fitexi(data, threshold)
   \code{\link{clust}}
 }
 \examples{
-data(ardieres)
-exi <- fitexi(ardieres, 6)
-exi
-##Extract events with the ``automatic'' procedure
-##Please be carefull for the time unit in tim.cond
-clust(ardieres, 6, tim.cond = exi$tim.cond / 365.25, clust.max = TRUE)
+n.obs <- 500
+x <- rexp(n.obs + 1)
+y <- pmax(x[-1], x[-(n.obs + 1)])## The extremal index is 0.5
+
+u <- quantile(y, 0.95)
+fitexi(y, u)
 }
 \author{Mathieu Ribatet}
 \keyword{htest}

@@ -1,5 +1,5 @@
-e63dee187c426ee865730ca908f65922 *DESCRIPTION
-9fdfeb11f7ddba6f3aab9aaa6b1ac5dd *NAMESPACE
+c1f8809cc02f4cbd144b145907521afc *DESCRIPTION
+c47bf0df9040ec9012adad74a07e70cb *NAMESPACE
 ce145847ae670a2c5699684ae811c9bb *R/AsympDep.R
 90e1eaa6097eb54b99f4675ee726668d *R/anova.R
 b436d9dce1fb006384b197a236f7f465 *R/bvGPD.R
@@ -20,7 +20,6 @@ e73a54f33b9801e7cd831f795130585c *R/plotGPD.R
 209004f74058ebf8877fd1d52fc7d95b *R/simmcpot.R
 f250b9deaf5faf783278867d4cde6ef5 *R/ts2tsd.R
 d1743190d6c92ff79f0f0ce4d49ae70f *R/utils.R
-197696047bdf93c85be8fbd12705d536 *R/zzz.R
 4323c224fb029ad6d258d597984a02e3 *data/ardieres.txt.gz
 c119926bc8878a6fc73f7976ce2f2247 *demo/00Index
 4a1d255dc37e72dc12ff67daf9cf854b *demo/POT.R
@@ -28,7 +27,7 @@ ce6cf86eff5e90a5f180ed4990bad9ee *demo/bvPOT.R
 0115de4980d83c1b66ed6d8bd6803f73 *inst/CHANGES
 83605d09316d9a9c8086fb24cbd703d7 *inst/ChangeLog
 76031050e5934fb49adaeb01dbf074e6 *inst/doc/POT.Rnw
-05e1481a57d0a804646f2eed8a74d671 *inst/doc/POT.pdf
+6b03bfa43c7a3cdf0d1c5bb7a21c04cb *inst/doc/POT.pdf
 a0547e5e5f751018a894a987215e0615 *man/anova.bvpot.Rd
 f576ca805698cf36c31aed5d1894260e *man/anova.uvpot.Rd
 1fa1ae2c5450d6304db16f3a5a5adaed *man/ardieres.Rd
@@ -48,7 +47,7 @@ b26a1d3a3b6636771158b6c16064484e *man/fitBvGPD.Rd
 cbd7f2c74246267faa2009aabc3ba22f *man/fitGPD.Rd
 c49a751146c24adb04f0c5942cef2e69 *man/fitMcGPD.Rd
 770d10345c17adb204d0185e0d1aaa47 *man/fitPP.Rd
-62343caecb608156a3edd357e15e1d6c *man/fitexi.Rd
+9526eff36241db8ff11a52a67e501a0f *man/fitexi.Rd
 2291fc6787962a0f91b8a702aae6aa4c *man/gpd2frech.Rd
 1749080fa6ae5d843cfaba9afda5b6c4 *man/internals.Rd
 cac1dcc7ae0269682c1ec4f7aed9c5e3 *man/lmomplot.Rd
