@@ -26,6 +26,7 @@
 \newtheorem{defi}{Definition}[subsection]
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 
 %\VignetteIndexEntry{An R Package for Univariate and Bivariate Peaks  Over Threshold Analysis} 
 %\VignetteDepens{POT}

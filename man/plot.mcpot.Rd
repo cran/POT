@@ -41,6 +41,7 @@ length(which) && dev.interactive(), acf.type = "partial", \dots)
   \code{\link{fitmcgpd}}, \code{\link{acf}}, \code{\link{retlev}}
 }
 \examples{
+set.seed(123)
 mc <- simmc(200, alpha = 0.5)
 mc <- qgpd(mc, 0, 1, 0.25)
 Mclog <- fitmcgpd(mc, 1)

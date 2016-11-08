@@ -125,7 +125,20 @@ fitmcgpd(data, threshold, model = "log", start, \dots, std.err.type =
   Smith, R., and Tawn, J., and Coles, S. (1997) Markov chain models for
   threshold exceedances. Biometrika, \bold{84} 249--268
 }
-\seealso{\code{\link{optim}}, \code{\link{pickdep}}}
+\seealso{
+The following usual generic functions are available 
+  \code{\link[POT:print.mcpot]{print}}, 
+  \code{\link[POT:plot.mcpot]{plot}}
+  as well as new generic functions 
+  \code{\link[POT:retlev.mcpot]{retlev}} and
+  \code{\link[POT:convassess.mcpot]{convassess}}.
+  
+  See also \code{\link{pickdep}}.
+  
+  For optimization in R, see \code{\link{optim}}.
+  
+}
+
 \examples{
 mc <- simmc(1000, alpha = 0.25)
 mc <- qgpd(mc, 0, 1, 0.25)

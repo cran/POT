@@ -111,7 +111,23 @@ method = "BFGS")
   Multivariate Extreme Values. Biometrika, \bold{83}: 169--187.
 }
 \author{Mathieu Ribatet}
-\seealso{\code{\link{optim}}, \code{\link{pickdep}}}
+ 
+\seealso{
+The following usual generic functions are available 
+  \code{\link[POT:print.bvpot]{print}}, 
+  \code{\link[POT:plot.bvpot]{plot}} and
+  \code{\link[POT:anova.bvpot]{anova}}
+  as well as new generic functions 
+  \code{\link[POT:retlev.bvpot]{retlev}} and
+  \code{\link[POT:convassess.bvpot]{convassess}}.
+  
+  See also \code{\link{pickdep}}, \code{\link{specdens}}.
+  
+  For optimization in R, see \code{\link{optim}}.
+  
+}
+
+
 \examples{
 x <- rgpd(1000, 0, 1, 0.25)
 y <- rgpd(1000, 3, 1, -0.25)

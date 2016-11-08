@@ -64,10 +64,10 @@ dexi(x, n.sim = 1000, n.mc = length(x$data), plot = TRUE, \dots)
   \code{\link{simmc}}, \code{\link{fitmcgpd}}, \code{\link{fitexi}}
 }
 \examples{
-mc <- simmc(1000, alpha = 0.25)
+mc <- simmc(100, alpha = 0.25)
 mc <- qgpd(mc, 0, 1, 0.25)
 log <- fitmcgpd(mc, 2, shape = 0.25, scale = 1)
-dexi(log, n.sim = 200)
+dexi(log, n.sim = 100)
 }
 \author{Mathieu Ribatet}
 \keyword{models}

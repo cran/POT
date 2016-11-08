@@ -31,7 +31,7 @@
     several options to specific estimators - see the Note section.}
 }
 \value{
-  This function returns a list with  components:
+  This function returns an object of class \code{"uvpot"} with components:
   \item{fitted.values}{A vector containing the estimated parameters.}
   \item{std.err}{A vector containing the standard errors.}
   \item{fixed}{A vector containing the parameters of the model that
@@ -54,7 +54,24 @@
   \item{var.thresh}{Logical. Specify if the threshold is a varying one -
     \code{'mle'} only. For other methods, threshold is always constant
     i.e. \code{var.thresh = FALSE}.}
+    
+  
 }
+\seealso{
+The following usual generic functions are available 
+  \code{\link[POT:print.uvpot]{print}}, 
+  \code{\link[POT:plot.uvpot]{plot}}, 
+  \code{\link[POT:confint.uvpot]{confint}} and
+  \code{\link[POT:anova.uvpot]{anova}}
+  as well as new generic functions 
+  \code{\link[POT:retlev.uvpot]{retlev}}, 
+  \code{\link[POT:qq.uvpot]{qq}}, 
+  \code{\link[POT:pp.uvpot]{pp}}, 
+  \code{\link[POT:dens.uvpot]{dens}} and
+  \code{\link[POT:convassess.uvpot]{convassess}}.
+  
+}
+
 \note{The Maximum Likelihood estimator is obtained through a slightly
   modified version of Alec Stephenson's \code{fpot.norm} function in the
   \code{evd} package.

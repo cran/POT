@@ -1,3 +1,24 @@
+/*****************************************************************************
+ *   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+ *                                                                                                                                                                        
+ *   This program is free software; you can redistribute it and/or modify                                               
+ *   it under the terms of the GNU General Public License as published by                                         
+ *   the Free Software Foundation; either version 2 of the License, or                                                   
+ *   (at your option) any later version.                                                                                                            
+ *                                                                                                                                                                         
+ *   This program is distributed in the hope that it will be useful,                                                             
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of                                          
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                                 
+ *   GNU General Public License for more details.                                                                                    
+ *                                                                                                                                                                         
+ *   You should have received a copy of the GNU General Public License                                           
+ *   along with this program; if not, write to the                                                                                           
+ *   Free Software Foundation, Inc.,                                                                                                              
+ *   59 Temple Place, Suite 330, Boston, MA 02111-1307, USA                                                             
+ *                                                                                                                                                                         
+ *
+ ******************************************************************************/
+
 #include "header.h"
 
 void gpdmclog(double *data1, double *data2, double *data3, int *nj,
@@ -1559,7 +1580,7 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
 	(1 + *shape) * log(t1[i]) + 2 * log(z1[i]) +
 	1 / z1[i];
       
-      if (!R_FINITE(log(abs(nv1)))){
+      if (!R_FINITE(log(fabs(nv1)))){
 	//*dns = -1e6;
 	dvecj[i] = -1000 + nK1 - v;
 	//nv1 = 1e-320;
@@ -1567,7 +1588,7 @@ void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
       }
       
       else
-	dvecj[i] = log(abs(nv1)) + nK1 - v;
+	dvecj[i] = log(fabs(nv1)) + nK1 - v;
 
     }
     

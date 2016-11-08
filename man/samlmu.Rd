@@ -12,9 +12,9 @@
     should be sorted or not.}
 }
 \value{
-  This function returns a vector of length 'nmom' corresponding to the
+  This function returns a vector of length \code{nmom} corresponding to the
   sample L-moments. Note that for orders greater or equal than 3 it is the L-moments
-  ratio that is sample L-CV, sample L-Sknewness, \ldots 
+  ratio that is sample L-coefficient of variation, sample L-skewness, sample L-kurtosis, \ldots 
 }
 
 \references{

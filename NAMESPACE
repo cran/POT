@@ -1,2 +1,121 @@
-exportPattern("^[^\\.]")
-useDynLib(POT)
+### Imports
+importFrom("grDevices", "dev.interactive")
+importFrom("graphics", "abline", "arrows", "hist", "lines", "matplot",
+             "par", "plot", "points", "rect", "segments")
+importFrom("stats", "AIC", "acf", "approx", "chisq.test", "confint",
+             "density", "fitted", "ks.test", "median", "na.omit",
+             "optim", "pchisq", "pnorm", "ppoints", "qchisq", "qnorm",
+             "quantile", "rexp", "runif", "sd", "uniroot", "var")
+importFrom("utils", "str")
+  
+### Export
+
+#graphics
+export(diplot, mrlplot, tcplot, lmomplot) #checkThres.R
+export(clust, exiplot, fitexi) #clust.R 
+export(chimeas, tailind.test, tsdep.plot) #AsympDep.R
+export(pickdep) #plotBvGPD.R
+export(specdens) #plotBvGPD.R
+
+#random generation in simmcpot.R or simmc.R
+export(simmc)
+export(simmcpot)
+
+#Density of the Extremal Index in fitMcGPD.R
+export(dexi)
+
+#transforms in confGPD.R or utils.R or ts2tsd.R
+export(gpd2frech, frech2gpd)
+export(rp2prob, prob2rp)
+export(ts2tsd)
+
+#d, p, q, r functions in simGPD.R
+export(dgpd, pgpd, qgpd, rgpd)
+#d, p, q, r functions in bvGPD.R
+export(pbvgpd, rbvgpd)
+
+#sample L-moments in fitGPD.R
+export(samlmu)
+
+
+#Loglikelihood for all models inheriting from "pot" class in internals.R
+S3method(logLik, pot)
+S3method(summary, pot)
+
+#Fisher-based confidence intervals in confGPD.R only for "pot" objects
+export(gpd.fishape, gpd.fiscale, gpd.firl)
+
+#Profiled Confidence intervals in confGPD.R only for "pot" objects
+export(gpd.pfshape, gpd.pfscale, gpd.pfrl)
+
+
+#new generic methods in methods.R for "default" class
+export(retlev)
+S3method(retlev, default)
+export(qq)
+S3method(qq, default)
+export(pp)
+S3method(pp, default)
+export(dens)
+S3method(dens, default)
+export(convassess)
+S3method(convassess, default)
+
+#--------------
+#univariate POT: "uvpot" inherits from "pot"
+
+#fitting univariate GPD in fitGPD.R that define uvpot objects
+export(fitgpd)
+
+#fit point process characterisation to POT in fitPP.R that define uvpot objects
+export(fitpp)
+
+#new uvpot methods in plotGPD.R or internals.R
+S3method(retlev, uvpot)
+S3method(qq, uvpot)
+S3method(pp, uvpot)
+S3method(dens, uvpot)
+S3method(convassess, uvpot)
+
+#classic uvpot methods in plotGPD.R, internals.R, anova.R or confGPD.R
+S3method(plot, uvpot)
+S3method(confint, uvpot)
+S3method(print, uvpot)
+S3method(anova, uvpot)
+
+
+#----------------
+#Markov Chain POT: "mcpot" inherits from "uvpot" which inherits from "pot"
+
+
+#fit Markov Chain Models to Peaks Over a Threshold in fitMcGPD.R that define mcpot objects
+export(fitmcgpd)
+
+#new uvpot methods in plotMcGPD.R or internals.R
+S3method(convassess, mcpot)
+S3method(retlev, mcpot)
+
+#classic bvpot methods in internals.R or plotMcGPD.R
+S3method(print, mcpot)
+S3method(plot, mcpot)
+
+#-------------
+#bivariate POT: "bvpot" inherits from "pot"
+
+
+#fit bivariate Peaks Over a Threshold in fitBcGPD.R that define bvpot objects
+export(fitbvgpd)
+
+#new uvpot methods in internals.R or plotBvGPD.R
+S3method(convassess, bvpot)
+S3method(retlev, bvpot)
+
+#classic bvpot methods in internals.R, anova.R or plotBvGPD.R
+S3method(print, bvpot)
+S3method(plot, bvpot)
+S3method(anova, bvpot)
+
+
+
+### use dynamic library for C code
+useDynLib(POT, .registration = TRUE)

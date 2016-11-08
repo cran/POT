@@ -78,18 +78,18 @@ col.bound = "blue", lty.ci = 1, lty.bound = 1)
   \code{\link{tsdep.plot}}
 }
 \examples{
-mc <- simmc(2000, alpha = 0.9)
-mc2 <- simmc(1000, alpha = 0.2)
+mc <- simmc(200, alpha = 0.9)
+mc2 <- simmc(100, alpha = 0.2)
 ##An independent case
 par(mfrow = c(1,2))
-chimeas(cbind(mc[1:1000], mc2))
+chimeas(cbind(mc[1:100], mc2))
 ##Asymptotic dependence
 par(mfrow = c(1,2))
-chimeas(cbind(mc[seq(1,2000, by = 2)], mc[seq(2,2000,by = 2)]))
+chimeas(cbind(mc[seq(1,200, by = 2)], mc[seq(2,200,by = 2)]))
 ##The same but with bootstrap ci
 par(mfrow = c(1,2))
-chimeas(cbind(mc[seq(1,2000, by = 2)], mc[seq(2,2000,by = 2)]), boot =
-TRUE)
+chimeas(cbind(mc[seq(1,200, by = 2)], mc[seq(2,200,by = 2)]), boot =
+TRUE, n.boot=50)
 }
 \author{Mathieu Ribatet}
 \keyword{htest}
