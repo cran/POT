@@ -10,37 +10,38 @@ importFrom("utils", "str")
   
 ### Export
 
-#graphics
-export(diplot, mrlplot, tcplot, lmomplot) #checkThres.R
-export(clust, exiplot, fitexi) #clust.R 
-export(chimeas, tailind.test, tsdep.plot) #AsympDep.R
-export(pickdep) #plotBvGPD.R
-export(specdens) #plotBvGPD.R
+#graphics in graph-***.R
+export(diplot, mrlplot, tcplot, lmomplot) #checkThres.R (originally)
+export(clust, exiplot, fitexi) #clust.R (originally) 
+export(chimeas, tailind.test, tsdep.plot) #AsympDep.R (originally)
+export(pickdep) #plotBvGPD.R (originally)
+export(specdens) #plotBvGPD.R (originally)
 
-#random generation in simmcpot.R or simmc.R
+#random generation in  mcpot-simmc*.R (simmcpot.R or simmc.R originally)
 export(simmc)
 export(simmcpot)
 
-#Density of the Extremal Index in fitMcGPD.R
+#Density of the Extremal Index in exi***.R (fitMcGPD.R originally)
 export(dexi)
 
-#transforms in confGPD.R or utils.R or ts2tsd.R
+#transforms in utils-***.R  originally confGPD.R or utils.R or ts2tsd.R
 export(gpd2frech, frech2gpd)
 export(rp2prob, prob2rp)
 export(ts2tsd)
 
-#d, p, q, r functions in simGPD.R
+#d, p, q, r functions in GPD-dpqr-fun.R (originally simGPD.R)
 export(dgpd, pgpd, qgpd, rgpd)
-#d, p, q, r functions in bvGPD.R
+#d, p, q, r functions in bvGPD-dpqr-fun.R (originally bvGPD.R)
 export(pbvgpd, rbvgpd)
 
-#sample L-moments in fitGPD.R
+#sample L-moments in util-lmom.R (originally fitGPD.R)
 export(samlmu)
 
 
-#Loglikelihood for all models inheriting from "pot" class in internals.R
+#Loglikelihood for all models inheriting from "pot" class in pot-***.R (orignally internals.R)
 S3method(logLik, pot)
 S3method(summary, pot)
+S3method(coef, pot)
 
 #Fisher-based confidence intervals in confGPD.R only for "pot" objects
 export(gpd.fishape, gpd.fiscale, gpd.firl)
@@ -67,17 +68,17 @@ S3method(convassess, default)
 #fitting univariate GPD in fitGPD.R that define uvpot objects
 export(fitgpd)
 
-#fit point process characterisation to POT in fitPP.R that define uvpot objects
+#fit point process characterisation to POT in uvpot-fitPP.R (originally fitPP.R) that define uvpot objects
 export(fitpp)
 
-#new uvpot methods in plotGPD.R or internals.R
+#new uvpot methods in uvpot-***.R (originally plotGPD.R or internals.R)
 S3method(retlev, uvpot)
 S3method(qq, uvpot)
 S3method(pp, uvpot)
 S3method(dens, uvpot)
 S3method(convassess, uvpot)
 
-#classic uvpot methods in plotGPD.R, internals.R, anova.R or confGPD.R
+#classic uvpot methods in uvpot-***.R (originally plotGPD.R, internals.R, anova.R or confGPD.R)
 S3method(plot, uvpot)
 S3method(confint, uvpot)
 S3method(print, uvpot)
@@ -91,11 +92,11 @@ S3method(anova, uvpot)
 #fit Markov Chain Models to Peaks Over a Threshold in fitMcGPD.R that define mcpot objects
 export(fitmcgpd)
 
-#new uvpot methods in plotMcGPD.R or internals.R
+#new uvpot methods in mcpot-***.R (originally plotMcGPD.R or internals.R)
 S3method(convassess, mcpot)
 S3method(retlev, mcpot)
 
-#classic bvpot methods in internals.R or plotMcGPD.R
+#classic bvpot methods in mcpot-***.R (originally internals.R or plotMcGPD.R)
 S3method(print, mcpot)
 S3method(plot, mcpot)
 
@@ -103,14 +104,14 @@ S3method(plot, mcpot)
 #bivariate POT: "bvpot" inherits from "pot"
 
 
-#fit bivariate Peaks Over a Threshold in fitBcGPD.R that define bvpot objects
+#fit bivariate Peaks Over a Threshold in bv-fitBvGPD.R (originally fitBvGPD.R) that define bvpot objects
 export(fitbvgpd)
 
-#new uvpot methods in internals.R or plotBvGPD.R
+#new uvpot methods in bvpot-***.R (originally internals.R or plotBvGPD.R)
 S3method(convassess, bvpot)
 S3method(retlev, bvpot)
 
-#classic bvpot methods in internals.R, anova.R or plotBvGPD.R
+#classic bvpot methods in bvpot-***.R (originally internals.R, anova.R or plotBvGPD.R)
 S3method(print, bvpot)
 S3method(plot, bvpot)
 S3method(anova, bvpot)

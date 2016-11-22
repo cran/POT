@@ -36,6 +36,7 @@ gpdmle <- function(x, threshold, start, ...,
   if (all(c("observed", "expected", "none") != std.err.type))
     stop("``std.err.type'' must be one of 'observed', 'expected' or 'none'")
   
+  std.err.type <- match.arg(std.err.type, c("observed", "none", "expected"))
   nlpot <- function(scale, shape) { 
     -.C("gpdlik", exceed, nat, threshold, scale,
         shape, dns = double(1), PACKAGE = "POT")$dns
@@ -103,53 +104,55 @@ gpdmle <- function(x, threshold, start, ...,
   }
   
   else opt$convergence <- "successful"
-
-  if (std.err.type != "none"){
-    
-    tol <- .Machine$double.eps^0.5
-    
-    if(std.err.type == "observed") {
-      
+  
+  tol <- .Machine$double.eps^0.5
+  
+  if (std.err.type != "none")
+  {
+    if(std.err.type == "observed") 
+    {
       var.cov <- qr(opt$hessian, tol = tol)
-      if(var.cov$rank != ncol(var.cov$qr)){
+      if(var.cov$rank != ncol(var.cov$qr))
+      {
         warning("observed information matrix is singular; passing std.err.type to ``expected''")
+        std.err.type <- "expected"
         obs.fish <- FALSE
-        return
-      }
+      }else
+        obs.fish <- TRUE
       
-      if (std.err.type == "observed"){
+      if(obs.fish)
+      {
         var.cov <- try(solve(var.cov, tol = tol), silent = TRUE)
-
-        if(!is.matrix(var.cov)){
+        
+        if(!is.matrix(var.cov))
+        {
           warning("observed information matrix is singular; passing std.err.type to ''none''")
-          std.err.type <- "expected"
-          return
-        }
-
-        else{
+          std.err.type <- "none"
+          std.err <- var.cov <- corr.mat <- NULL
+        }else
+        {
           std.err <- diag(var.cov)
-          if(any(std.err <= 0)){
+          if(any(std.err <= 0))
+          {
             warning("observed information matrix is singular; passing std.err.type to ``expected''")
             std.err.type <- "expected"
-            return
-          }
+            obs.fish <- FALSE
+          }else
+            std.err <- sqrt(std.err)
           
-          std.err <- sqrt(std.err)
-        
-          if(corr) {
+          if(corr) 
+          {
             .mat <- diag(1/std.err, nrow = length(std.err))
             corr.mat <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
             diag(corr.mat) <- rep(1, length(std.err))
-          }
-          else {
+          }else 
             corr.mat <- NULL
-          }
         }
       }
     }
     
-    if (std.err.type == "expected"){
-      
+    if (std.err.type == "expected")
+    {
       shape <- opt$par[2]
       scale <- opt$par[1]
       a22 <- 2/((1+shape)*(1+2*shape))
@@ -157,28 +160,26 @@ gpdmle <- function(x, threshold, start, ...,
       a11 <- 1/((scale^2)*(1+2*shape))
       ##Expected Matix of Information of Fisher
       expFisher <- nat * matrix(c(a11,a12,a12,a22),nrow=2)
-
+      
       expFisher <- qr(expFisher, tol = tol)
       var.cov <- solve(expFisher, tol = tol)
       std.err <- sqrt(diag(var.cov))
       
-      if(corr) {
+      if(corr) 
+      {
         .mat <- diag(1/std.err, nrow = length(std.err))
         corr.mat <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
         diag(corr.mat) <- rep(1, length(std.err))
-      }
-      else
+      }else
         corr.mat <- NULL
     }
-
+    
     colnames(var.cov) <- nm
     rownames(var.cov) <- nm
     names(std.err) <- nm
-  }
-
-  else{
-    std.err <- std.err.type <- corr.mat <- NULL
-    var.cov <- NULL
+  }else #std.err.type == "none"
+  { 
+    std.err <- std.err.type <- corr.mat <- var.cov <- NULL
   }
   
   

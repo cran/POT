@@ -10,7 +10,7 @@ only.excess = TRUE, \dots)
 }
 \arguments{
   \item{data}{A matrix/data.frame with two columns. Columns names \bold{must
-      be} ``obs'' for observations and ``time'' for the associated date of
+be} \code{obs} for observations and \code{time} for the associated date of
     each observation.}
   \item{u}{Numeric. A value giving the threshold.}
   \item{tim.cond}{A time condition to ensure independence between

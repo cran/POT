@@ -3,13 +3,13 @@
 \title{Simulate an Markov Chain with a Fixed Extreme Value Dependence
   from a Fitted mcpot Object}
 \description{
-  Simulate a synthetic Markov chain from a fitted ``mcpot'' object.
+Simulate a synthetic Markov chain from a fitted \code{'mcpot'} object.
 }
 \usage{
 simmcpot(fitted, plot = TRUE, \dots)
 }
 \arguments{
-  \item{fitted}{An object of class ``mcpot''; most often the returned
+\item{fitted}{An object of class \code{'mcpot'}; most often the returned
     object of the \code{\link{fitmcgpd}} function.}
   \item{plot}{Logical. If \code{TRUE} (the default), the simulated
     Markov chain is plotted.}

@@ -25,6 +25,7 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
   if (all(c("observed", "none") != std.err.type))
     stop("``std.err.type'' must be one of ``observed'' or ``none''")
   
+  std.err.type <- match.arg(std.err.type, c("observed", "none"))
   model <- match.arg(model, c("log", "alog", "nlog", "anlog", "mix", "amix", "amixtest"))
   data <- as.double(data)
   threshold <- as.double(threshold)
@@ -217,39 +218,32 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
     if(var.cov$rank != ncol(var.cov$qr)){
       warning("observed information matrix is singular.")
       std.err.type <- "none"
-      return
-    }
-    
-    if (std.err.type == "observed"){
-      var.cov <- solve(var.cov, tol = tol)
-      
+      std.err <- corr.mat <- var.cov <- NULL
+    }else
+    {
+      var.cov <- structure(solve(var.cov, tol = tol), dimnames = list(nstart,nstart))
       std.err <- diag(var.cov)
+      names(std.err) <- nstart
       if(any(std.err <= 0)){
-        warning("observed information matrix is singular.")
+        warning("observed information matrix has non positive diagonal terms.")
         std.err.type <- "none"
-      }
-
-      else{
+        std.err <- corr.mat <- var.cov <- NULL
+      }else
+      {
         std.err <- sqrt(std.err)
-        
-        if(corr) {
+        if(corr) 
+        {
           .mat <- diag(1/std.err, nrow = length(std.err))
           corr.mat <- structure(.mat %*% var.cov %*% .mat,
                                 dimnames = list(nstart,nstart))
           diag(corr.mat) <- rep(1, length(std.err))
-        }
-        else {
+        }else 
+        {
           corr.mat <- NULL
         }
-        
-        colnames(var.cov) <- nstart
-        rownames(var.cov) <- nstart
-        names(std.err) <- nstart
       }
     }
-  }
-
-  if(std.err.type == "none")
+  }else # if(std.err.type == "none")
     std.err <- corr.mat <- var.cov <- NULL
 
   names.fixed <- names(fixed.param)

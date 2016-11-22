@@ -8,7 +8,7 @@
   procedure. 
 }
 \usage{
-fitbvgpd(data, threshold, model = "log", start, ..., cscale = FALSE,
+fitbvgpd(data, threshold, model = "log", start, \dots, cscale = FALSE,
 cshape = FALSE, std.err.type = "observed", corr = FALSE, warn.inf = TRUE,
 method = "BFGS")
 }
@@ -30,8 +30,8 @@ method = "BFGS")
   \item{cscale}{Logical. Should the two scale parameters be equal?}
   \item{cshape}{Logical. Should the two shape parameters be equal?}
   \item{std.err.type}{The type of the standard error. Currently, one
-    must specify \code{``observed''} for observed Fisher information
-    matrix or \code{``none''} for no computations of the standard
+    must specify \code{"observed"} for observed Fisher information
+    matrix or \code{"none"} for no computations of the standard
     errors.}
   \item{corr}{Logical. Should the correlation matrix be computed?}
   \item{warn.inf}{Logical. Should users be warned if likelihood is not

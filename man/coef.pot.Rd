@@ -1,9 +1,10 @@
-\name{summary.pot}
-\alias{summary.pot}
-\title{Compactly display the structure}
-\description{Compactly display the structure of an object of class \code{'pot'}}
+\name{coef.pot}
+\alias{coef.pot}
+\title{Extract model coefficients of a \code{'pot'} model}
+\description{
+\code{coef} extracts model coefficients of an object of class \code{'pot'}}
 \usage{
-\method{summary}{pot}(object, \dots)
+\method{coef}{pot}(object, \dots)
 }
 \arguments{
 \item{object}{An object of class \code{'pot'}. Most often, this is an
@@ -13,16 +14,16 @@
     function.}
 }
 \value{
-  Standard \code{summary} object: see \code{\link{summary}}.
+  Standard \code{coef} object: see \code{\link{coef}}.
 }
 \seealso{
- \code{\link{summary}} 
+ \code{\link{coef}} 
 }
 \examples{
 set.seed(123)
 x <- rgpd(500, 0, 1, -0.15)
 mle <- fitgpd(x, 0)
-summary(mle)
+coef(mle)
 }
 \author{Christophe Dutang}
 \keyword{models}

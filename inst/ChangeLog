@@ -1,88 +1,103 @@
+Version 1.1-6:
+  - Fix wrong usage of return in the following R files:
+./POT/R/bvpot-fitBvGPD.R : 254         return
+./POT/R/mcpot-fitMcGPD.R : 220         return
+./POT/R/util-GPD-mle.R : 117           return
+./POT/R/util-GPD-mle.R : 126             return
+./POT/R/util-GPD-mle.R : 134               return
+./POT/R/util-GPD-mple.R : 120           return
+./POT/R/util-GPD-mple.R : 130             return
+./POT/R/uvpot-fitPP.R : 107           return
+./POT/R/uvpot-fitPP.R : 117             return
+(thanks to Duncan Murdoch)
+  - Update/simplify man pages.
+  - Add a coef function for "pot" objects.
+ 
 Version 1.1-5:
-  - renames files in R/ directory.
-  - add a GPL banner on R/C files
+  - Rename files in R/ directory.
+  - Add a GPL banner on R/C files.
 
 Version 1.1-4:
   - Update for future CRAN release by Christophe Dutang.
-  - Fixe issues with S3 class and add defensive programming.
+  - Fix issues with S3 class and add defensive programming.
 
 Version 1.1-3:
   - Fix a problem detected by AddressSanitizer (thanks to Brian Ripley): 
 see https://r-forge.r-project.org/scm/viewvc.php/pkg/src/ts2tsd.c?root=pot&r1=354&r2=493
 
 Version 1.0-7:
-  - Update my address e.g. move to EPFL
-  - Add the point process fitting procedure
+  - Update my address e.g. move to EPFL.
+  - Add the point process fitting procedure.
 
 Version 1.0-6:
-  - Improve the package homepage
-  - Fix a bug in the pickdep function
+  - Improve the package homepage.
+  - Fix a bug in the pickdep function.
 
 Version 1.0-5:
   - Add a ``convassess'' function to assess for convergence of the
     fitted uvpot and bvpot objects.
   - Some minor changes for uvpot fitting process to increase
-    robustness
+    robustness.
   - Density plot can return histogram in addition.
   - Add a confint function to provide a generic access for (profile)
-    confidence interval computing
+    confidence interval computing.
 
 Version 1.0-4:
-  - Fix encodings with newer R version
-  - Link to the url at R-Forge in the Description file
-  - Add lots of new estimators for the univariate GPD
-  - Fix typo and update R vignette
-  - Convert R object to double before calling C code as it may fail 
+  - Fix encodings with newer R version.
+  - Link to the url at R-Forge in the Description file.
+  - Add lots of new estimators for the univariate GPD.
+  - Fix typo and update R vignette.
+  - Convert R object to double before calling C code as it may fail.
 
 Version 1.0-3:
   - Fix a huge gap within the diplot function. Thanks to Kallen,
     Maarten-Jan.
 
 Version 1.0-2:
-  - Add non conditional modeling
-  - Add tsdep.plot function
-  - Fix a bug in gpd.firl function
-  - Improve several functions
+  - Add non conditional modeling.
+  - Add tsdep.plot function.
+  - Fix a bug in gpd.firl function.
+  - Improve several functions.
 
 Version 1.0-1:
-  - Add tools to assess for asymptotic (in)dependence
+  - Add tools to assess for asymptotic (in)dependence.
 
 Version 1.0-0:
-  - The fitting codes for Markov chain model is considered stable
-  - Add lots of tools for these Markov chain models
+  - The fitting codes for Markov chain model is considered stable.
+  - Add lots of tools for these Markov chain models.
 
 Version 0.0-9:
-  - Change printing methods
+  - Change printing methods.
   - clust.R: the extremal index estimate was buggy !!!
-  - plot methods always returns invisibly the return level function
-  - Write a package vignette
+  - plot methods always returns invisibly the return level function.
+  - Write a package vignette.
 
 Version 0.0-8:
-  - Add a function ``fitbvgpd'' to fit bivariate POT
+  - Add a function ``fitbvgpd'' to fit bivariate POT.
   - Add a function ``fitmcgpd'' to fit all exceedances with a first
-    order Markov chain
-  - Implement methods for classes ``uvpot'', ``bvpot'' and ``mcpot''
-  - Update user's guide
+    order Markov chain.
+  - Implement methods for classes "uvpot", "bvpot"  and "mcpot".
+  - Update user's guide.
   - Add a function ``simmc'' to simulate first order Markov chains
     with a fixed extreme value dependence.
-  - Add a function for bivariate return level plot
-  - Add a the Ferro and Seger's estimator for the extremal index
+  - Add a function for bivariate return level plot.
+  - Add a the Ferro and Seger's estimator for the extremal index.
 
 Version 0.0-7:
-  - Add a function ``clust'' for identify clusters of extreme
+  - Add a function ``clust'' for identify clusters of extreme.
   - Add a function ``ts2tsd'' for a mobile average window in a time
-    serie
-  - Add a user's guide
-  - Some minor changes in functions mrlplot, lmomplot, diplot, tcplot
+    serie.
+  - Add a user's guide.
+  - Some minor changes in functions mrlplot, lmomplot, diplot, tcplot.
 
 Version 0.0-6:
-  - Fix a bug in ``gpdmle'' while passing to option obs.fish = FALSE
+  - Fix a bug in ``gpdmle'' while passing to option obs.fish = FALSE.
   - Add Medians estimator to fitgpd.
   - Add Pickands' estimators to fitgpd.
   - Add (M)inimum (D)ensity (P)ower (D)ivergence estimator
     to fitgpd.
   - Add details to ``rp2prob'' and ``prob2rp'' functions.
-  - Changing graphic display in ``plotgpd''
+  - Changing graphic display in ``plotgpd''.
   - Add warnings for profile confidence interval with
     varying threshold.
   - Passing automatically to ``expected'' information of
@@ -91,7 +106,7 @@ Version 0.0-6:
 
 Version 0.0-5:
   - Add functions ``rp2prob'' and ``prob2rp''.
-  - Allow varying threshold in ``fitgpd'' with method = 'mle'
+  - Allow varying threshold in ``fitgpd'' with method = 'mle'.
   - Return level confidence interval are now defined with
     probability of non exceedance instead of return periods.
 

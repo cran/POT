@@ -11,7 +11,7 @@ nb.fig < length(which) && dev.interactive(), \dots, col.ci = "grey",
 col.bound = "blue", lty.ci = 1, lty.bound = 1)
 }
 \arguments{
-  \item{data}{A matrix with 2 columns given the data.}
+  \item{data}{A matrix with 2 columns with the data.}
   \item{u.range}{Numeric vection of length 2 (may be missing): the range
     for the probabilities.}
   \item{n.u}{The number of probabilities to be considered}

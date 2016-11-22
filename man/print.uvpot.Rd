@@ -6,7 +6,7 @@
 \method{print}{uvpot}(x, digits = max(3, getOption("digits") - 3), \dots)
 }
 \arguments{
-  \item{x}{An object of class ``uvpot''. Most often, returns of the
+\item{x}{An object of class \code{'uvpot'}. Most often, returns of the
     \code{\link{fitgpd}} function.}
   \item{digits}{The number of digits to be printed.}
   \item{\dots}{Other options to be passed to the \code{\link{print}}

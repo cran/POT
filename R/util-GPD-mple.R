@@ -107,43 +107,54 @@ gpdmple <- function(x, threshold, start, ..., std.err.type =
   
   else opt$convergence <- "successful"
 
-  if (std.err.type != "none"){
-    
-    tol <- .Machine$double.eps^0.5
-    
-    if(std.err.type == "observed") {
-      
+  tol <- .Machine$double.eps^0.5
+  
+  if (std.err.type != "none")
+  {
+    if(std.err.type == "observed") 
+    {
       var.cov <- qr(opt$hessian, tol = tol)
-      if(var.cov$rank != ncol(var.cov$qr)){
+      if(var.cov$rank != ncol(var.cov$qr))
+      {
         warning("observed information matrix is singular; passing std.err.type to ``expected''")
+        std.err.type <- "expected"
         obs.fish <- FALSE
-        return
-      }
+      }else
+        obs.fish <- TRUE
       
-      if (std.err.type == "observed"){
-        var.cov <- solve(var.cov, tol = tol)
+      if (obs.fish)
+      {
+        var.cov <- try(solve(var.cov, tol = tol), silent = TRUE)
         
-        std.err <- diag(var.cov)
-        if(any(std.err <= 0)){
-          warning("observed information matrix is singular; passing std.err.type to ``expected''")
-          std.err.type <- "expected"
-          return
-        }
-        
-        std.err <- sqrt(std.err)
-        
-        if(corr) {
-          .mat <- diag(1/std.err, nrow = length(std.err))
-          corr.mat <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
-          diag(corr.mat) <- rep(1, length(std.err))
-        }
-        else {
-          corr.mat <- NULL
+        if(!is.matrix(var.cov))
+        {
+          warning("observed information matrix is singular; passing std.err.type to ''none''")
+          std.err.type <- "none"
+          std.err <- var.cov <- corr.mat <- NULL
+        }else
+        {
+          std.err <- diag(var.cov)
+          if(any(std.err <= 0))
+          {
+            warning("observed information matrix is singular; passing std.err.type to ``expected''")
+            std.err.type <- "expected"
+            obs.fish <- FALSE
+          }else
+            std.err <- sqrt(std.err)
+          
+          if(corr) 
+          {
+            .mat <- diag(1/std.err, nrow = length(std.err))
+            corr.mat <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
+            diag(corr.mat) <- rep(1, length(std.err))
+          }else 
+            corr.mat <- NULL
         }
       }
     }
     
-    if (std.err.type == "expected"){
+    if (std.err.type == "expected")
+    {
       
       shape <- opt$par[2]
       scale <- opt$par[1]
@@ -152,26 +163,25 @@ gpdmple <- function(x, threshold, start, ..., std.err.type =
       a11 <- 1/((scale^2)*(1+2*shape))
       ##Expected Matix of Information of Fisher
       expFisher <- nat * matrix(c(a11,a12,a12,a22),nrow=2)
-
+      
       expFisher <- qr(expFisher, tol = tol)
       var.cov <- solve(expFisher, tol = tol)
       std.err <- sqrt(diag(var.cov))
       
-      if(corr) {
+      if(corr) 
+      {
         .mat <- diag(1/std.err, nrow = length(std.err))
         corr.mat <- structure(.mat %*% var.cov %*% .mat, dimnames = list(nm,nm))
         diag(corr.mat) <- rep(1, length(std.err))
-      }
-      else
+      }else
         corr.mat <- NULL
     }
-
+    
     colnames(var.cov) <- nm
     rownames(var.cov) <- nm
     names(std.err) <- nm
-  }
-
-  else{
+  }else
+  {
     std.err <- std.err.type <- corr.mat <- NULL
     var.cov <- NULL
   }

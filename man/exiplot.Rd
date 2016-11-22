@@ -9,7 +9,7 @@ exiplot(data, u.range, tim.cond = 1, n.u = 50, xlab, ylab, \dots)
 }
 \arguments{
   \item{data}{A matrix/data.frame with two columns. Columns names \bold{must
-      be} ``obs'' for observations and ``time'' for the associated date of
+be} \code{obs} for observations and \code{time} for the associated date of
     each observation.}
   \item{u.range}{A numeric vector of length 2. Specify the range of
     threshold for which the Extremal Index is estimated.}
@@ -23,8 +23,8 @@ exiplot(data, u.range, tim.cond = 1, n.u = 50, xlab, ylab, \dots)
     function.} 
 }
 \value{
-  Returns invisibly a matrix with two columns. The first one ``thresh''
-  giving the threshold and the second one ``exi'' the related Extremal
+Returns invisibly a matrix with two columns. The first one \code{thresh}
+giving the threshold and the second one \code{exi} the related Extremal
   Index estimate.
 }
 

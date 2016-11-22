@@ -9,7 +9,7 @@
 dexi(x, n.sim = 1000, n.mc = length(x$data), plot = TRUE, \dots)
 }
 \arguments{
-  \item{x}{A object of class \code{"mcpot"} - most often the returned
+  \item{x}{A object of class \code{'mcpot'} - most often the returned
     object of the \code{\link{fitmcgpd}} function.}
   \item{n.sim}{The number of simulation of Markov chains.}
   \item{n.mc}{The length of the simulated Markov chains.}
@@ -32,7 +32,7 @@ dexi(x, n.sim = 1000, n.mc = length(x$data), plot = TRUE, \dots)
   \eqn{\lambda}{lambda} is the probability of exceedance of \eqn{u}{u},
   then by defining :
   
-  \deqn{\sigma_* = \xi * \frac{u}{\lambda^{-\xi} - 1}}{sigma_* = xi * u
+  \deqn{\sigma_* = \xi \times \frac{u}{\lambda^{-\xi} - 1}}{sigma_* = xi * u
     / (lambda^(-xi) - 1)}
 
   the realizations \eqn{y_i = qgpd(u_i, 0, \sigma_*, \xi)}{y_i =

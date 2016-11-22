@@ -9,8 +9,8 @@
 specdens(fitted, main, plot = TRUE, \dots)
 }
 \arguments{
-  \item{fitted}{An object of class \code{"bvpot"} or
-    \code{"mcpot"}. Most often, the return object of the
+  \item{fitted}{An object of class \code{'bvpot'} or
+    \code{'mcpot'}. Most often, the return object of the
     \code{\link{fitbvgpd}} or \code{\link{fitmcgpd}} function.}
   \item{main}{The title of the graphic window. May be missing.}
   \item{plot}{Logical. Should the spectral density be plotted? The
