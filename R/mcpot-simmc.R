@@ -64,18 +64,12 @@ simmc <- function(n, alpha, model = "log", asCoef, asCoef1,
 
   for (i in 2:n){
     evmc[c(i,i-1)] <-
-      switch(model, log = .C("rbvlog", nn, alpha, sim = evmc[c(i,i-1)],
-                      PACKAGE = "POT")$sim,
-             alog = .C("rbvalog", nn, alpha, asy, sim = evmc[c(i,i-1)],
-               PACKAGE = "POT")$sim,
-             nlog = .C("rbvnlog", nn, alpha, sim = evmc[c(i,i-1)],
-               PACKAGE = "POT")$sim,
-             anlog = .C("rbvanlog", nn, alpha, asy, sim = evmc[c(i,i-1)],
-               PACKAGE = "POT")$sim,
-             mix = .C("rbvmix", nn, alpha, sim = evmc[c(i,i-1)],
-               PACKAGE = "POT")$sim,
-             amix = .C("rbvamix", nn, alpha, asCoef, sim = evmc[c(i,i-1)],
-               PACKAGE = "POT")$sim)
+      switch(model, log = .C(POT_do_rbvlog, nn, alpha, sim = evmc[c(i,i-1)])$sim,
+             alog = .C(POT_do_rbvalog, nn, alpha, asy, sim = evmc[c(i,i-1)])$sim,
+             nlog = .C(POT_do_rbvnlog, nn, alpha, sim = evmc[c(i,i-1)])$sim,
+             anlog = .C(POT_do_rbvanlog, nn, alpha, asy, sim = evmc[c(i,i-1)])$sim,
+             mix = .C(POT_do_rbvmix, nn, alpha, sim = evmc[c(i,i-1)])$sim,
+             amix = .C(POT_do_rbvamix, nn, alpha, asCoef, sim = evmc[c(i,i-1)])$sim)
   }
 
   switch(margins, frechet = -1/log(evmc), uniform = evmc,

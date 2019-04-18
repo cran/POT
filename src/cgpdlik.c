@@ -21,7 +21,7 @@
 
 #include "header.h"
 
-void cgpdlik(double *data, int *n, int *nn, double *lambda, double *loc,
+void do_cgpdlik(double *data, int *n, int *nn, double *lambda, double *loc,
 	     double *scale, double *shape, double *dns){
   int i;
   double *dvec, eps;

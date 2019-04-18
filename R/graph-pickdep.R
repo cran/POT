@@ -43,7 +43,6 @@ pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
         w <- w[-idx]
         ans[-idx] <- ((1-w)^(1/alpha) + w^(1/alpha))^alpha
       }
-
       else
         ans <- ((1-w)^(1/alpha) + w^(1/alpha))^alpha
       
@@ -61,7 +60,6 @@ pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
         w <- w[-idx]
         ans[-idx] <- 1 - ((1-w)^(-alpha) + w^(-alpha))^(-1/alpha)
       }
-
       else
         ans <- 1 - ((1-w)^(-alpha) + w^(-alpha))^(-1/alpha)
       
@@ -82,7 +80,6 @@ pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
         ans[-idx] <- (1 - asCoef1)*(1-w) + (1 - asCoef2) * w +
           ( (asCoef1 * (1-w))^(1/alpha) + (asCoef2 * w)^(1/alpha) )^alpha
       }
-
       else
         ans <- (1 - asCoef1)*(1-w) + (1 - asCoef2) * w +
           ( (asCoef1 * (1-w))^(1/alpha) + (asCoef2 * w)^(1/alpha) )^alpha
@@ -104,7 +101,6 @@ pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
         ans[-idx] <- 1 - ( ((1-w)*asCoef1)^(-alpha) +
                           (w*asCoef2)^(-alpha) )^(-1/alpha)
       }
-
       else
         ans <- 1 - ( ((1-w)*asCoef1)^(-alpha) +
                     (w*asCoef2)^(-alpha) )^(-1/alpha)
@@ -123,7 +119,6 @@ pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
         w <- w[-idx]
         ans[-idx] <- 1 - w * (1-w) * alpha
       }
-
       else
         ans <- 1 - w * (1-w) * alpha
       
@@ -143,7 +138,6 @@ pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
         ans[-idx] <- 1 - (alpha + 2 * asCoef) * w +
           (alpha + 3 * asCoef)* w^2 - asCoef * w^3
       }
-
       else
         ans <-  1 - (alpha + 2 * asCoef) * w +
           (alpha + 3 * asCoef)* w^2 - asCoef * w^3

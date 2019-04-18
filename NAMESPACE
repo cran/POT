@@ -8,6 +8,12 @@ importFrom("stats", "AIC", "acf", "approx", "chisq.test", "confint",
              "quantile", "rexp", "runif", "sd", "uniroot", "var")
 importFrom("utils", "str")
   
+
+
+### entry points for C code
+useDynLib(POT, .registration = TRUE, .fixes="POT_")
+
+
 ### Export
 
 #graphics in graph-***.R
@@ -116,7 +122,3 @@ S3method(print, bvpot)
 S3method(plot, bvpot)
 S3method(anova, bvpot)
 
-
-
-### use dynamic library for C code
-useDynLib(POT, .registration = TRUE)

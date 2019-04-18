@@ -1,3 +1,7 @@
+Version 1.1-7:
+  - Fix a NOTE on registering native routines by 
+  registering C functions as POT_do_<func>
+  - Fix issues in specdens plot with failure (length > 1 in coercion to logical)
 Version 1.1-6:
   - Fix wrong usage of return in the following R files:
 ./POT/R/bvpot-fitBvGPD.R : 254         return

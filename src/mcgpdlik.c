@@ -21,7 +21,7 @@
 
 #include "header.h"
 
-void gpdmclog(double *data1, double *data2, double *data3, int *nj,
+void do_gpdmclog(double *data1, double *data2, double *data3, int *nj,
 	      int *nnj, int *nm, int *nnm, double *lambda, double *thresh,
 	      double *scale, double *shape, double *alpha, double *dns){
 
@@ -242,7 +242,7 @@ void gpdmclog(double *data1, double *data2, double *data3, int *nj,
 }
 
 
-void gpdmcalog(double *data1, double *data2, double *data3, int *nj,
+void do_gpdmcalog(double *data1, double *data2, double *data3, int *nj,
 	      int *nnj, int *nm, int *nnm, double *lambda, double *thresh,
 	       double *scale, double *shape, double *alpha, double *asCoef1,
 	       double *asCoef2, double *dns){
@@ -473,7 +473,7 @@ void gpdmcalog(double *data1, double *data2, double *data3, int *nj,
     *dns = *dns - (*nm - *nnm) * log(1 - *lambda);
 }
     
-void gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
+void do_gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
 	      int *nnj, int *nm, int *nnm, double *lambda, double *thresh,
 	      double *scale, double *shape, double *alpha, double *dns){
 
@@ -711,7 +711,7 @@ void gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
 }
 
 
-void gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
+void do_gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
 		int *nnj, int *nm, int *nnm, double *lambda, double *thresh,
 		double *scale, double *shape, double *alpha, double *asCoef1,
 		double *asCoef2, double *dns){
@@ -961,7 +961,7 @@ void gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
 
 
 
-void gpdmcmix(double *data1, double *data2, double *data3, int *nj,
+void do_gpdmcmix(double *data1, double *data2, double *data3, int *nj,
 	      int *nnj, int *nm, int *nnm, double *lambda, double *thresh,
 	      double *scale, double *shape, double *alpha, double *dns){
 
@@ -1190,7 +1190,7 @@ void gpdmcmix(double *data1, double *data2, double *data3, int *nj,
 }
 
 
-void gpdmcamixtest(double *data1, double *data2, double *data3, int *nj,
+void do_gpdmcamixtest(double *data1, double *data2, double *data3, int *nj,
 		   int *nnj, int *nm, int *nnm, double *lambda, double *thresh,
 		   double *scale, double *shape, double *alpha, double *asCoef,
 		   double *dns){
@@ -1430,7 +1430,7 @@ void gpdmcamixtest(double *data1, double *data2, double *data3, int *nj,
 }
 
 
-void gpdmcamix(double *data1, double *data2, double *data3, int *nj,
+void do_gpdmcamix(double *data1, double *data2, double *data3, int *nj,
 	       int *nnj, int *nm, int *nnm, double *lambda, double *thresh,
 	       double *scale, double *shape, double *alpha, double *asCoef,
 	       double *dns){

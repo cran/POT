@@ -145,9 +145,8 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
       if (cscale) scale2 <- scale1
       if (cshape) shape2 <- shape1
       
-      -.C("gpdbvlog", data1, data2, n, nn, pat1, pat2, threshold,
-          scale1, shape1, scale2, shape2, alpha, dns = double(1),
-          PACKAGE = "POT")$dns
+      -.C(POT_do_gpdbvlog, data1, data2, n, nn, pat1, pat2, threshold,
+          scale1, shape1, scale2, shape2, alpha, dns = double(1))$dns
     }
   if (model == "nlog")      
     nlbvpot <- function(scale1, shape1, scale2, shape2, alpha,
@@ -155,9 +154,8 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
       if (cscale) scale2 <- scale1
       if (cshape) shape2 <- shape1
       
-      -.C("gpdbvnlog", data1, data2, n, nn, pat1, pat2, threshold,
-          scale1, shape1, scale2, shape2, alpha, dns = double(1),
-          PACKAGE = "POT")$dns
+      -.C(POT_do_gpdbvnlog, data1, data2, n, nn, pat1, pat2, threshold,
+          scale1, shape1, scale2, shape2, alpha, dns = double(1))$dns
     }
   
   if (model == "alog")
@@ -166,9 +164,9 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
       if (cscale) scale2 <- scale1
       if (cshape) shape2 <- shape1
       
-      -.C("gpdbvalog", data1, data2, n, nn, pat1, pat2, threshold,
+      -.C(POT_do_gpdbvalog, data1, data2, n, nn, pat1, pat2, threshold,
           scale1, shape1, scale2, shape2, alpha, asCoef1,
-          asCoef2, dns = double(1), PACKAGE = "POT")$dns
+          asCoef2, dns = double(1))$dns
     }
   
   if (model == "anlog")
@@ -177,9 +175,9 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
       if (cscale) scale2 <- scale1
       if (cshape) shape2 <- shape1
     
-      -.C("gpdbvanlog", data1, data2, n, nn, pat1, pat2, threshold,
+      -.C(POT_do_gpdbvanlog, data1, data2, n, nn, pat1, pat2, threshold,
           scale1, shape1, scale2, shape2, alpha, asCoef1,
-          asCoef2, dns = double(1), PACKAGE = "POT")$dns
+          asCoef2, dns = double(1))$dns
     }
    
   if (model == "mix")
@@ -188,9 +186,9 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
       if (cscale) scale2 <- scale1
       if (cshape) shape2 <- shape1
       
-      -.C("gpdbvmix", data1, data2, n, nn, pat1, pat2, threshold,
+      -.C(POT_do_gpdbvmix, data1, data2, n, nn, pat1, pat2, threshold,
           scale1, shape1, scale2, shape2, alpha,
-          dns = double(1), PACKAGE = "POT")$dns
+          dns = double(1))$dns
     }
   
   if (model == "amix")   
@@ -199,9 +197,9 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
        if (cscale) scale2 <- scale1
        if (cshape) shape2 <- shape1
     
-      -.C("gpdbvamix", data1, data2, n, nn, pat1, pat2, threshold,
+      -.C(POT_do_gpdbvamix, data1, data2, n, nn, pat1, pat2, threshold,
           scale1, shape1, scale2, shape2, alpha, asCoef,
-          dns = double(1), PACKAGE = "POT")$dns
+          dns = double(1))$dns
      }
   
   nstart <- names(start)

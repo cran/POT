@@ -1,5 +1,5 @@
 #############################################################################
-#   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+#   Copyright (c) 2019 Mathieu Ribatet, Christophe Dutang                                                                                                  
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -31,11 +31,11 @@ specdens <- function(fitted, main, plot = TRUE, ...){
   if (model == "log"){
     ##Logistic case:
     h <- function(q){
-      if ( (q<=0) || (q>1))
-        return(NaN)
-      else
-        (1/alpha - 1) * (q * (1-q))^(-(1+1/alpha)) *
-          (q^(-1/alpha) + (1-q)^(-1/alpha))^(alpha-2)
+      res <- rep(NaN, length(q))
+      q01 <- q[q > 0 & q <= 1]
+      res[q > 0 & q <= 1] <- (1/alpha - 1) * (q01 * (1-q01))^(-(1+1/alpha)) *
+        (q01^(-1/alpha) + (1-q01)^(-1/alpha))^(alpha-2)
+      res
     }
   }
 
@@ -44,24 +44,24 @@ specdens <- function(fitted, main, plot = TRUE, ...){
     asCoef1 <- fitted$param["asCoef1"]
     asCoef2 <- fitted$param["asCoef2"]
     h <- function(q){
-      if ( (q<=0) || (q>1))
-        return(NaN)
-      else
-        (1/alpha - 1) * (asCoef1 * asCoef2)^(1/alpha) *
-          (q * (1-q))^(-(1+1/alpha)) *
-            ((asCoef1/q)^(1/alpha) +
-             (asCoef2/(1-q))^(1/alpha))^(alpha-2)
+      res <- rep(NaN, length(q))
+      q01 <- q[q > 0 & q <= 1]
+      res[q > 0 & q <= 1] <- (1/alpha - 1) * (asCoef1 * asCoef2)^(1/alpha) *
+        (q01 * (1-q01))^(-(1+1/alpha)) *
+        ((asCoef1/q01)^(1/alpha) +
+           (asCoef2/(1-q01))^(1/alpha))^(alpha-2)
+      res
     }
   } 
 
   if (model == "nlog"){
     ##Negative Logistic case:
     h <- function(q){
-      if ( (q<=0) || (q>1))
-        return(NaN)
-      else
-        (1 + alpha) * (q * (1-q))^(alpha-1) *
-          (q^alpha + (1-q)^alpha)^(-1/alpha-2)
+      res <- rep(NaN, length(q))
+      q01 <- q[q > 0 & q <= 1]
+      res[q > 0 & q <= 1] <- (1 + alpha) * (q01 * (1-q01))^(alpha-1) *
+        (q01^alpha + (1-q01)^alpha)^(-1/alpha-2)
+      res
     }
   }
 
@@ -70,23 +70,22 @@ specdens <- function(fitted, main, plot = TRUE, ...){
     asCoef1 <- fitted$param["asCoef1"]
     asCoef2 <- fitted$param["asCoef2"]
     h <- function(q){
-      if ( (q<=0) || (q>1))
-        return(NaN)
-      else
-        (1 + alpha) * (asCoef1 * asCoef2)^(-alpha) *
-          (q * (1-q))^(alpha-1) *
-            ((q/asCoef1)^alpha +
-             ((1-q)/asCoef2)^alpha)^(-1/alpha-2)
+      res <- rep(NaN, length(q))
+      q01 <- q[q > 0 & q <= 1]
+      res[q > 0 & q <= 1] <- (1 + alpha) * (asCoef1 * asCoef2)^(-alpha) *
+        (q01 * (1-q01))^(alpha-1) *
+        ((q01/asCoef1)^alpha +
+           ((1-q01)/asCoef2)^alpha)^(-1/alpha-2)
+      res
     }
   }
 
   if (model == "mix"){
     ##Mixed case:
     h <- function(q){
-      if ( (q<=0) || (q>1))
-        return(NaN)
-      else
-        2 * alpha
+      res <- rep(NaN, length(q))
+      res[q > 0 & q <= 1] <- 2 * alpha
+      res
       }
   }
 
@@ -94,10 +93,10 @@ specdens <- function(fitted, main, plot = TRUE, ...){
     ##Mixed case:
     asCoef <- fitted$param["asCoef"]
     h <- function(q){
-      if ( (q<=0) || (q>1))
-        return(NaN)
-      else
-        2 * alpha + 6 * asCoef * (1-q)
+      res <- rep(NaN, length(q))
+      q01 <- q[q > 0 & q <= 1]
+      res[q > 0 & q <= 1] <- 2 * alpha + 6 * asCoef * (1-q01)
+      res
     }
   }
 

@@ -26,7 +26,7 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
     stop("``std.err.type'' must be one of ``observed'' or ``none''")
   
   std.err.type <- match.arg(std.err.type, c("observed", "none"))
-  model <- match.arg(model, c("log", "alog", "nlog", "anlog", "mix", "amix", "amixtest"))
+  model <- match.arg(model, c("log", "alog", "nlog", "anlog", "mix", "amix"))
   data <- as.double(data)
   threshold <- as.double(threshold)
   
@@ -78,60 +78,61 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
   ##specified model
   if (model == "log"){
     nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
-    -.C("gpdmclog", data1, data2, exceed3, as.integer(n-1),
+    -.C(POT_do_gpdmclog, data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha,
-        dns = double(1), PACKAGE = "POT")$dns
+        dns = double(1))$dns
   }
   
   if (model == "alog"){
     nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
-    -.C("gpdmcalog", data1, data2, exceed3, as.integer(n-1),
+    -.C(POT_do_gpdmcalog, data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha, asCoef1,
-        asCoef2, dns = double(1), PACKAGE = "POT")$dns
+        asCoef2, dns = double(1))$dns
     #param <- c(param, "asCoef1", "asCoef2")
   }
   
   if (model == "nlog"){
    nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
-    -.C("gpdmcnlog", data1, data2, exceed3, as.integer(n-1),
+    -.C(POT_do_gpdmcnlog, data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha,
-        dns = double(1), PACKAGE = "POT")$dns
+        dns = double(1))$dns
   }
   if (model == "anlog"){
     nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
-    -.C("gpdmcanlog", data1, data2, exceed3, as.integer(n-1),
+    -.C(POT_do_gpdmcanlog, data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha, asCoef1,
-        asCoef2, dns = double(1), PACKAGE = "POT")$dns
+        asCoef2, dns = double(1))$dns
     #param <- c(param, "asCoef1", "asCoef2")
   }
   if (model == "mix"){
     nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
-    -.C("gpdmcmix", data1, data2, exceed3, as.integer(n-1),
+    -.C(POT_do_gpdmcmix, data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha,
-        dns = double(1), PACKAGE = "POT")$dns
+        dns = double(1))$dns
   }
   if (model == "amix"){
     nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
-    -.C("gpdmcamix", data1, data2, exceed3, as.integer(n-1),
+    -.C(POT_do_gpdmcamix, data1, data2, exceed3, as.integer(n-1),
         as.integer(nn), as.integer(n-2), as.integer(nat3),
         pat3, threshold, scale, shape, alpha, asCoef,
-        dns = double(1), PACKAGE = "POT")$dns
+        dns = double(1))$dns
     #param <- c(param, "asCoef")
   }    
-  if (model == "amixtest"){
-    nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
-    -.C("gpdmcamixtest", data1, data2, exceed3, as.integer(n-1),
-        as.integer(nn), as.integer(n-2), as.integer(nat3),
-        pat3, threshold, scale, shape, alpha, asCoef,
-        dns = double(1), PACKAGE = "POT")$dns
-    #param <- c(param, "asCoef")
-    model <- "amix"
-  }    
+  # never defined by M. Ribatet in C code
+  # if (model == "amixtest"){
+  #   nlpot <- function(scale, shape, alpha, asCoef1, asCoef2, asCoef)
+  #   -.C(POT_do_gpdmcamixtest, data1, data2, exceed3, as.integer(n-1),
+  #       as.integer(nn), as.integer(n-2), as.integer(nat3),
+  #       pat3, threshold, scale, shape, alpha, asCoef,
+  #       dns = double(1))$dns
+  #   #param <- c(param, "asCoef")
+  #   model <- "amix"
+  # }    
 
   ##Creating suited starting values according to the chosen
   ##model (if needed) that is MLE estimates on marginal data

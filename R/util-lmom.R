@@ -35,9 +35,8 @@ samlmu <- function (x, nmom = 4, sort.data = TRUE)
   if (sort.data == TRUE) xok <- sort(xok)
   nmom.actual <- min(nmom, n)
   
-  lmom <- .C("samlmu", as.double(xok), as.integer(nmom.actual),
-             as.integer(n), lmom = double(nmom.actual),
-             PACKAGE = "POT")$lmom
+  lmom <- .C(POT_do_samlmu, as.double(xok), as.integer(nmom.actual),
+             as.integer(n), lmom = double(nmom.actual))$lmom
   names(lmom) <- rnames
   return(lmom)
 }

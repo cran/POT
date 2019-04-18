@@ -21,7 +21,7 @@
 
 #include "header.h"
 
-void ts2tsd(double *time, double *obs, double *start,
+void do_ts2tsd(double *time, double *obs, double *start,
             double *end, double *obsIntStart, double *obsIntEnd,
             int *n, double *ans){
   //time       : a vector for the time occurence

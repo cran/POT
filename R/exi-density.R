@@ -51,11 +51,11 @@ dexi <- function(x, n.sim = 1000, n.mc = length(x$data),
   mc <- rep(0, n.mc)
   
   for (i in 1:n.sim){
-    mc <- do.call("simmc", param)
+    mc <- do.call("simmc", param) #see mcpot-simmc.R
     mc <- qgpd(mc, 0, scale.new, shape)
 
     while(sum(mc > thresh) < 2){
-      mc <- do.call("simmc", param)
+      mc <- do.call("simmc", param) #see mcpot-simmc.R
       mc <- qgpd(mc, 0, scale.new, shape)
     }
     

@@ -37,9 +37,11 @@ gpdmle <- function(x, threshold, start, ...,
     stop("``std.err.type'' must be one of 'observed', 'expected' or 'none'")
   
   std.err.type <- match.arg(std.err.type, c("observed", "none", "expected"))
+  
+
   nlpot <- function(scale, shape) { 
-    -.C("gpdlik", exceed, nat, threshold, scale,
-        shape, dns = double(1), PACKAGE = "POT")$dns
+    -.C(POT_do_gpdlik, exceed, nat, threshold, scale,
+        shape, dns = double(1))$dns
   }
   
   nn <- length(x)

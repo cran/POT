@@ -27,8 +27,8 @@ fitpp <- function(data, threshold, noy = length(data) / 365.25, start, ...,
   
   std.err.type <- match.arg(std.err.type, c("observed", "none"))
   nlpp <- function(loc, scale, shape) { 
-    -.C("pplik", exceed, nat, loc, scale, shape,
-        threshold, noy, dns = double(1), PACKAGE = "POT")$dns
+    -.C(POT_do_pplik, exceed, nat, loc, scale, shape,
+        threshold, noy, dns = double(1))$dns
   }
 
   noy <- as.double(noy)

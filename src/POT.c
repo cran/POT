@@ -21,7 +21,7 @@
 
 #include "header.h"
 
-void gpdlik(double *data, int *n, double *loc, double *scale,
+void do_gpdlik(double *data, int *n, double *loc, double *scale,
 	    double *shape, double *dns)
 {
   int i;
@@ -58,7 +58,7 @@ void gpdlik(double *data, int *n, double *loc, double *scale,
     *dns = *dns + dvec[i];
 }
 
-void pplik(double *data, int *n, double *loc, double *scale,
+void do_pplik(double *data, int *n, double *loc, double *scale,
 	   double *shape, double *thresh, double *noy, double *dns)
 {
   int i;
@@ -116,7 +116,7 @@ void pplik(double *data, int *n, double *loc, double *scale,
 
 }
 
-void samlmu(double *x, int *nmom, int *n, double *lmom){
+void do_samlmu(double *x, int *nmom, int *n, double *lmom){
 
   int i, j, *temp;
   double *p1, *p, *p2;

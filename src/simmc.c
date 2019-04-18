@@ -22,7 +22,7 @@
 #include "header.h"
 
 /* produces standard Frechet margins */
-void rbvlog_shi(int *n, double *alpha, double *sim)
+void do_rbvlog_shi(int *n, double *alpha, double *sim)
 {
   double u,z;
   int i;
@@ -40,7 +40,7 @@ void rbvlog_shi(int *n, double *alpha, double *sim)
 }
 
 /* produces standard Frechet margins */
-void rbvalog_shi(int *n, double *alpha, double *asy, double *sim)
+void do_rbvalog_shi(int *n, double *alpha, double *asy, double *sim)
 {
   double v1_1,v2_2,v1_12,v2_12,u,z;
   int i;
@@ -67,7 +67,7 @@ void rbvalog_shi(int *n, double *alpha, double *asy, double *sim)
 }
 
 /* produces uniform margins; needed for simmc */
-void rbvlog(int *n, double *dep, double *sim)
+void do_rbvlog(int *n, double *dep, double *sim)
 {
   double delta,eps,llim,midpt,ulim,ilen,lval,midval,uval;
   int i,j;
@@ -104,7 +104,7 @@ void rbvlog(int *n, double *dep, double *sim)
 }
 
 /* produces uniform margins; needed for simmc */
-void rbvalog(int *n, double *dep, double *asy, double *sim)
+void do_rbvalog(int *n, double *dep, double *asy, double *sim)
 {
   double delta,eps,llim,midpt,ulim,ilen,lval,midval,uval;
   int i,j;
@@ -141,7 +141,7 @@ void rbvalog(int *n, double *dep, double *asy, double *sim)
 }
 
 /* produces uniform margins */
-void rbvnlog(int *n, double *dep, double *sim){
+void do_rbvnlog(int *n, double *dep, double *sim){
 
   double delta,eps,llim,midpt,ulim,ilen,lval,midval,uval;
   int i,j;
@@ -178,7 +178,7 @@ void rbvnlog(int *n, double *dep, double *sim){
 }
 
 /* produces uniform margins */
-void rbvanlog(int *n, double *dep, double *asy, double *sim)
+void do_rbvanlog(int *n, double *dep, double *asy, double *sim)
 {
   double delta,eps,llim,midpt,ulim,ilen,lval,midval,uval;
   int i,j;
@@ -217,7 +217,7 @@ void rbvanlog(int *n, double *dep, double *asy, double *sim)
 
 
 /* produces uniform margins */
-void rbvmix(int *n, double *alpha, double *sim)
+void do_rbvmix(int *n, double *alpha, double *sim)
 {
   double delta,eps,llim,midpt,ulim,ilen,lval,midval,uval;
   int i,j;
@@ -253,7 +253,7 @@ void rbvmix(int *n, double *alpha, double *sim)
   }
 }
 /* produces uniform margins */
-void rbvamix(int *n, double *alpha, double *beta, double *sim)
+void do_rbvamix(int *n, double *alpha, double *beta, double *sim)
 {
   double delta,eps,llim,midpt,ulim,ilen,lval,midval,uval;
   int i,j;

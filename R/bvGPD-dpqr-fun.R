@@ -76,8 +76,8 @@ rbvlog <- function(n, alpha, mar1 = c(0,1,0), mar2 = mar1){
   if(length(alpha) != 1 || mode(alpha) != "numeric" || alpha <= 0 ||
      alpha > 1) stop("invalid argument for `alpha'")
   
-  sim <- .C("rbvlog_shi", as.integer(n), as.double(alpha),
-            sim = double(2*n), PACKAGE = "POT")$sim
+  sim <- .C(POT_do_rbvlog_shi, as.integer(n), as.double(alpha),
+            sim = double(2*n))$sim
   sim <- matrix(sim, nrow = n, ncol = 2, byrow = TRUE)
 
   ##sim has unit Frechet margins, thus
@@ -103,9 +103,8 @@ rbvalog <- function(n, alpha, asCoef1, asCoef2, mar1 = c(0,1,0),
     alpha <- 1
   }
   
-  sim <- .C("rbvalog_shi", as.integer(n), as.double(alpha),
-            as.double(asy), sim = double(2*n),
-            PACKAGE = "POT")$sim
+  sim <- .C(POT_do_rbvalog_shi, as.integer(n), as.double(alpha),
+            as.double(asy), sim = double(2*n))$sim
   sim <- matrix(sim, nrow = n, ncol = 2, byrow = TRUE)
 
   ##sim has unit Frechet margins, thus
@@ -119,8 +118,8 @@ rbvnlog <- function(n, alpha, mar1 = c(0,1,0), mar2 = mar1){
   if(length(alpha) != 1 || mode(alpha) != "numeric" || alpha <= 0)
     stop("invalid argument for `alpha'")
   
-  sim <- .C("rbvnlog", as.integer(n), as.double(alpha),
-            sim = runif(2*n), PACKAGE = "POT")$sim
+  sim <- .C(POT_do_rbvnlog, as.integer(n), as.double(alpha),
+            sim = runif(2*n))$sim
   sim <- matrix(sim, nrow = n, ncol = 2, byrow = TRUE)
 
   ##sim has uniform(0,1) margins, thus convert them to unit
@@ -139,8 +138,8 @@ rbvanlog <- function(n, alpha, asCoef1, asCoef2, mar1 = c(0,1,0),
   if(length(alpha) != 1 || mode(alpha) != "numeric" || alpha <= 0)
     stop("invalid argument for `alpha'")
   
-  sim <- .C("rbvanlog", as.integer(n), as.double(alpha),
-            as.double(asy), sim = runif(2*n), PACKAGE = "POT")$sim
+  sim <- .C(POT_do_rbvanlog, as.integer(n), as.double(alpha),
+            as.double(asy), sim = runif(2*n))$sim
   sim <- matrix(sim, nrow = n, ncol = 2, byrow = TRUE)
 
   ##sim has uniform(0,1) margins, thus convert them to unit
@@ -158,8 +157,8 @@ rbvmix <- function(n, alpha, mar1 = c(0,1,0), mar2 = mar1){
   if (alpha < 0)
     stop("``alpha'' must be non-negative")
 
-  sim <- .C("rbvmix", as.integer(n), as.double(alpha),
-            sim = runif(2*n), PACKAGE = "POT")$sim
+  sim <- .C(POT_do_rbvmix, as.integer(n), as.double(alpha),
+            sim = runif(2*n))$sim
   sim <- matrix(sim, nrow = n, ncol = 2, byrow = TRUE)
 
   ##sim has uniform(0,1) margins, thus convert them to unit
@@ -188,9 +187,8 @@ rbvamix <- function(n, alpha, asCoef, mar1 = c(0,1,0),
   if((alpha + 3*asCoef) < 0)
     stop("`alpha' + `3*asCoef' must be non-negative")
   
-  sim <- .C("rbvamix", as.integer(n), as.double(alpha),
-            as.double(asCoef), sim = runif(2*n),
-            PACKAGE = "POT")$sim
+  sim <- .C(POT_do_rbvamix, as.integer(n), as.double(alpha),
+            as.double(asCoef), sim = runif(2*n))$sim
   sim <- matrix(sim, nrow = n, ncol = 2, byrow = TRUE)
 
   ##sim has uniform(0,1) margins, thus convert them to unit

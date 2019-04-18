@@ -21,7 +21,7 @@
 
 #include "header.h"
 
-void gpdbvlog(double *data1, double *data2, int *n, int *nn, double *lambda1,
+void do_gpdbvlog(double *data1, double *data2, int *n, int *nn, double *lambda1,
 	      double *lambda2, double *thresh, double *scale1,
 	      double *shape1, double *scale2, double *shape2,
 	      double *alpha, double *dns){
@@ -214,7 +214,7 @@ void gpdbvlog(double *data1, double *data2, int *n, int *nn, double *lambda1,
   }
 }
     
-void gpdbvalog(double *data1, double *data2, int *n, int *nn,
+void do_gpdbvalog(double *data1, double *data2, int *n, int *nn,
 	       double *lambda1, double *lambda2, double *thresh,
 	       double *scale1, double *shape1, double *scale2,
 	       double *shape2, double *alpha, double *asCoef1,
@@ -420,7 +420,7 @@ void gpdbvalog(double *data1, double *data2, int *n, int *nn,
 
 }
     
-void gpdbvnlog(double *data1, double *data2, int *n, int *nn,
+void do_gpdbvnlog(double *data1, double *data2, int *n, int *nn,
 	       double *lambda1, double *lambda2, double *thresh,
 	       double *scale1, double *shape1, double *scale2,
 	       double *shape2, double *alpha, double *dns){
@@ -617,7 +617,7 @@ void gpdbvnlog(double *data1, double *data2, int *n, int *nn,
   }
 }
 
-void gpdbvanlog(double *data1, double *data2, int *n, int *nn,
+void do_gpdbvanlog(double *data1, double *data2, int *n, int *nn,
 		double *lambda1, double *lambda2, double *thresh,
 		double *scale1, double *shape1, double *scale2,
 		double *shape2, double *alpha, double *asCoef1,
@@ -826,7 +826,7 @@ void gpdbvanlog(double *data1, double *data2, int *n, int *nn,
   }
 }
 
-void gpdbvmix(double *data1, double *data2, int *n, int *nn,
+void do_gpdbvmix(double *data1, double *data2, int *n, int *nn,
 	      double *lambda1, double *lambda2, double *thresh,
 	      double *scale1, double *shape1, double *scale2,
 	      double *shape2, double *alpha, double *dns){
@@ -1016,7 +1016,7 @@ void gpdbvmix(double *data1, double *data2, int *n, int *nn,
   }
 }
 
-void gpdbvamix(double *data1, double *data2, int *n, int *nn,
+void do_gpdbvamix(double *data1, double *data2, int *n, int *nn,
 	       double *lambda1, double *lambda2, double *thresh,
 	       double *scale1, double *shape1, double *scale2,
 	       double *shape2, double *alpha, double *asCoef,

@@ -21,7 +21,7 @@
 
 # include "header.h"
 
-void clust(int *n, double *obs, double *tim, double *cond,
+void do_clust(int *n, double *obs, double *tim, double *cond,
 	   double *thresh, double *clust){
 
   int i, idx, idxMax;

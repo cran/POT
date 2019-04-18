@@ -53,7 +53,7 @@ lmomplot <- function(data, u.range, nt = max(50, length(data)),
   point <- NULL
   for ( u in thresh){
 
-    lmoments34 <- samlmu(data[data > u ], sort.data = FALSE)[3:4]
+    lmoments34 <- samlmu(data[data > u ], sort.data = FALSE)[3:4] 
     point <-  cbind(point,lmoments34)
 
   }
