@@ -5,11 +5,11 @@
   Plot return levels for a fitted bivariate extreme value distribution.
 }
 \usage{
-\method{retlev}{bvpot}(fitted, p = seq(0.75,0.95,0.05), main, n = 5000,
+\method{retlev}{bvpot}(object, p = seq(0.75,0.95,0.05), main, n = 5000,
 only.excess = FALSE, \dots)
 }
 \arguments{
-  \item{fitted}{An object of class \code{"bvpot"}. Most often, the
+  \item{object}{An object of class \code{"bvpot"}. Most often, the
     return object of the \code{\link{fitbvgpd}} function.}
   \item{p}{A vector of probabilities for which return levels must be
     drawn.}

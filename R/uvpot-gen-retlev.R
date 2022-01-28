@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+#   Copyright (c) 2014 Mathieu Ribatet              
+#   Copyright (c) 2022 Christophe Dutang => replace fitted to object 
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -20,27 +21,27 @@
 
 ## This file contains several functions to plot Peaks Over a Threshold.
 
-retlev.uvpot <- function(fitted, npy, main, xlab,
+retlev.uvpot <- function(object, npy, main, xlab,
                          ylab, xlimsup, ci = TRUE, points = TRUE,
                          ...)
 {
   ## Plot the return level plot of a POT model fitted
-  ## Input : ``fitted'' is a POT fitted model, result of function
+  ## Input : ``object'' is a POT fitted model, result of function
   ##         ``fitgpd'' or ``fitpp''
   ##         npy is the mean number of events per block -generally
   ##         per year- or equivalently the mean -intensity- of the
   ##         Poisson processus.
-  if (!inherits(fitted, "uvpot"))
+  if (!inherits(object, "uvpot"))
     stop("Use only with 'uvpot' objects")
-  if (fitted$var.thresh)
+  if (object$var.thresh)
     stop("Return Level plot is available only for constant threshold !")
   
-  data <- fitted$exceed
-  loc <- fitted$threshold[1]
-  scale <- fitted$param["scale"]
-  shape <- fitted$param["shape"]
+  data <- object$exceed
+  loc <- object$threshold[1]
+  scale <- object$param["scale"]
+  shape <- object$param["shape"]
   
-  n <- fitted$nat
+  n <- object$nat
   
   pot.fun <- function(T){
     p <- rp2prob(T, npy)[,"prob"]
@@ -49,8 +50,8 @@ retlev.uvpot <- function(fitted, npy, main, xlab,
   
   eps <- 10^(-3)
   
-  if (!is.null(fitted$noy))
-    npy <- n / fitted$noy
+  if (!is.null(object$noy))
+    npy <- n / object$noy
   else if (missing(npy)){
     warning("Argument ``npy'' is missing. Setting it to 1.")
     npy <- 1

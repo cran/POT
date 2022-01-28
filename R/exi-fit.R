@@ -49,11 +49,11 @@ fitexi <- function(data, threshold){
     }
   }
     
-  C <- floor(exi * nat) + 1
+  myC <- floor(exi * nat) + 1
   sortInterTim <- sort(interTim, decreasing = TRUE)
 
-  if (C <= length(interTim))
-    TC <- sortInterTim[C]
+  if (myC <= length(interTim))
+    TC <- sortInterTim[myC]
 
   else
     TC <- max(interTim)

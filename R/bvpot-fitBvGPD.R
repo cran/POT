@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+#   Copyright (c) 2014 Mathieu Ribatet   
+#   Copyright (c) 2022 Christophe Dutang => add names
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -73,7 +74,11 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
   data2 <- data2[idx]
   nn <- sum(idx)
   nat <- c(nat, nn)
-
+  names(nat) <- c("Exceedance nb marg 1", "Exceedance nb marg 2",
+                  "Exceedance nb both marg", "Exceedance nb any marg")
+  names(pat) <- c("Exceedance prop marg 1", "Exceedance prop marg 2",
+                  "Exceedance prop both marg")
+  
   param <- c("scale1", "shape1")
 
   if(!cscale)
@@ -242,7 +247,7 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
   
   else opt$convergence <- "successful"
 
-  tol <- .Machine$double.eps^0.5
+  tol <- sqrt(.Machine$double.eps)
 
   if(std.err.type == "observed") {
     
@@ -281,15 +286,15 @@ fitbvgpd <- function (data, threshold, model = "log", start, ...,
   
   param <- c(opt$par, unlist(fixed.param))
   
-  fitted <- list(fitted.values = opt$par, std.err = std.err, var.cov = var.cov,
+  fittedres <- list(fitted.values = opt$par, std.err = std.err, var.cov = var.cov,
                  fixed = unlist(fixed.param), param = param, deviance = 2*opt$value,
                  corr = corr.mat, convergence = opt$convergence, counts = opt$counts,
                  message = opt$message, threshold = threshold, nat = nat, pat = pat,
                  data = data, exceed1 = exceed1, exceed2 = exceed2, call = call,
                  est = "MLE", model = model, logLik = -opt$value, opt.value = -opt$value)
 
-  chi <- 2 * (1 - pickdep(fitted, plot = FALSE)(0.5))
-  fitted <- c(fitted, list(chi = chi))
-  class(fitted) <- c("bvpot", "pot")
-  return(fitted)
+  chi <- 2 * (1 - pickdep(fittedres, plot = FALSE)(0.5))
+  fittedres <- c(fittedres, list(chi = chi))
+  class(fittedres) <- c("bvpot", "pot")
+  return(fittedres)
 }

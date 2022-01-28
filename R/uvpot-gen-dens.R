@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+#   Copyright (c) 2014 Mathieu Ribatet         
+#   Copyright (c) 2022 Christophe Dutang => replace fitted to object
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -22,26 +23,26 @@
 
 
 
-dens.uvpot <- function(fitted, main, xlab, ylab,
+dens.uvpot <- function(object, main, xlab, ylab,
                        dens.adj = 1, kern.lty = 2,
                        rug = TRUE, plot.kernel = TRUE,
                        plot.hist = TRUE, hist.col = NULL,
                        ...){
 
-  if(!inherits(fitted, "uvpot"))
+  if(!inherits(object, "uvpot"))
     stop("Use only with 'uvpot' objects")
-  if (fitted$var.thresh)
+  if (object$var.thresh)
     stop("Return Level plot is available only for constant threshold !")
   
-  data <- fitted$exceed
-  loc <- fitted$threshold[1]
+  data <- object$exceed
+  loc <- object$threshold[1]
 
   if (length(unique(loc)) != 1)
       stop("Density plot not avalaible for varying threshold...")
 
-  scale <- fitted$param["scale"]
-  shape <- fitted$param["shape"]
-  n <- fitted$nat
+  scale <- object$param["scale"]
+  shape <- object$param["shape"]
+  n <- object$nat
 
   dens <- function(x) dgpd(x, loc, scale, shape)
   eps <- 10^(-5)

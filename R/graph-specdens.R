@@ -1,5 +1,6 @@
 #############################################################################
 #   Copyright (c) 2019 Mathieu Ribatet, Christophe Dutang                                                                                                  
+#   Copyright (c) 2022 Christophe Dutang => replace fitted to object
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -20,13 +21,13 @@
 
 ##A function to compute spectral densities for each dependance
 ##models
-specdens <- function(fitted, main, plot = TRUE, ...){
+specdens <- function(object, main, plot = TRUE, ...){
 
-  if (!inherits(fitted, c("bvpot", "mcpot")))
+  if (!inherits(object, c("bvpot", "mcpot")))
     stop("Use only with 'bvpot'/'mcpot' objects")
   
-  model <- fitted$model
-  alpha <- fitted$param["alpha"]
+  model <- object$model
+  alpha <- object$param["alpha"]
 
   if (model == "log"){
     ##Logistic case:
@@ -41,8 +42,8 @@ specdens <- function(fitted, main, plot = TRUE, ...){
 
   if (model == "alog"){
    ##Asymetric Logistic case:
-    asCoef1 <- fitted$param["asCoef1"]
-    asCoef2 <- fitted$param["asCoef2"]
+    asCoef1 <- object$param["asCoef1"]
+    asCoef2 <- object$param["asCoef2"]
     h <- function(q){
       res <- rep(NaN, length(q))
       q01 <- q[q > 0 & q <= 1]
@@ -67,8 +68,8 @@ specdens <- function(fitted, main, plot = TRUE, ...){
 
   if (model == "anlog"){
     ##Asymetric Negative Logistic case:
-    asCoef1 <- fitted$param["asCoef1"]
-    asCoef2 <- fitted$param["asCoef2"]
+    asCoef1 <- object$param["asCoef1"]
+    asCoef2 <- object$param["asCoef2"]
     h <- function(q){
       res <- rep(NaN, length(q))
       q01 <- q[q > 0 & q <= 1]
@@ -91,7 +92,7 @@ specdens <- function(fitted, main, plot = TRUE, ...){
 
   if (model == "amix"){
     ##Mixed case:
-    asCoef <- fitted$param["asCoef"]
+    asCoef <- object$param["asCoef"]
     h <- function(q){
       res <- rep(NaN, length(q))
       q01 <- q[q > 0 & q <= 1]

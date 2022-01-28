@@ -11,12 +11,12 @@
 }
 
 \usage{
-gpd.fishape(fitted, conf = 0.95)
-gpd.fiscale(fitted, conf = 0.95)
-gpd.firl(fitted, prob, conf = 0.95)
+gpd.fishape(object, conf = 0.95)
+gpd.fiscale(object, conf = 0.95)
+gpd.firl(object, prob, conf = 0.95)
 }
 \arguments{
-  \item{fitted}{\code{R} object given by function \code{\link{fitgpd}}.}
+  \item{object}{\code{R} object given by function \code{\link{fitgpd}}.}
   \item{prob}{The probability of non exceedance.}
   \item{conf}{Numeric. The confidence level.}
 }
@@ -33,8 +33,8 @@ gpd.firl(fitted, prob, conf = 0.95)
 \examples{
 data(ardieres)
 ardieres <- clust(ardieres, 4, 10 / 365, clust.max = TRUE)
-fitted <- fitgpd(ardieres[,"obs"], 5, 'mle')
-gpd.fishape(fitted)
-gpd.fiscale(fitted)
+f1 <- fitgpd(ardieres[,"obs"], 5, 'mle')
+gpd.fishape(f1)
+gpd.fiscale(f1)
 }
 \keyword{htest}

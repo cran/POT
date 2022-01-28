@@ -28,10 +28,10 @@ length(which) && dev.interactive(),ci = TRUE, \dots)
 \examples{
 data(ardieres)
 ardieres <- clust(ardieres, 4, 10 / 365, clust.max = TRUE)
-fitted <- fitgpd(ardieres[, "obs"], 6, 'mle')
-npy <- fitted$nat / 33.4 ##33.4 is the total record length (in year)
+fgpd <- fitgpd(ardieres[, "obs"], 6, 'mle')
+npy <- fgpd$nat / 33.4 ##33.4 is the total record length (in year)
 par(mfrow=c(2,2))
-plot(fitted, npy = npy)
+plot(fgpd, npy = npy)
 }
 \author{Mathieu Ribatet}
 \keyword{hplot}

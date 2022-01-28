@@ -10,14 +10,14 @@ which depend on the \code{\link{class}} of the first argument.
 So the function plots density for univariate POT models. 
 }
 \usage{
-dens(fitted, \dots)
+dens(object, \dots)
 
-\method{dens}{uvpot}(fitted, main, xlab, ylab, dens.adj = 1,
+\method{dens}{uvpot}(object, main, xlab, ylab, dens.adj = 1,
 kern.lty = 2, rug = TRUE, plot.kernel = TRUE, plot.hist = TRUE,
 hist.col = NULL, \dots)
 }
 \arguments{
-  \item{fitted}{A fitted object. When using the POT package, an object 
+  \item{object}{A fitted object. When using the POT package, an object 
   of class \code{'uvpot'}. Most often, the
     return of the \code{\link{fitgpd}} function.}
   \item{main}{The title of the graphic. If missing, the title is set to

@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+#   Copyright (c) 2014 Mathieu Ribatet                    
+#   Copyright (c) 2022 Christophe Dutang => replace fitted to object
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -22,19 +23,19 @@
 
 
 
-qq.uvpot <- function(fitted, main, xlab,
+qq.uvpot <- function(object, main, xlab,
                      ylab, ci = TRUE,...){
 
-  if (!inherits(fitted, "uvpot"))
+  if (!inherits(object, "uvpot"))
     stop("Use only with 'uvpot' objects")
-  if (fitted$var.thresh)
+  if (object$var.thresh)
     stop("Return Level plot is available only for constant threshold !")
   
-  data <- fitted$exceed
-  loc <- fitted$threshold[1]
-  scale <- fitted$param["scale"]
-  shape <- fitted$param["shape"]
-  n <- fitted$nat
+  data <- object$exceed
+  loc <- object$threshold[1]
+  scale <- object$param["scale"]
+  shape <- object$param["shape"]
+  n <- object$nat
 
   quant_fit <- qgpd(ppoints(n), loc, scale, shape)
 

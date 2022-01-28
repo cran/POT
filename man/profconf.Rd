@@ -10,15 +10,15 @@
 }
 
 \usage{
-gpd.pfshape(fitted, range, xlab, ylab, conf = 0.95, nrang = 100,
+gpd.pfshape(object, range, xlab, ylab, conf = 0.95, nrang = 100,
 vert.lines = TRUE, \dots)
-gpd.pfscale(fitted, range, xlab, ylab, conf = 0.95, nrang = 100,
+gpd.pfscale(object, range, xlab, ylab, conf = 0.95, nrang = 100,
 vert.lines = TRUE, \dots)
-gpd.pfrl(fitted, prob, range, thresh, xlab, ylab, conf = 0.95, nrang =
+gpd.pfrl(object, prob, range, thresh, xlab, ylab, conf = 0.95, nrang =
 100, vert.lines = TRUE, \dots)
 }
 \arguments{
-  \item{fitted}{\code{R} object given by function \code{\link{fitgpd}}.}
+  \item{object}{\code{R} object given by function \code{\link{fitgpd}}.}
   \item{prob}{The probability of non exceedance.}
   \item{range}{Vector of dimension two. It gives the lower and upper
     bound on which the profile likelihood is performed.}

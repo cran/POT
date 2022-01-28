@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+#   Copyright (c) 2014 Mathieu Ribatet         
+#   Copyright (c) 2022 Christophe Dutang => replace fitted to object
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -21,8 +22,8 @@
 ##This file contains new methods for the R package
 
 
-pp <- function(fitted, ...)
+pp <- function(object, ...)
   UseMethod("pp")
-pp.default <- function(fitted, ...)
-  return(fitted)
+pp.default <- function(object, ...)
+  return(object)
 

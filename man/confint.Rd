@@ -42,9 +42,9 @@
 }
 \examples{
 x <- rgpd(100, 0, 1, 0.25)
-mle <- fitgpd(x, 0)
-confint(mle, prob = 0.2)
-confint(mle, parm = "shape")
+fmle <- fitgpd(x, 0)
+confint(fmle, prob = 0.2)
+confint(fmle, parm = "shape")
 }
 \author{Mathieu Ribatet}
 \keyword{htest}

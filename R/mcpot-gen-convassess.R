@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+#   Copyright (c) 2014 Mathieu Ribatet           
+#   Copyright (c) 2022 Christophe Dutang => replace fitted to object and check sample()
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -21,23 +22,21 @@
 
 
 
-convassess.mcpot <- function(fitted, n = 50){
+convassess.mcpot <- function(object, n = 50)
+{
 
-  if (!inherits(fitted, "mcpot"))
+  if (!inherits(object, "mcpot"))
     stop("Use only with 'mcpot' objects")
-  
-  #if (!("mcpot" %in% class(fitted)))
-  #  stop("``fitted'' must be of class ``mcpot''")
 
-  if (fitted$model != "log")
+  if (object$model != "log")
     return(cat("This function is only implemented for model ``log''.\nStill work to do...\n"))
 
-  nat <- fitted$nat
-  thresh <- fitted$threshold
-  param <- fitted$param
-  data <- fitted$data
+  nat <- object$nat
+  thresh <- object$threshold
+  param <- object$param
+  data <- object$data
   nobs <- length(data)
-  model <- fitted$model
+  model <- object$model
   
   fun <- function()
     fitmcgpd(data, thresh, start = start, model = model,
@@ -48,10 +47,11 @@ convassess.mcpot <- function(fitted, n = 50){
                                               "alpha")
 
   optValues <- rep(NA, n)
+  size.boot <- max(nat, 5)
   
-  for (i in 1:n){
-
-    idx <- sample(1:nobs, size = nat, replace = TRUE)
+  for (i in 1:n)
+  {
+    idx <- sample(1:nobs, size = size.boot, replace = TRUE)
     x <- data[idx]
     startValues[i,1:2] <- fitgpd(x, thresh[1], "pwmu",
                                  hybrid = TRUE)$param
@@ -103,7 +103,7 @@ convassess.mcpot <- function(fitted, n = 50){
    ##Scale Marge 1 Trace Plot
   plot(1:n, est[,"scale"], xlab = "Index", ylab = "Scale", type = "n",
        main = "Scale Trace Plot")
-  abline(h=fitted$param["scale"], col = "blue", lty = 2)
+  abline(h=object$param["scale"], col = "blue", lty = 2)
 
   if (length(idx) > 0){
     points((1:n)[-idx], est[-idx,"scale"])
@@ -116,7 +116,7 @@ convassess.mcpot <- function(fitted, n = 50){
   ##Shape Marge 1 Trace Plot
   plot(1:n, est[,"shape"], xlab = "Index", ylab = "Shape", type = "n",
        main = "Shape Trace Plot")
-  abline(h=fitted$param["shape"], col = "blue", lty = 2)
+  abline(h=object$param["shape"], col = "blue", lty = 2)
   
   if (length(idx) > 0){
     points((1:n)[-idx], est[-idx,"shape"])
@@ -129,7 +129,7 @@ convassess.mcpot <- function(fitted, n = 50){
   ##Alpha Trace Plot
   plot(1:n, est[,"alpha"], xlab = "Index", ylab = expression(alpha), type = "n",
        main = expression(paste(alpha, " Trace Plot")))
-  abline(h=fitted$param["alpha"], col = "blue", lty = 2)
+  abline(h=object$param["alpha"], col = "blue", lty = 2)
   
   if (length(idx) > 0){
     points((1:n)[-idx], est[-idx,"alpha"])
@@ -142,11 +142,11 @@ convassess.mcpot <- function(fitted, n = 50){
   ##Deviance Trace Plot
   plot(1:n, optValues, xlab = "Index", ylab = "Deviance", type = "n",
        main = "Deviance Trace Plot")
-  abline(h=fitted$deviance, col = "blue", lty = 2)
+  abline(h=object$deviance, col = "blue", lty = 2)
   
   if (length(idx) > 0){
     points((1:n)[-idx], optValues[-idx])
-    points(idx, rep(fitted$deviance, length(idx)), col = "red",
+    points(idx, rep(object$deviance, length(idx)), col = "red",
            pch = 15)
   }
 

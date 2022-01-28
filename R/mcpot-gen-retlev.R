@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+#   Copyright (c) 2014 Mathieu Ribatet           
+#   Copyright (c) 2022 Christophe Dutang => replace fitted to object 
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -21,16 +22,16 @@
 
 
 ##The return level plot for object of class ``mcpot''
-retlev.mcpot <- function(fitted, opy, exi, main, xlab,
+retlev.mcpot <- function(object, opy, exi, main, xlab,
                          ylab, xlimsup, ...){
-  if(!inherits(fitted, "mcpot"))
+  if(!inherits(object, "mcpot"))
     stop("Use only with 'mcpot' objects")
   
-  loc <- fitted$threshold
-  scale <- fitted$param["scale"]
-  shape <- fitted$param["shape"]
-  data <- fitted$data
-  pat <- fitted$pat
+  loc <- object$threshold
+  scale <- object$param["scale"]
+  shape <- object$param["shape"]
+  data <- object$data
+  pat <- object$pat
 
   if (missing(exi) || !is.numeric(exi) || !is.finite(exi))
     exi <- fitexi(data, loc)$exi

@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+#   Copyright (c) 2014 Mathieu Ribatet              
+#   Copyright (c) 2022 Christophe Dutang => replace fitted to object 
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -19,8 +20,8 @@
 #############################################################################
 
 ##This file contains new methods for the R package
-retlev <- function(fitted, ...)
+retlev <- function(object, ...)
   UseMethod("retlev")
-retlev.default <- function(fitted, ...)
-  return(fitted)
+retlev.default <- function(object, ...)
+  return(object)
 

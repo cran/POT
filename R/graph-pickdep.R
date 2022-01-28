@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+#   Copyright (c) 2014 Mathieu Ribatet            
+#   Copyright (c) 2022 Christophe Dutang => replace fitted to object
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -21,17 +22,17 @@
 
 
 ##A function to plot the Pickands dependance function
-pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
+pickdep <- function(object, main, bound = TRUE, plot = TRUE,
                     ...){
 
-  if(!is.list(fitted))
-    if (!inherits(fitted, "bvpot"))
+  if(!is.list(object))
+    if (!inherits(object, "bvpot"))
       stop("Use only with 'bvpot' objects")
-  else if(!all(c("model", "param") %in% names(fitted))) #function is used in fitbvgpd()
+  else if(!all(c("model", "param") %in% names(object))) #function is used in fitbvgpd()
     stop("Use only with 'bvpot' objects")
   
-  model <- fitted$model
-  alpha <- fitted$param["alpha"]
+  model <- object$model
+  alpha <- object$param["alpha"]
 
   if (model == "log"){
     ##Logistic case :
@@ -69,8 +70,8 @@ pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
 
   if (model == "alog"){
     ##Asymetric logistic case:
-    asCoef1 <- fitted$param["asCoef1"]
-    asCoef2 <- fitted$param["asCoef2"]
+    asCoef1 <- object$param["asCoef1"]
+    asCoef2 <- object$param["asCoef2"]
     A <- function(w){
       ans <- rep(NA, length(w))
       idx <- which((w <= 0) | (w > 1))
@@ -90,8 +91,8 @@ pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
 
   if (model == "anlog"){
     ##Asymetric negatif logistic case:
-    asCoef1 <- fitted$param["asCoef1"]
-    asCoef2 <- fitted$param["asCoef2"]
+    asCoef1 <- object$param["asCoef1"]
+    asCoef2 <- object$param["asCoef2"]
     A <- function(w){
       ans <- rep(NA, length(w))
       idx <- which((w <= 0) | (w > 1))
@@ -128,7 +129,7 @@ pickdep <- function(fitted, main, bound = TRUE, plot = TRUE,
 
    if (model == "amix"){
     ##Asymetric Mixed model:
-     asCoef <- fitted$param["asCoef"]
+     asCoef <- object$param["asCoef"]
     A <- function(w){
       ans <- rep(NA, length(w))
       idx <- which((w <= 0) | (w > 1))

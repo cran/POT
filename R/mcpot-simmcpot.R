@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+#   Copyright (c) 2014 Mathieu Ribatet      
+#   Copyright (c) 2022 Christophe Dutang => replace fitted to object
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -18,31 +19,31 @@
 #                                                                                                                                                                         
 #############################################################################
 
-simmcpot <- function(fitted, plot = TRUE, ...){
+simmcpot <- function(object, plot = TRUE, ...){
 
-  if (all(class(fitted) != "mcpot"))
-    stop("``fitted'' must be of class ``mcpot''")
+  if (all(class(object) != "mcpot"))
+    stop("``object'' must be of class ``mcpot''")
 
-  thresh <- fitted$threshold
-  scale <- fitted$param["scale"]
-  shape <- fitted$param["shape"]
-  alpha <- fitted$param["alpha"]
-  pat <- fitted$pat
-  model <- fitted$model
-  n <- length(fitted$data)
+  thresh <- object$threshold
+  scale <- object$param["scale"]
+  shape <- object$param["shape"]
+  alpha <- object$param["alpha"]
+  pat <- object$pat
+  model <- object$model
+  n <- length(object$data)
 
   if (model %in% c("log", "nlog"))
     param <- list(alpha = alpha)
 
   if (model %in% c("alog", "anlog"))
-    param <- list(alpha = alpha, asCoef1 = fitted$param["asCoef1"],
-                  asCoef2 = fitted$param["asCoef2"])
+    param <- list(alpha = alpha, asCoef1 = object$param["asCoef1"],
+                  asCoef2 = object$param["asCoef2"])
 
   if (model == "mix")
     param <- list(alpha = alpha, asCoef = 0)
   
   if (model == "amix")
-    param <- list(alpha = alpha, asCoef = fitted$param["asCoef"])
+    param <- list(alpha = alpha, asCoef = object$param["asCoef"])
 
   param <- c(param, list(n = n, model = model))
 

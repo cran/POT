@@ -144,9 +144,10 @@ mc <- simmc(1000, alpha = 0.25)
 mc <- qgpd(mc, 0, 1, 0.25)
 ##A first application when marginal parameter are estimated
 fitmcgpd(mc, 0)
+
 ##Another one where marginal parameters are fixed
-mle <- fitgpd(mc, 0)
-fitmcgpd(mc, 0, scale = mle$param["scale"], shape = mle$param["shape"])
+fmle <- fitgpd(mc, 0)
+fitmcgpd(mc, 0, scale = fmle$param["scale"], shape = fmle$param["shape"])
 }
 \author{Mathieu Ribatet}
 \keyword{models}

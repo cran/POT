@@ -22,7 +22,7 @@
 
 
 
-convassess <- function(fitted, n = 50)
+convassess <- function(object, n = 50)
   UseMethod("convassess")
-convassess.default <- function(fitted, n = 50)
-  return(fitted)
+convassess.default <- function(object, n = 50)
+  return(object)

@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+#   Copyright (c) 2014 Mathieu Ribatet            
+#   Copyright (c) 2022 Christophe Dutang => replace fitted to object
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -22,8 +23,8 @@
 
 
 
-qq <- function(fitted, ...)
+qq <- function(object, ...)
   UseMethod("qq")
-qq.default <- function(fitted, ...)
-  return(fitted)
+qq.default <- function(object, ...)
+  return(object)
 

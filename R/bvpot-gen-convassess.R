@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+#   Copyright (c) 2014 Mathieu Ribatet   
+#   Copyright (c) 2022 Christophe Dutang => replace fitted to object and check sample()
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -21,22 +22,20 @@
 
 
 
-convassess.bvpot <- function(fitted, n = 50){
-  if (!inherits(fitted, "bvpot"))
+convassess.bvpot <- function(object, n = 50)
+{
+  if (!inherits(object, "bvpot"))
     stop("Use only with 'bvpot' objects")
-
-  #if (!("bvpot" %in% class(fitted)))
-  #  stop("``fitted'' must be of class ``bvpot''")
-
-  if (fitted$model != "log")
+  
+  if (object$model != "log")
     return(cat("This function is only implemented for model ``log''.\nStill work to do...\n"))
 
-  nat <- fitted$nat
-  thresh <- fitted$threshold
-  param <- fitted$param
-  data <- fitted$data
+  nat <- object$nat
+  thresh <- object$threshold
+  param <- object$param
+  data <- object$data
   nobs <- nrow(data)
-  model <- fitted$model
+  model <- object$model
   
   fun <- function()
     fitbvgpd(data, thresh, start = start, model = model,
@@ -48,10 +47,11 @@ convassess.bvpot <- function(fitted, n = 50){
                                               "alpha")
 
   optValues <- rep(NA, n)
+  size.boot <- max(nat["Exceedance nb any marg"], 5)
   
-  for (i in 1:n){
-
-    idx <- sample(1:nobs, size = nat, replace = TRUE)
+  for (i in 1:n)
+  {
+    idx <- sample(1:nobs, size = size.boot, replace = TRUE)
     x <- data[idx,]
     startValues[i,1:2] <- fitgpd(x[,1], thresh[1], "pwmu",
                                  hybrid = TRUE)$param
@@ -123,7 +123,7 @@ convassess.bvpot <- function(fitted, n = 50){
    ##Scale Marge 1 Trace Plot
   plot(1:n, est[,"scale1"], xlab = "Index", ylab = "Scale Marge 1", type = "n",
        main = "Scale Marge 1 Trace Plot")
-  abline(h=fitted$param["scale1"], col = "blue", lty = 2)
+  abline(h=object$param["scale1"], col = "blue", lty = 2)
 
   if (length(idx) > 0){
     points((1:n)[-idx], est[-idx,"scale1"])
@@ -136,7 +136,7 @@ convassess.bvpot <- function(fitted, n = 50){
   ##Shape Marge 1 Trace Plot
   plot(1:n, est[,"shape1"], xlab = "Index", ylab = "Shape Marge 1", type = "n",
        main = "Shape Marge 1 Trace Plot")
-  abline(h=fitted$param["shape1"], col = "blue", lty = 2)
+  abline(h=object$param["shape1"], col = "blue", lty = 2)
   
   if (length(idx) > 0){
     points((1:n)[-idx], est[-idx,"shape1"])
@@ -149,7 +149,7 @@ convassess.bvpot <- function(fitted, n = 50){
   ##Alpha Trace Plot
   plot(1:n, est[,"alpha"], xlab = "Index", ylab = expression(alpha), type = "n",
        main = expression(paste(alpha, " Trace Plot")))
-  abline(h=fitted$param["alpha"], col = "blue", lty = 2)
+  abline(h=object$param["alpha"], col = "blue", lty = 2)
   
   if (length(idx) > 0){
     points((1:n)[-idx], est[-idx,"alpha"])
@@ -162,7 +162,7 @@ convassess.bvpot <- function(fitted, n = 50){
   ##Scale Marge 2 Trace Plot
   plot(1:n, est[,"scale2"], xlab = "Index", ylab = "Scale Marge 2", type = "n",
        main = "Scale Marge 2 Trace Plot")
-  abline(h=fitted$param["scale2"], col = "blue", lty = 2)
+  abline(h=object$param["scale2"], col = "blue", lty = 2)
 
   if (length(idx) > 0){
     points((1:n)[-idx], est[-idx,"scale2"])
@@ -175,7 +175,7 @@ convassess.bvpot <- function(fitted, n = 50){
   ##Shape Marge 2 Trace Plot
   plot(1:n, est[,"shape2"], xlab = "Index", ylab = "Shape Marge 2", type = "n",
        main = "Shape Marge 2 Trace Plot")
-  abline(h=fitted$param["shape2"], col = "blue", lty = 2)
+  abline(h=object$param["shape2"], col = "blue", lty = 2)
   
   if (length(idx) > 0){
     points((1:n)[-idx], est[-idx,"shape2"])
@@ -188,11 +188,11 @@ convassess.bvpot <- function(fitted, n = 50){
   ##Deviance Trace Plot
   plot(1:n, optValues, xlab = "Index", ylab = "Deviance", type = "n",
        main = "Deviance Trace Plot")
-  abline(h=fitted$deviance, col = "blue", lty = 2)
+  abline(h=object$deviance, col = "blue", lty = 2)
   
   if (length(idx) > 0){
     points((1:n)[-idx], optValues[-idx])
-    points(idx, rep(fitted$deviance, length(idx)), col = "red",
+    points(idx, rep(object$deviance, length(idx)), col = "red",
            pch = 15)
   }
 

@@ -21,8 +21,8 @@
 \examples{
 set.seed(123)
 x <- rgpd(500, 0, 1, -0.15)
-mle <- fitgpd(x, 0)
-summary(mle)
+fmle <- fitgpd(x, 0)
+summary(fmle)
 }
 \author{Christophe Dutang}
 \keyword{models}

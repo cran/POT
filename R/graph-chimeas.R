@@ -46,7 +46,7 @@ chimeas <- function(data, u.range, n.u = 500, xlab, ylabs, ci = 0.95, boot = FAL
   ##using empirical probabilities
   data <- apply(data, 2, rank) / (n + 1)
 
-  eps <- .Machine$double.eps^.5
+  eps <- sqrt(.Machine$double.eps)
 
   #Marginal maximum i.e. max(X_i, Y_i)
   M.max <- apply(data, 1, max)

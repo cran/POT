@@ -95,7 +95,7 @@ fitpp <- function(data, threshold, noy = length(data) / 365.25, start, ...,
   
   else opt$convergence <- "successful"
 
-  tol <- .Machine$double.eps^0.5
+  tol <- sqrt(.Machine$double.eps)
   
   if(std.err.type == "observed") {
     

@@ -10,15 +10,15 @@ which depend on the \code{\link{class}} of the first argument.
 So the function makes a return level plot for POT models. 
 }
 \usage{
-retlev(fitted, \dots)
+retlev(object, \dots)
 
-\method{retlev}{uvpot}(fitted, npy, main, xlab, ylab, xlimsup,
+\method{retlev}{uvpot}(object, npy, main, xlab, ylab, xlimsup,
 ci = TRUE, points = TRUE, \dots)
-\method{retlev}{mcpot}(fitted, opy, exi, main, xlab, ylab, xlimsup,
+\method{retlev}{mcpot}(object, opy, exi, main, xlab, ylab, xlimsup,
 \dots)
 }
 \arguments{
-  \item{fitted}{A fitted object. When using the POT package, an object 
+  \item{object}{A fitted object. When using the POT package, an object 
   of class \code{'uvpot'} or \code{'mcpot'}. Most often, the
     return of  \code{\link{fitgpd}} or \code{\link{fitmcgpd}} functions.}
   \item{npy}{The mean \bold{N}umber of events \bold{P}er \bold{Y}ear (or

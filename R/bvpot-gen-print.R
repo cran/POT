@@ -50,12 +50,12 @@ print.bvpot <- function (x, digits = max(3, getOption("digits") -
     cat("     AIC:", AIC(x), "\n")
   }
   cat("\nMarginal Threshold:", round(x$threshold, digits), "\n")
-  cat("Marginal Number Above:", x$nat[1:2], "\n")
-  cat("Marginal Proportion Above:", round(x$pat[1:2], digits), "\n")
-  cat("Joint Number Above:", x$nat[3], "\n")
-  cat("Joint Proportion Above:", round(x$pat[3], digits),"\n")
+  cat("Marginal Number Above:", x$nat[c("Exceedance nb marg 1", "Exceedance nb marg 2")], "\n")
+  cat("Marginal Proportion Above:", round(x$pat[c("Exceedance prop marg 1", "Exceedance prop marg 2")], digits), "\n")
+  cat("Joint Number Above:", x$nat["Exceedance nb both marg"], "\n")
+  cat("Joint Proportion Above:", round(x$pat["Exceedance prop both marg"], digits),"\n")
   cat("Number of events such as {Y1 > u1} U {Y2 > u2}:",
-      x$nat[4], "\n")
+      x$nat["Exceedance nb any marg"], "\n")
   cat("\nEstimates\n")
   print.default(format(fitted(x), digits = digits), print.gap = 2, 
                 quote = FALSE)

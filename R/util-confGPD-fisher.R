@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+#   Copyright (c) 2014 Mathieu Ribatet                  
+#   Copyright (c) 2022 Christophe Dutang => replace fitted to object
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -24,13 +25,13 @@
 ## Compute the confidence interval given by asymptotic theory
 ## i.e. the expected information matrix of Fisher (observed in the MLE case)
 ## for the shape parameter
-gpd.fishape <- function(fitted, conf = 0.95){
-  if (!inherits(fitted, "pot"))
+gpd.fishape <- function(object, conf = 0.95){
+  if (!inherits(object, "pot"))
     stop("Use only with 'pot' objects")
 
-  nat <- fitted$nat
-  se.shape <- fitted$std.err[2]
-  shape.mle <- fitted$param[2]
+  nat <- object$nat
+  se.shape <- object$std.err[2]
+  shape.mle <- object$param[2]
   
   conf.inf <- shape.mle + qnorm( (1-conf) / 2 ) * se.shape
   conf.sup <- shape.mle - qnorm( (1-conf) / 2 ) * se.shape
@@ -43,13 +44,13 @@ gpd.fishape <- function(fitted, conf = 0.95){
 ## Compute the confidence interval given by asymptotic theory
 ## i.e. the expected information matrix of Fisher (observed in the MLE case)
 ## for the scale parameter 
-gpd.fiscale <- function(fitted, conf = 0.95){
-  if (!inherits(fitted, "pot"))
+gpd.fiscale <- function(object, conf = 0.95){
+  if (!inherits(object, "pot"))
     stop("Use only with 'pot' objects")
   
-  nat <- fitted$nat
-  se.scale <- fitted$std.err[1]
-  scale.mle <- fitted$scale
+  nat <- object$nat
+  se.scale <- object$std.err[1]
+  scale.mle <- object$scale
   
   conf.inf <- scale.mle + qnorm( (1-conf) / 2 ) * se.scale
   conf.sup <- scale.mle - qnorm( (1-conf) / 2 ) * se.scale
@@ -61,20 +62,20 @@ gpd.fiscale <- function(fitted, conf = 0.95){
 
 ## Compute the confidence interval given by asymptotic theory and
 ## the Delta-Method for a specified return level.
-gpd.firl <- function(fitted, prob, conf = 0.95){
-  if (!inherits(fitted, "pot"))
+gpd.firl <- function(object, prob, conf = 0.95){
+  if (!inherits(object, "pot"))
     stop("Use only with 'pot' objects")
   
-  scale.fit <- fitted$scale
-  shape.fit <- fitted$param[2]
-  threshold <- fitted$threshold
+  scale.fit <- object$scale
+  shape.fit <- object$param[2]
+  threshold <- object$threshold
   rl.fit <- qgpd(prob, threshold, scale.fit, shape.fit)
   
-  varcov <- fitted$var.cov
+  varcov <- object$var.cov
   if (is.null(varcov))
-    stop("The correlation matrix should be present in object `fitted'!\n
+    stop("The correlation matrix should be present in object `object'!\n
 Use `corr = TRUE' in `fitgpd' function.")
-  diag(varcov) <- fitted$std.err^2
+  diag(varcov) <- object$std.err^2
   
   eps <- .Machine$double.eps^0.5
   if ( abs(shape.fit) <= eps)

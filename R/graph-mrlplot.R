@@ -37,7 +37,7 @@ mrlplot <- function(data, u.range, main, xlab, ylab,
   if (missing(u.range)) {
     
     u.range <- c(data[1], data[n - 4])
-    u.range <- u.range - .Machine$double.eps^0.5
+    u.range <- u.range - sqrt(.Machine$double.eps)
     
   }
   

@@ -1,5 +1,4 @@
 ### R code from vignette source 'POT.Rnw'
-### Encoding: UTF-8
 
 ###################################################
 ### code chunk number 1: POT.Rnw:305-312

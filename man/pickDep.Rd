@@ -5,10 +5,10 @@
   Return and optionally plot the Pickands' dependence function.
 }
 \usage{
-pickdep(fitted, main, bound = TRUE, plot = TRUE, \dots)
+pickdep(object, main, bound = TRUE, plot = TRUE, \dots)
 }
 \arguments{
-  \item{fitted}{A object of class \code{bvpot}. Usually, \code{fitted}
+  \item{object}{A object of class \code{bvpot}. Usually, \code{object}
     is the return of function \code{\link{fitbvgpd}}.}
   \item{main}{May be missing. If present, the plot title.}
   \item{bound}{Logical. Should the perfect dependent and independent

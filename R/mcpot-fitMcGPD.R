@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+#   Copyright (c) 2014 Mathieu Ribatet                    
+#   Copyright (c) 2022 Christophe Dutang => add names
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -71,6 +72,8 @@ fitmcgpd <- function (data, threshold, model = "log", start, ...,
   data2 <- data2[idx]
   nn <- as.integer(sum(idx))
   nat <- c(nat, nn)
+  names(nat) <- c("Exceedance nb without first", "Exceedance nb without last",
+                  "Exceedance nb without first and last", "Exceedance nb without first or last")
   
   param <- c("scale", "shape", "alpha", "asCoef1", "asCoef2", "asCoef")
   

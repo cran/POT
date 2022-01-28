@@ -6,10 +6,10 @@
 Simulate a synthetic Markov chain from a fitted \code{'mcpot'} object.
 }
 \usage{
-simmcpot(fitted, plot = TRUE, \dots)
+simmcpot(object, plot = TRUE, \dots)
 }
 \arguments{
-\item{fitted}{An object of class \code{'mcpot'}; most often the returned
+\item{object}{An object of class \code{'mcpot'}; most often the returned
     object of the \code{\link{fitmcgpd}} function.}
   \item{plot}{Logical. If \code{TRUE} (the default), the simulated
     Markov chain is plotted.}
@@ -21,18 +21,18 @@ simmcpot(fitted, plot = TRUE, \dots)
   \enumerate{
     \item Simulate a Markov chain \code{prob} with uniform margins on
     (0,1) and with the fixed extreme value dependence given by
-    \code{fitted};
+    \code{object};
     \item For all \code{prob} such as \eqn{prob \leq 1 - pat}{prob <= 1
       - pat}, set \eqn{mc = NA}{mc = NA} (where \code{pat} is given by
-    \code{fitted$pat});
+    \code{object$pat});
     \item For all \code{prob} such as \eqn{prob \geq 1 - pat}{prob >= 1
       - pat}, set \eqn{prob2 = \frac{prob - 1 + pat}{pat}}{prob2 = (prob
       - 1 + pat) / pat}. Thus, \code{prob2} are uniformly distributed on
     (0,1);
     \item For all \code{prob2}, set \code{mc = qgpd(prob2, thresh,
       scale, shape)}, where \code{thresh, scale, shape} are given by the
-    \code{fitted$threshold, fitted$param["scale"]} and
-    \code{fitted$param["shape"]} respectively.
+    \code{object$threshold, object$param["scale"]} and
+    \code{object$param["shape"]} respectively.
   }
 }
 \value{

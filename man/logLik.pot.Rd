@@ -20,8 +20,8 @@
 }
 \examples{
 x <- rgpd(500, 0, 1, -0.15)
-mle <- fitgpd(x, 0)
-logLik(mle)
+fmle <- fitgpd(x, 0)
+logLik(fmle)
 }
 \author{Mathieu Ribatet}
 \keyword{models}

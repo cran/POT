@@ -13,14 +13,14 @@ This function uses several starting values to assess the sensitiveness of the
 fitted object with respect to starting values.
 }
 \usage{
-convassess(fitted, n = 50)
+convassess(object, n = 50)
   
-\method{convassess}{uvpot}(fitted, n = 50)
-\method{convassess}{mcpot}(fitted, n = 50)
-\method{convassess}{bvpot}(fitted, n = 50)
+\method{convassess}{uvpot}(object, n = 50)
+\method{convassess}{mcpot}(object, n = 50)
+\method{convassess}{bvpot}(object, n = 50)
 }
 \arguments{
-  \item{fitted}{A fitted object. When using the POT package, an object 
+  \item{object}{A fitted object. When using the POT package, an object 
   of class \code{'uvpot'}, \code{'mcpot'}
     or \code{'bvpot'}. Generally, an object return by \code{fitgpd},
     \code{fitmcgpd} or \code{fitbvgpd}.}
@@ -39,14 +39,16 @@ convassess(fitted, n = 50)
   \code{\link{fitgpd}}, \code{\link{fitmcgpd}}, \code{\link{fitbvgpd}}
 }
 \examples{
+set.seed(1)
 ##Univariate Case
 x <- rgpd(30, 0, 1, 0.2)
-med <- fitgpd(x, 0, "med")
-convassess(med)
+fgpd1 <- fitgpd(x, 0, "med")
+convassess(fgpd1)
+
 ##Bivariate Case
 x <- rbvgpd(50, model = "log", alpha = 0.5, mar1 = c(0, 1, 0.2))
-log <- fitbvgpd(x, c(0,0))
-convassess(log)
+fgpd2 <- fitbvgpd(x, c(0.5,0.5))
+convassess(fgpd2)
 }
 \author{Mathieu Ribatet}
 \keyword{htest}

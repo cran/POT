@@ -71,6 +71,7 @@ lag.max, ci = 0.95, block.size = 5 * lag.max, angle = 90, arrow.length =
 \examples{
 ##An independent case
 tsdep.plot(runif(5000), u = 0.95, lag.max = 5)
+
 ##Asymptotic dependence
 mc <- simmc(5000, alpha = 0.2)
 tsdep.plot(mc, u = 0.95, lag.max = 5)

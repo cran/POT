@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+#   Copyright (c) 2014 Mathieu Ribatet          
+#   Copyright (c) 2022 Christophe Dutang => replace fitted to object
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -21,19 +22,19 @@
 ## This file contains several functions to plot Peaks Over a Threshold.
 
 
-pp.uvpot <- function(fitted, main, xlab,
+pp.uvpot <- function(object, main, xlab,
                      ylab, ci = TRUE,...){
 
-  if(!inherits(fitted, "uvpot"))
+  if(!inherits(object, "uvpot"))
     stop("Use only with 'uvpot' objects")
-  if (fitted$var.thresh)
+  if (object$var.thresh)
     stop("Return Level plot is available only for constant threshold !")
   
-  data <- fitted$exceed
-  loc <- fitted$threshold[1]
-  scale <- fitted$param["scale"]
-  shape <- fitted$param["shape"]
-  n <- fitted$nat
+  data <- object$exceed
+  loc <- object$threshold[1]
+  scale <- object$param["scale"]
+  shape <- object$param["shape"]
+  n <- object$nat
 
   p_emp <- ppoints(n)
   p_fit <- pgpd(sort(data), loc, scale, shape)

@@ -9,12 +9,12 @@ which depend on the \code{\link{class}} of the first argument.
 So the function makes a probability probability plot for univariate POT models. 
 }
 \usage{
-pp(fitted, \dots)
+pp(object, \dots)
 
-\method{pp}{uvpot}(fitted, main, xlab, ylab, ci = TRUE, \dots)
+\method{pp}{uvpot}(object, main, xlab, ylab, ci = TRUE, \dots)
 }
 \arguments{
-  \item{fitted}{A fitted object. When using the POT package, an object 
+  \item{object}{A fitted object. When using the POT package, an object 
   of class \code{'uvpot'}. Most often, the
     return of the \code{\link{fitgpd}} function.}
   \item{main}{The title of the graphic. If missing, the title is set to

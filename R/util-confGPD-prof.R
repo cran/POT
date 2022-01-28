@@ -1,5 +1,6 @@
 #############################################################################
-#   Copyright (c) 2014 Mathieu Ribatet                                                                                                  
+#   Copyright (c) 2014 Mathieu Ribatet                      
+#   Copyright (c) 2022 Christophe Dutang => replace fitted to object
 #                                                                                                                                                                        
 #   This program is free software; you can redistribute it and/or modify                                               
 #   it under the terms of the GNU General Public License as published by                                         
@@ -21,23 +22,23 @@
 
 
 ## Compute the profile confidence interval for the shape parameter
-gpd.pfshape <- function(fitted, range, xlab, ylab,
+gpd.pfshape <- function(object, range, xlab, ylab,
                         conf = 0.95, nrang = 100,
                         vert.lines = TRUE, ...){
   
   cat('If there is some troubles try to put vert.lines = FALSE or change
  the range...\n')
-  if (!inherits(fitted, "pot"))
+  if (!inherits(object, "pot"))
     stop("Use only with 'pot' objects")
 
-  if (fitted$var.thresh)
+  if (object$var.thresh)
     warning("Becarefull, you specify a varying threshold...\n")
   
-  exceed<- fitted$exceed
-  threshold <- fitted$threshold
-  nat <- fitted$nat
+  exceed<- object$exceed
+  threshold <- object$threshold
+  nat <- object$nat
 
-  if (!fitted$var.thresh)
+  if (!object$var.thresh)
     threshold <- rep(threshold, nat)
   
   ## First define a function who compute the profile log-likelihood
@@ -48,7 +49,7 @@ gpd.pfshape <- function(fitted, range, xlab, ylab,
  
   llik <- NULL
   int.shape <- seq(range[1], range[2], length = nrang)
-  init <- fitted$scale
+  init <- object$scale
   
   for (shape in int.shape){
     opt <- optim(init, gpd.plikshape, method ="BFGS")
@@ -61,7 +62,7 @@ gpd.pfshape <- function(fitted, range, xlab, ylab,
   
   plot(int.shape, llik, type='l', xlab = xlab, ylab = ylab, ...)
   
-  llikmax <- - fitted$deviance / 2
+  llikmax <- - object$deviance / 2
   b.conf <- llikmax - 0.5 * qchisq(conf, 1)
   
   abline( h = llikmax)
@@ -70,7 +71,7 @@ gpd.pfshape <- function(fitted, range, xlab, ylab,
   ## A special part to compute the bound of the profile likelihood
   ## confidence interval
   
-  shape.mle <- fitted$param[2]
+  shape.mle <- object$param[2]
   index.neg1 <- which(llik <= b.conf & int.shape < shape.mle )
   index.neg1 <- max(index.neg1)
   
@@ -92,23 +93,23 @@ gpd.pfshape <- function(fitted, range, xlab, ylab,
 }
 
 ## Compute the profile confidence interval for the scale parameter
-gpd.pfscale <- function(fitted, range, xlab, ylab,
+gpd.pfscale <- function(object, range, xlab, ylab,
                         conf = 0.95, nrang = 100,
                         vert.lines = TRUE, ...){
 
   cat('If there is some troubles try to put vert.lines = FALSE or change
  the range...\n')
-  if (!inherits(fitted, "pot"))
+  if (!inherits(object, "pot"))
     stop("Use only with 'pot' objects")
 
-  if (fitted$var.thresh)
+  if (object$var.thresh)
     warning("Becarefull, you specify a varying threshold...\n")
   
-  exceed<- fitted$exceed
-  threshold <- fitted$threshold
-  nat <- fitted$nat
+  exceed<- object$exceed
+  threshold <- object$threshold
+  nat <- object$nat
 
-  if (!fitted$var.thresh)
+  if (!object$var.thresh)
     threshold <- rep(threshold, nat)
   
   ## First define a function who compute the profile log-likelihood
@@ -119,7 +120,7 @@ gpd.pfscale <- function(fitted, range, xlab, ylab,
  
   llik <- NULL
   int.scale <- seq(range[1], range[2], length = nrang)
-  init <- fitted$param[2]
+  init <- object$param[2]
   
   for (scale in int.scale){
     opt <- optim(init, gpd.plikscale, method ="BFGS")
@@ -132,7 +133,7 @@ gpd.pfscale <- function(fitted, range, xlab, ylab,
   
   plot(int.scale, llik, type='l', xlab = xlab, ylab = ylab, ...)
   
-  llikmax <- - fitted$deviance / 2
+  llikmax <- - object$deviance / 2
   b.conf <- llikmax - 0.5 * qchisq(conf, 1)
   
   abline( h = llikmax)
@@ -141,7 +142,7 @@ gpd.pfscale <- function(fitted, range, xlab, ylab,
   ## A special part to compute the bound of the profile likelihood
   ## confidence interval
   
-  scale.mle <- fitted$scale
+  scale.mle <- object$scale
   index.neg1 <- which(llik <= b.conf & int.scale < scale.mle )
   index.neg1 <- max(index.neg1)
   
@@ -163,35 +164,35 @@ gpd.pfscale <- function(fitted, range, xlab, ylab,
 }
 
 ## Compute the profile confidence interval for the selected return level
-gpd.pfrl <- function(fitted, prob, range, thresh, xlab, ylab,
+gpd.pfrl <- function(object, prob, range, thresh, xlab, ylab,
                      conf = 0.95, nrang = 100,
                      vert.lines = TRUE, ...){
   
   cat('If there is some troubles try to put vert.lines = FALSE or change
  the range...\n')
-  if (!inherits(fitted, "pot"))
+  if (!inherits(object, "pot"))
     stop("Use only with 'pot' objects")
 
-  if (fitted$var.thresh)
+  if (object$var.thresh)
     warning("Becarefull, you specify a varying threshold...\n")
   
-  exceed <- fitted$exceed
-  threshold <- fitted$threshold
-  nat <- fitted$nat
-  scale.fit <- fitted$scale
-  shape.fit <- fitted$param[2]
+  exceed <- object$exceed
+  threshold <- object$threshold
+  nat <- object$nat
+  scale.fit <- object$scale
+  shape.fit <- object$param[2]
 
-  if (!fitted$var.thresh)
+  if (!object$var.thresh)
     threshold <- rep(threshold, nat)
   
-  if (fitted$var.thresh & missing(thresh))
-    stop("You must specify a particular threshold ``thresh'' when ``fitted'' has a varying threshold")
+  if (object$var.thresh & missing(thresh))
+    stop("You must specify a particular threshold ``thresh'' when ``object'' has a varying threshold")
   
   if (missing(thresh))
     thresh <- threshold[1]
   
   if (!any(threshold == thresh))
-    warning("``thresh'' isn't a particular threshold value in ``fitted''...")
+    warning("``thresh'' isn't a particular threshold value in ``object''...")
   
   if ( range[1] <= thresh)
     stop("The lower bound on Return Level range is incompatible !")
@@ -227,7 +228,7 @@ gpd.pfrl <- function(fitted, prob, range, thresh, xlab, ylab,
   
   plot(int.retlev, llik, type='l', xlab = xlab, ylab = ylab, ...)
   
-  llikmax <- - fitted$deviance / 2
+  llikmax <- - object$deviance / 2
   b.conf <- llikmax - 0.5 * qchisq(conf, 1)
   
   abline( h = llikmax)
