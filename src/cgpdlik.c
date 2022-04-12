@@ -27,7 +27,7 @@ void do_cgpdlik(double *data, int *n, int *nn, double *lambda, double *loc,
   double *dvec, eps;
   
   dvec = (double *)R_alloc(*nn, sizeof(double));
-  eps = R_pow(DOUBLE_EPS, 0.3);
+  eps = R_pow(DBL_EPSILON, 0.3);
 
   if(*scale <= 0) {
     *dns = -1e6;

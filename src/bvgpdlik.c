@@ -31,7 +31,7 @@ void do_gpdbvlog(double *data1, double *data2, int *n, int *nn, double *lambda1,
   double eps, *t1, *t2, *z1, *z2, *dvec, v, nv1, nK1, nv2, nK2, v12,
     censCont;
 
-  eps = R_pow(DOUBLE_EPS, 0.3);
+  eps = R_pow(DBL_EPSILON, 0.3);
   t1 = (double *)R_alloc(*nn, sizeof(double));
   t2 = (double *)R_alloc(*nn, sizeof(double));
   z1 = (double *)R_alloc(*nn, sizeof(double));
@@ -225,7 +225,7 @@ void do_gpdbvalog(double *data1, double *data2, int *n, int *nn,
   double eps, *t1, *t2, *z1, *z2, *dvec, v, nv1, nK1, nv2, nK2, v12,
     censCont;
 
-  eps = R_pow(DOUBLE_EPS, 0.3);
+  eps = R_pow(DBL_EPSILON, 0.3);
   t1 = (double *)R_alloc(*nn, sizeof(double));
   t2 = (double *)R_alloc(*nn, sizeof(double));
   z1 = (double *)R_alloc(*nn, sizeof(double));
@@ -430,7 +430,7 @@ void do_gpdbvnlog(double *data1, double *data2, int *n, int *nn,
   double eps, *t1, *t2, *z1, *z2, *dvec, v, nv1, nK1, nv2, nK2,
     v12, censCont;
 
-  eps = R_pow(DOUBLE_EPS, 0.3);
+  eps = R_pow(DBL_EPSILON, 0.3);
   t1 = (double *)R_alloc(*nn, sizeof(double));
   t2 = (double *)R_alloc(*nn, sizeof(double));
   z1 = (double *)R_alloc(*nn, sizeof(double));
@@ -628,7 +628,7 @@ void do_gpdbvanlog(double *data1, double *data2, int *n, int *nn,
   double eps, *t1, *t2, *z1, *z2, *dvec, v, nv1, nK1, nv2, nK2,
     v12, censCont;
 
-  eps = R_pow(DOUBLE_EPS, 0.3);
+  eps = R_pow(DBL_EPSILON, 0.3);
   t1 = (double *)R_alloc(*nn, sizeof(double));
   t2 = (double *)R_alloc(*nn, sizeof(double));
   z1 = (double *)R_alloc(*nn, sizeof(double));
@@ -836,7 +836,7 @@ void do_gpdbvmix(double *data1, double *data2, int *n, int *nn,
   double eps, *t1, *t2, *z1, *z2, *dvec, v, nv1, nK1, nv2, nK2,
     v12, censCont;
 
-  eps = R_pow(DOUBLE_EPS, 0.3);
+  eps = R_pow(DBL_EPSILON, 0.3);
   t1 = (double *)R_alloc(*nn, sizeof(double));
   t2 = (double *)R_alloc(*nn, sizeof(double));
   z1 = (double *)R_alloc(*nn, sizeof(double));
@@ -1027,7 +1027,7 @@ void do_gpdbvamix(double *data1, double *data2, int *n, int *nn,
   double eps, *t1, *t2, *z1, *z2, *dvec, v, nv1, nK1, nv2, nK2,
     v12, c1, censCont;
 
-  eps = R_pow(DOUBLE_EPS, 0.3);
+  eps = R_pow(DBL_EPSILON, 0.3);
   t1 = (double *)R_alloc(*nn, sizeof(double));
   t2 = (double *)R_alloc(*nn, sizeof(double));
   z1 = (double *)R_alloc(*nn, sizeof(double));

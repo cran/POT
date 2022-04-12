@@ -35,7 +35,7 @@
 
 \begin{center}
   \LARGE 
-  A User's Guide to the POT Package (Version 1.4) \\
+  A User Guide to the POT Package (Version 1.4) \\
   \Large
   \vspace{0.2cm}
   Mathieu Ribatet \\
@@ -66,7 +66,7 @@ to the EVT, while~\citet{Kluppelberg1997} present advanced results.
 \subsection{Obtaining the package/guide}
 
 The package can be downloaded from CRAN (The Comprehensive R Archive
-Network) at \url{http://cran.r-project.org/}.  This guide (in pdf)
+Network) at \url{https://cran.r-project.org/}.  This guide (in pdf)
 will be in the directory \verb+POT/doc/+ underneath wherever the
 package is installed.
 
@@ -87,11 +87,11 @@ To cite this guide or the package in publications please use the
 following bibliographic database entry.
 \begin{verbatim}
 @Manual{key,
-  title = {A User's Guide to the POT Package (Version 1.0)},
+  title = {A User Guide to the POT Package (Version 1.4)},
   author = {Ribatet, M. A.},
-  year = {2006},
+  year = {2011},
   month = {August},
-  url = {http://cran.r-project.org/}
+  url = {https://cran.r-project.org/package=POT}
 }
 \end{verbatim}
 
@@ -99,7 +99,7 @@ following bibliographic database entry.
 
 I have checked these functions as best I can but, as ever, they may
 contain bugs.  If you find a bug or suspected bug in the code or the
-documentation please report it to me at \verb+ribatet@hotmail.com+.
+documentation please report it to \url{https://pot.r-forge.r-project.org/}.
 Please include an appropriate subject line.
 
 \subsection{Legalese}
@@ -115,7 +115,7 @@ merchantability or fitness for a particular purpose.  See the GNU
 General Public License for more details.
 
 The GNU General Public License can be obtained from
-\url{http://www.gnu.org/copyleft/gpl.html}.  You can also obtain it by
+\url{https://www.gnu.org/licenses/gpl-3.0.html}.  You can also obtain it by
 writing to the Free Software Foundation, Inc., 59 Temple Place --
 Suite 330, Boston, MA 02111-1307, USA.
 
@@ -128,7 +128,7 @@ Suite 330, Boston, MA 02111-1307, USA.
 Even if this package is only related to peaks over a threshold, a
 classical introduction to the EVT must deal with ``block maxima''. Let
 $X_1,\ldots,X_n$ be a series of independent and identically distributed
-random variables with commom distribution function $F$. Let $M_n =
+random variables with common distribution function $F$. Let $M_n =
 \max(X_1,\ldots,X_n)$.
 
 Suppose there exists normalizing constants $a_n>0$ and $b_n$ such
@@ -1324,7 +1324,7 @@ J.~III Pickands.
 {R Development Core Team}.
 \newblock \emph{R: A Language and Environment for Statistical Computing}.
 \newblock R Foundation for Statistical Computing, Vienna, Austria, 2006.
-\newblock URL \url{http://www.R-project.org}.
+\newblock URL \url{https://www.R-project.org}.
 \newblock {ISBN} 3-900051-07-0.
 
 \bibitem[Resnick(1987)]{Resnick1987}
