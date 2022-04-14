@@ -1,5 +1,5 @@
 Package: POT
-Version: 1.1-9
+Version: 1.1-10
 Title: Generalized Pareto Distribution and Peaks Over Threshold
 Author: Mathieu Ribatet [aut], Christophe Dutang [ctb,cre]
 Maintainer: Christophe Dutang <christophe.dutang@ensimag.fr>
@@ -11,5 +11,5 @@ License: GPL (>= 2)
 URL: https://pot.r-forge.r-project.org/
 Repository: CRAN
 NeedsCompilation: yes
-Packaged: 2022-04-12 14:05:29 UTC; dutang
-Date/Publication: 2022-04-12 16:02:42 UTC
+Packaged: 2022-04-13 19:45:11 UTC; dutang
+Date/Publication: 2022-04-14 10:12:42 UTC

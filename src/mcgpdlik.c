@@ -30,7 +30,7 @@ void do_gpdmclog(double *data1, double *data2, double *data3, int *nj,
   double eps, *t1, *t2, *z1, *z2, *dvecj, v, nv1, nK1,
     nv2, nK2, v12, censCont, *dvecm, lambda2;
 
-  eps = R_pow(DOUBLE_EPS, 0.3);
+  eps = R_pow(DBL_EPSILON, 0.3);
   t1 = (double *)R_alloc(*nnj, sizeof(double));
   t2 = (double *)R_alloc(*nnj, sizeof(double));
   z1 = (double *)R_alloc(*nnj, sizeof(double));
@@ -252,7 +252,7 @@ void do_gpdmcalog(double *data1, double *data2, double *data3, int *nj,
   double eps, *t1, *t2, *z1, *z2, *dvecj, v, nv1, nK1,
     nv2, nK2, v12, censCont, *dvecm, lambda2;
 
-  eps = R_pow(DOUBLE_EPS, 0.3);
+  eps = R_pow(DBL_EPSILON, 0.3);
   t1 = (double *)R_alloc(*nnj, sizeof(double));
   t2 = (double *)R_alloc(*nnj, sizeof(double));
   z1 = (double *)R_alloc(*nnj, sizeof(double));
@@ -482,7 +482,7 @@ void do_gpdmcnlog(double *data1, double *data2, double *data3, int *nj,
   double eps, *t1, *t2, *z1, *z2, *dvecj, v, nv1, nK1,
     nv2, nK2, v12, censCont, *dvecm, lambda2;
 
-  eps = R_pow(DOUBLE_EPS, 0.3);
+  eps = R_pow(DBL_EPSILON, 0.3);
   t1 = (double *)R_alloc(*nnj, sizeof(double));
   t2 = (double *)R_alloc(*nnj, sizeof(double));
   z1 = (double *)R_alloc(*nnj, sizeof(double));
@@ -721,7 +721,7 @@ void do_gpdmcanlog(double *data1, double *data2, double *data3, int *nj,
   double eps, *t1, *t2, *z1, *z2, *dvecj, v, nv1, nK1,
     nv2, nK2, v12, censCont, *dvecm, lambda2;
 
-  eps = R_pow(DOUBLE_EPS, 0.3);
+  eps = R_pow(DBL_EPSILON, 0.3);
   t1 = (double *)R_alloc(*nnj, sizeof(double));
   t2 = (double *)R_alloc(*nnj, sizeof(double));
   z1 = (double *)R_alloc(*nnj, sizeof(double));
@@ -970,7 +970,7 @@ void do_gpdmcmix(double *data1, double *data2, double *data3, int *nj,
   double eps, *t1, *t2, *z1, *z2, *dvecj, v, nv1, nK1,
     nv2, nK2, v12, censCont, *dvecm, lambda2;
 
-  eps = R_pow(DOUBLE_EPS, 0.3);
+  eps = R_pow(DBL_EPSILON, 0.3);
   t1 = (double *)R_alloc(*nnj, sizeof(double));
   t2 = (double *)R_alloc(*nnj, sizeof(double));
   z1 = (double *)R_alloc(*nnj, sizeof(double));
@@ -1200,7 +1200,7 @@ void do_gpdmcamixtest(double *data1, double *data2, double *data3, int *nj,
   double eps, *t1, *t2, *z1, *z2, *dvecj, v, nv1, nK1,
     nv2, nK2, v12, censCont, *dvecm, c1, lambda2;
 
-  eps = R_pow(DOUBLE_EPS, 0.3);
+  eps = R_pow(DBL_EPSILON, 0.3);
   t1 = (double *)R_alloc(*nnj, sizeof(double));
   t2 = (double *)R_alloc(*nnj, sizeof(double));
   z1 = (double *)R_alloc(*nnj, sizeof(double));
@@ -1440,7 +1440,7 @@ void do_gpdmcamix(double *data1, double *data2, double *data3, int *nj,
   double eps, *t1, *t2, *z1, *z2, *dvecj, v, nv1, nK1,
     nv2, nK2, v12, censCont, *dvecm, c1, lambda2;
 
-  eps = R_pow(DOUBLE_EPS, 0.3);
+  eps = R_pow(DBL_EPSILON, 0.3);
   t1 = (double *)R_alloc(*nnj, sizeof(double));
   t2 = (double *)R_alloc(*nnj, sizeof(double));
   z1 = (double *)R_alloc(*nnj, sizeof(double));
