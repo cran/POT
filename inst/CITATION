@@ -1,13 +1,13 @@
 citHeader("To cite POT in publications use:")
 
-p1 <- person("Christophe", "Dutang", email = "christophe.dutang@ensimag.fr")
+p1 <- person("Christophe", "Dutang")
 p2 <- person("Mathieu", "Ribatet")
 year <- sub("-.*", "", meta$Date)
 note <- sprintf("R package version %s", meta$Version)
 
 bibentry(bibtype = "Manual",
          title = "{POT}: Generalized Pareto Distribution and Peaks Over Threshold",
-         author = personList(p2, p1),
+         author = c(p2, p1),
          year = year,
          note = note,
          url = "https://CRAN.R-project.org/package=POT",
@@ -16,8 +16,6 @@ bibentry(bibtype = "Manual",
                 "). POT: Generalized Pareto Distribution and Peaks Over Threshold. ",
                 note, ".")
                 )
-
-
 
 citFooter("Please cite both the package and R when using them for data analysis.",
 	  "See also", sQuote("citation()"),

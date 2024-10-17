@@ -1,8 +1,12 @@
 Package: POT
-Version: 1.1-10
+Version: 1.1-11
 Title: Generalized Pareto Distribution and Peaks Over Threshold
-Author: Mathieu Ribatet [aut], Christophe Dutang [ctb,cre]
-Maintainer: Christophe Dutang <christophe.dutang@ensimag.fr>
+Authors@R: c(person("Christophe", "Dutang", role = c("aut", "cre"), 
+                email = "dutangc@gmail.com", 
+                comment = c(ORCID = "0000-0001-6732-1501")),
+            person("Mathieu", "Ribatet", role = "aut", 
+                comment = c(ORCID = "0000-0003-0231-6001"))
+                )
 Depends: R (>= 3.0.0)
 Description: Some functions useful to perform a Peak Over Threshold
         analysis in univariate and bivariate cases, see Beirlant et al. (2004)
@@ -11,5 +15,8 @@ License: GPL (>= 2)
 URL: https://pot.r-forge.r-project.org/
 Repository: CRAN
 NeedsCompilation: yes
-Packaged: 2022-04-13 19:45:11 UTC; dutang
-Date/Publication: 2022-04-14 10:12:42 UTC
+Packaged: 2024-10-16 19:11:26 UTC; dutang
+Author: Christophe Dutang [aut, cre] (<https://orcid.org/0000-0001-6732-1501>),
+  Mathieu Ribatet [aut] (<https://orcid.org/0000-0003-0231-6001>)
+Maintainer: Christophe Dutang <dutangc@gmail.com>
+Date/Publication: 2024-10-17 14:30:10 UTC

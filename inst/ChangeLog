@@ -1,5 +1,10 @@
 ==== POT: Generalized Pareto Distribution and Peaks Over Threshold ====
 
+Version 1.1-11:
+=============
+ 
+ - add README
+
 Version 1.1-9/1.1-10:
 =============
  - remove deprecated legacy S constants (DOUBLE_DIGITS, DOUBLE_EPS)
